@@ -1,6 +1,7 @@
 {
   "name": "music-collage",
   "version": "0.1.0",
+  "description": "Your favorite albums represented as a beautiful, interactive collage of album covers.", 
   "private": true,
   "dependencies": {
     "axios": "^0.19.0",
