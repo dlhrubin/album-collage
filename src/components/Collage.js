@@ -6,11 +6,12 @@ export class Collage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            artist: "",
-            title: "",
-            coverURL: ""
+            artist: "Hozier",
+            title: "Wasteland, Baby!",
+            coverURL: "https://lastfm.freetls.fastly.net/i/u/174s/83fce5201587652d2487123aeeb027b6.png"
         }
     }
+    /*
     componentDidMount() {
         axios.get("http://ws.audioscrobbler.com/2.0/?method=album.getinfo&api_key=" + config.API_KEY + "&artist=Hozier&album=Wasteland,+Baby!&format=json")
             .then(res => {
@@ -21,10 +22,12 @@ export class Collage extends Component {
                 })
             })
     }
-
+    */
     render() {
         return (
-            <img src={this.state.coverURL} alt={this.state.title + ", " + this.state.artist}/>
+            <div className="collage">
+                <img src={this.state.coverURL} alt={this.state.title + ", " + this.state.artist}/>
+            </div>
         )
     }
 }

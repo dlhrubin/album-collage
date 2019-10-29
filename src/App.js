@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import './App.css';
+import Menu from "./components/Menu";
 import Collage from "./components/Collage";
 
 class App extends Component {
@@ -9,7 +10,8 @@ class App extends Component {
   
   render() {
     return (
-      <div>
+      <div className="app">
+        <Menu />
         <Collage />
      </div>
     );

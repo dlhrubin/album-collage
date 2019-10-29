@@ -1,1 +1,118 @@
+body {
+    --mint: #c2e8ce;
+    --cream: #f2eee5;
+    --pumpkin: #f6ad7b;
+    --rust: #be7575;
+    font-family: 'Rubik', sans-serif;
+}
 
+h1 {
+    color: var(--cream);
+    text-shadow: 1px 1px 2px var(--rust);
+}
+h2 {
+    color: var(--rust);
+}
+
+button {
+    outline: none;
+    border: none;
+    font-family: inherit;
+    cursor: pointer;
+}
+
+.app {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    display: flex;
+}
+
+/*---Selection menu---*/
+
+.menu {
+    display: flex;
+    flex-direction: column;
+    margin-right: 70px;
+    padding: 0px 25px;
+    background-color: var(--mint);
+    box-shadow: 0.5px 0px 5px var(--rust);
+}
+
+.menu > div {
+    display: flex;
+    flex-direction: column;
+}
+
+.album-options label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.album-options input {
+    margin-left: 10px;
+    padding: 8px;
+    outline: none;
+    border: 1px solid var(--pumpkin);
+    border-radius: 8px;
+    font-family: inherit;
+}
+
+.album-selection {
+    color: gray;
+    font-weight: bold;
+    font-size: 0.9em;
+}
+
+.selection-box {
+    border: 3px dashed var(--cream);
+    height: 125px;
+}
+
+.shape-options h2 {
+    margin-bottom: 15px;
+}
+
+.shapes {
+    display: flex;
+    justify-content: space-between;
+}
+
+.shape-btn {
+    position: relative;
+    background-color: rgba(0,0,0,0);
+    font-size: 2em;
+    color: var(--cream);
+}
+
+.shape-btn:hover {
+    color: var(--pumpkin);
+}
+
+.submit-btn {
+    background-color: var(--rust);
+    color: var(--cream);
+    border: 1px solid var(--cream);
+    border-radius: 10px;
+    padding: 8px;
+    font-size: 1em;
+    width: 100px;
+    height: 40px;
+    align-self: flex-end;
+    margin-top: 25px;
+}
+
+.submit-btn:hover {
+    background-color: #FED311;
+}
+
+/*---Collage---*/
+
+.collage {
+    height: auto;
+}
