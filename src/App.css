@@ -3,6 +3,8 @@ body {
     --cream: #f2eee5;
     --pumpkin: #f6ad7b;
     --rust: #be7575;
+    --blue: #7ba8f6;
+    --pink: #e8c5c2;
     font-family: 'Rubik', sans-serif;
 }
 
@@ -47,26 +49,51 @@ button {
     flex-direction: column;
 }
 
-.album-options label {
+.album-options form {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 10px;
+    color: var(--blue);
+    font-weight: bold;
+    position: relative;
 }
 
 .album-options input {
     margin-left: 10px;
     padding: 8px;
     outline: none;
-    border: 1px solid var(--pumpkin);
+    border: 1px solid var(--pink);
     border-radius: 8px;
+    padding: 8px 30px 8px 8px;
     font-family: inherit;
 }
 
-.album-selection {
+.album-options input:focus {
+    border: 1px solid var(--pumpkin);
+}
+
+.album-options button {
+    position: absolute;
+    right: 0;
+    height: 100%;
+    border: 1px solid var(--pink);
+    border-left: none;
+    border-radius: 0px 8px 8px 0px;
+    background-color: var(--blue);
+    color: var(--cream);
+}
+
+.album-options input:focus + button {
+    border: 1px solid var(--pumpkin);
+    border-left: none;
+}
+
+.album-selection p {
     color: gray;
     font-weight: bold;
     font-size: 0.9em;
+    margin: 8px 0px;
 }
 
 .selection-box {
@@ -95,7 +122,7 @@ button {
 }
 
 .submit-btn {
-    background-color: var(--rust);
+    background-color: var(--blue);
     color: var(--cream);
     border: 1px solid var(--cream);
     border-radius: 10px;
@@ -108,7 +135,7 @@ button {
 }
 
 .submit-btn:hover {
-    background-color: #FED311;
+    background-color: var(--pink);
 }
 
 /*---Collage---*/
