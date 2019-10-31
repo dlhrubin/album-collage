@@ -6,9 +6,11 @@ export class AlbumSelect extends Component {
         this.state = {
             newArtist: "",
             newAlbum: "",
-            searchVis: "hidden"
+            searchVis: "hidden",
+            selections: []
         }
-        this.albumInput = React.createRef();
+        this.artistInput = React.createRef();
+        this.albumInput = React.createRef();        
     }
 
     handleChange = (isArtist, e) => {
@@ -26,24 +28,38 @@ export class AlbumSelect extends Component {
             this.setState({
                 newArtist: (isArtist) ? this.state.newArtist : "",
                 newAlbum: (isArtist) ? this.state.newAlbum : "",
-                searchVis: (isArtist) ? "visible" : "hidden"
+                searchVis: (isArtist) ? "visible" : "hidden",
+                selections: (isArtist) ? this.state.selections : [...this.state.selections, {"artist": this.state.newArtist, "album": this.state.newAlbum}]
             })
             if (isArtist) {
+                //Jump focus to the album search form after state changes to make it visible
                 setTimeout(() => {
                     this.albumInput.current.focus();
                 }, 1)
-            }    
+            } else {
+                this.artistInput.current.focus();
+            }
         }
     }
 
     render() {
+        let selectedAlbums = this.state.selections.map((selection, i) => {
+            return (
+                <div key={i}>
+                    <span>{selection.album + ", " + selection.artist}</span>
+                    <button>
+                        <i className="fas fa-times"></i>
+                    </button>
+                </div>
+            )
+        })
         return (
             <div className="album-options">
                 <h2>Albums:</h2>
                 <form onSubmit={this.handleSubmit.bind(this, true)}>
                     Artist
-                    <input type="text" placeholder="Enter artist name..." value={this.state.newArtist} onChange={this.handleChange.bind(this, true)}></input>
-                    <button type="submit">
+                    <input type="text" placeholder="Enter artist name..." disabled={(this.state.selections.length === 10) ? "disabled" : ""} ref={this.artistInput} value={this.state.newArtist} onChange={this.handleChange.bind(this, true)}></input>
+                    <button type="submit" disabled={(this.state.selections.length === 10) ? "disabled" : ""}>
                         <i className="fas fa-search"></i>
                     </button>                    
                 </form>
@@ -55,8 +71,10 @@ export class AlbumSelect extends Component {
                     </button>
                 </form>
                 <div className="album-selection">
-                    <p>Selection</p>
-                    <div className="selection-box"></div>
+                    <p>Selection (max of 10 albums)</p>
+                    <div className="selection-box">
+                        {selectedAlbums}
+                    </div>
                 </div>
             </div>
         )
