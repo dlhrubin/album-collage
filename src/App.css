@@ -50,7 +50,7 @@ button {
 }
 
 .album-options form {
-    margin-bottom: 5px;
+    margin-bottom: 8px;
 }
 
 .album-options form div {
@@ -64,7 +64,8 @@ button {
 
 .warning {
     color: red;
-    margin: 5px 0px 0px 67px;
+    position: absolute;
+    margin: 2px 0px 0px 67px;
     font-size: 0.8em;
 }
 

@@ -8,16 +8,31 @@ export class AlbumSelect extends Component {
             newAlbum: "",
             searchVis: "hidden",
             selections: [],
+            warnings: {artist: "", album: ""}
         }
         this.artistInput = React.createRef();
         this.albumInput = React.createRef();        
+    }
+
+    handleClick = () => {
+        if (this.state.selections.length === 10) {
+            this.setState({
+                warnings: {artist: "10 albums already selected", album: ""}
+            })
+            this.flashWarning = setTimeout(() => {
+                this.setState({
+                    warnings: {artist: "", album: ""}
+                })                
+            }, 5000)
+        }
     }
 
     handleChange = (isArtist, e) => {
         this.setState({
             newArtist: (isArtist) ? e.target.value : this.state.newArtist,
             newAlbum: (isArtist) ? "" : e.target.value,
-            searchVis: (isArtist) ? "hidden" : "visible"
+            searchVis: (isArtist) ? "hidden" : "visible",
+            warnings: {artist: "", album: ""}
         })
     }
 
@@ -25,27 +40,36 @@ export class AlbumSelect extends Component {
         e.preventDefault();
         let hasContent = (isArtist) ? this.state.newArtist : this.state.newAlbum;
         if (hasContent) {
-            this.setState({
-                newArtist: (isArtist) ? this.state.newArtist : "",
-                newAlbum: (isArtist) ? this.state.newAlbum : "",
-                searchVis: (isArtist) ? "visible" : "hidden",
-                selections: (isArtist) ? this.state.selections : [...this.state.selections, {"artist": this.state.newArtist, "album": this.state.newAlbum}]
-            })
-            if (isArtist) {
-                //Jump focus to the album search form after state changes to make it visible
-                setTimeout(() => {
-                    this.albumInput.current.focus();
-                }, 1)
+            let notRepeat = (isArtist) ? true : (this.state.selections.filter(selection => (selection.artist === this.state.newArtist && selection.album === this.state.newAlbum)).length === 0)
+            if (notRepeat) {
+                this.setState({
+                    newArtist: (isArtist) ? this.state.newArtist : "",
+                    newAlbum: (isArtist) ? this.state.newAlbum : "",
+                    searchVis: (isArtist) ? "visible" : "hidden",
+                    selections: (isArtist) ? this.state.selections : [...this.state.selections, {artist: this.state.newArtist, album: this.state.newAlbum}]
+                })
+                if (isArtist) {
+                    //Jump focus to the album search form after state changes to make it visible
+                    setTimeout(() => {
+                        this.albumInput.current.focus();
+                    }, 1)
+                } else {
+                    this.artistInput.current.focus();
+                }                
             } else {
-                this.artistInput.current.focus();
+                this.setState ({
+                    warnings: {artist: "", album: "Album already selected"}
+                })
             }
         }
     }
 
     unSelect = (artist, album) => {
         this.setState({
-            selections: this.state.selections.filter(selection => (selection.artist !== artist && selection.album !== album))
+            selections: this.state.selections.filter(selection => (selection.artist !== artist || selection.album !== album)),
+            warnings: {artist: "", album: ""}
         })
+        clearTimeout(this.flashWarning)
     }
 
     render() {
@@ -59,28 +83,30 @@ export class AlbumSelect extends Component {
                 </div>
             )
         })
+        let warningBorder = (field) => this.state.warnings[field] ? {borderColor: "red"} : {borderColor: ""};
         return (
             <div className="album-options">
                 <h2>Albums:</h2>
                 <form onSubmit={this.handleSubmit.bind(this, true)}>
-                    <div>
+                    <div onClick={this.handleClick}>
                         <span>Artist</span>
-                        <input type="text" placeholder="Enter artist name..." disabled={(this.state.selections.length === 10) ? "disabled" : ""} ref={this.artistInput} value={this.state.newArtist} onChange={this.handleChange.bind(this, true)}></input>
-                        <button type="submit" disabled={(this.state.selections.length === 10) ? "disabled" : ""}>
+                        <input type="text" style={warningBorder("artist")} placeholder="Enter artist name..." disabled={(this.state.selections.length === 10) ? "disabled" : ""} ref={this.artistInput} value={this.state.newArtist} onChange={this.handleChange.bind(this, true)}></input>
+                        <button type="submit" style={warningBorder("artist")} disabled={(this.state.selections.length === 10) ? "disabled" : ""}>
                             <i className="fas fa-search"></i>
                         </button>     
                     </div>
                     {/*NTS: may want to use a conditional render here instead, esp. after adding other error messages}*/}
-                    <p className="warning">{(this.state.selections.length === 10) ? "10 albums already selected" : ""}</p>               
+                    <p className="warning">{this.state.warnings.artist}</p>               
                 </form>
                 <form onSubmit={this.handleSubmit.bind(this, false)} style={{visibility: this.state.searchVis}}>
                     <div>
                         <span>Album</span>
-                        <input type="text" placeholder="Enter album name..." ref={this.albumInput} value={this.state.newAlbum} onChange={this.handleChange.bind(this, false)}></input>
-                        <button type="submit">
+                        <input type="text" style={warningBorder("album")} placeholder="Enter album name..." ref={this.albumInput} value={this.state.newAlbum} onChange={this.handleChange.bind(this, false)}></input>
+                        <button type="submit" style={warningBorder("album")}>
                             <i className="fas fa-search"></i>
                         </button>
                     </div>
+                    <p className="warning">{this.state.warnings.album}</p>
                 </form>
                 <div className="album-selection">
                     <p>Selection (max of 10 albums)</p>
