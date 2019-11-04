@@ -50,13 +50,22 @@ button {
 }
 
 .album-options form {
+    margin-bottom: 5px;
+}
+
+.album-options form div {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 10px;
     color: var(--blue);
     font-weight: bold;
     position: relative;
+}
+
+.warning {
+    color: red;
+    margin: 5px 0px 0px 67px;
+    font-size: 0.8em;
 }
 
 .album-options input {
@@ -67,6 +76,10 @@ button {
     border-radius: 8px;
     padding: 8px 30px 8px 8px;
     font-family: inherit;
+}
+
+.album-options input:disabled {
+    border-color: darkgray;
 }
 
 .album-options form button {
@@ -86,6 +99,7 @@ button {
 
 .album-options form button:disabled {
     background-color: silver;
+    border-color: darkgray;
     cursor: auto;
 }
 
@@ -93,7 +107,7 @@ button {
     color: gray;
     font-weight: bold;
     font-size: 0.9em;
-    margin: 8px 0px;
+    margin: 15px 0px 8px 0px;
 }
 
 .selection-box {
