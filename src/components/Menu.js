@@ -13,7 +13,7 @@ export class Menu extends Component {
                 <h1>Music Collage</h1>
                 <AlbumSelect />
                 <ShapeSelect />
-                <button className="submit-btn">Collage-ify</button>
+                <button className="search-submit submit-btn">Collage-ify</button>
             </div>
         )
     }

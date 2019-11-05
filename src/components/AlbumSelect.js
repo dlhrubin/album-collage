@@ -9,11 +9,13 @@ export class AlbumSelect extends Component {
             newArtist: "",
             newAlbum: "",
             searchVis: "hidden",
+            addVis: "hidden",
             selections: [],
             warnings: {artist: "", album: ""}
         }
         this.artistInput = React.createRef();
-        this.albumInput = React.createRef();        
+        this.albumInput = React.createRef();   
+        this.addAlbum = React.createRef();     
     }
 
     // Display warning that the max number of albums have been selected
@@ -36,53 +38,81 @@ export class AlbumSelect extends Component {
             newArtist: (isArtist) ? e.target.value : this.state.newArtist,
             newAlbum: (isArtist) ? "" : e.target.value,
             searchVis: (isArtist) ? "hidden" : "visible",
-            warnings: {artist: "", album: ""}
+            addVis: "hidden",
+            warnings: {artist: "", album: ""},
+            img: {thumbnail: "", cover: ""}
         })
     }
 
-    handleSubmit = (isArtist, e) => {
+    handleSearch = (isArtist, e) => {
         e.preventDefault();
         // Check that user has entered text into the field
         let hasContent = (isArtist) ? this.state.newArtist : this.state.newAlbum;
         if (hasContent) {
             if (isArtist) {
-                this.setState({
-                    searchVis: "visible" // Toggle album search field visibility
-                })
-                // Jump focus to the album search field after state changes to make it visible
-                setTimeout(() => {
-                    this.albumInput.current.focus();
-                }, 1)
-            } else {
-                axios.get("http://ws.audioscrobbler.com/2.0/?method=album.getinfo&api_key=" + config.API_KEY + "&artist=" + this.state.newArtist + "&album=" + this.state.newAlbum + "&format=json")
+                axios.get("http://ws.audioscrobbler.com/2.0/?method=artist.search&api_key=" + config.API_KEY + "&artist=" + this.state.newArtist + "&format=json")
                 .then(res => {
-                    if (res.data.hasOwnProperty("album")) {
+                    let artistsFound = res.data.results.artistmatches.artist;
+                    if (artistsFound.length) {
+                        this.setState({
+                            newArtist: artistsFound[0].name,
+                            searchVis: "visible" // Toggle album search field visibility
+                        })
+                        // Jump focus to the album search field after state changes to make it visible
+                        setTimeout(() => {
+                            this.albumInput.current.focus();
+                        }, 1)
+                    } else {
+                        this.setState({
+                            warnings: {artist: "Artist not found", album: ""}
+                        })
+                    }
+                })
+            } else {
+                axios.get("http://ws.audioscrobbler.com/2.0/?method=album.search&api_key=" + config.API_KEY + "&album=" + this.state.newAlbum + "&format=json")
+                .then(res => {
+                    // Limit to albums with artist fields that match the user-entered artist
+                    let albumsFound = res.data.results.albummatches.album.filter(album => album.artist === this.state.newArtist);
+                    // Check that an album was returned and has an image
+                    if (albumsFound.length && albumsFound[0].image[0]["#text"]) {
                         // Check that the album entered has not already been selected
-                        let notRepeat = (this.state.selections.filter(selection => (selection.artist === res.data.album.artist && selection.album === res.data.album.name)).length === 0)
+                        let notRepeat = (this.state.selections.filter(selection => (selection.artist === this.state.newArtist && selection.album === albumsFound[0].name)).length === 0)
                         if (notRepeat) {
                             this.setState({
-                                newArtist: "",
-                                newAlbum: "",
-                                searchVis: "hidden", // Toggle album search field visibility
-                                selections: [...this.state.selections, {artist: res.data.album.artist, album: res.data.album.name}]
-                            //coverURL: res.data.album.image.filter((entry) => entry.size === "large")[0]["#text"]
+                                newAlbum: albumsFound[0].name,
+                                addVis: "visible",
+                                img: {thumbnail: albumsFound[0].image.filter(entry => entry.size === "small")[0]["#text"], 
+                                    cover: albumsFound[0].image.filter(entry => entry.size === "large")[0]["#text"]}
                             })
-                            // Jump focus to the artist search field after submitting new album
-                            this.artistInput.current.focus();
+                            setTimeout(() => {
+                                this.addAlbum.current.focus();
+                            }, 1)
                         } else {
                             this.setState ({
+                                newAlbum: albumsFound[0].name,
                                 warnings: {artist: "", album: "Album already selected"}
                             })
                         }
                     } else {
                         this.setState({
-                            // Note: replacing warning under artist field with a space to trigger changing the border color to red around both fields
-                            warnings: {artist: " ", album: "Artist or album not found"}
+                            warnings: {artist: "", album: "Album not found"}
                         })
                     }
                 })
             }
         }
+    }
+
+    handleSubmit = () => {
+        this.setState({
+            newArtist: "",
+            newAlbum: "",
+            searchVis: "hidden", // Toggle album search field visibility
+            addVis: "hidden",
+            selections: [...this.state.selections, {artist: this.state.newArtist, album: this.state.newAlbum, thumbnail: this.state.img.thumbnail, cover: this.state.img.cover}]
+        })
+        // Jump focus to the artist search field after submitting new album
+        this.artistInput.current.focus();    
     }
 
     // Remove album from selection
@@ -99,7 +129,8 @@ export class AlbumSelect extends Component {
         let selectedAlbums = this.state.selections.map((selection, i) => {
             return (
                 <div key={i}>
-                    <span>{selection.album + ", " + selection.artist}</span>
+                    <img src={selection.thumbnail} alt={selection.album + ", " + selection.artist}/>
+                    <span>{selection.artist}</span>
                     <button onClick={this.unSelect.bind(this, selection.artist, selection.album)}>
                         <i className="fas fa-times"></i>
                     </button>
@@ -111,26 +142,29 @@ export class AlbumSelect extends Component {
         return (
             <div className="album-options">
                 <h2>Albums:</h2>
-                <form onSubmit={this.handleSubmit.bind(this, true)}>
+                <form onSubmit={this.handleSearch.bind(this, true)}>
                     <div onClick={this.handleClick}>
                         <span>Artist</span>
-                        <input type="text" style={warningBorder("artist")} placeholder="Enter artist name..." disabled={(this.state.selections.length === 10) ? "disabled" : ""} ref={this.artistInput} value={this.state.newArtist} onChange={this.handleChange.bind(this, true)}></input>
-                        <button type="submit" style={warningBorder("artist")} disabled={(this.state.selections.length === 10) ? "disabled" : ""}>
+                        <input type="text" spellCheck="false" style={warningBorder("artist")} placeholder="Enter artist name..." disabled={(this.state.selections.length === 10) ? "disabled" : ""} ref={this.artistInput} value={this.state.newArtist} onChange={this.handleChange.bind(this, true)}></input>
+                        <button className="search-submit" style={warningBorder("artist")} disabled={(this.state.selections.length === 10) ? "disabled" : ""}>
                             <i className="fas fa-search"></i>
                         </button>     
                     </div>
                     <p className="warning">{this.state.warnings.artist}</p>               
                 </form>
-                <form onSubmit={this.handleSubmit.bind(this, false)} style={{visibility: this.state.searchVis}}>
+                <form onSubmit={this.handleSearch.bind(this, false)} style={{visibility: this.state.searchVis}}>
                     <div>
                         <span>Album</span>
-                        <input type="text" style={warningBorder("album")} placeholder="Enter album name..." ref={this.albumInput} value={this.state.newAlbum} onChange={this.handleChange.bind(this, false)}></input>
-                        <button type="submit" style={warningBorder("album")}>
+                        <input type="text" spellCheck="false" style={warningBorder("album")} placeholder="Enter album name..." ref={this.albumInput} value={this.state.newAlbum} onChange={this.handleChange.bind(this, false)}></input>
+                        <button className="search-submit" style={warningBorder("album")}>
                             <i className="fas fa-search"></i>
                         </button>
                     </div>
                     <p className="warning">{this.state.warnings.album}</p>
                 </form>
+                <button className="search-submit" onClick={this.handleSubmit} ref={this.addAlbum} style={{visibility: this.state.addVis}}>
+                    <i className="fas fa-plus"></i> Add album
+                </button>
                 <div className="album-selection">
                     <p>Selection (max of 10 albums)</p>
                     <div className="selection-box">
