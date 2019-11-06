@@ -10,7 +10,6 @@ export class AlbumSelect extends Component {
             newAlbum: "",
             searchVis: "hidden",
             addVis: "hidden",
-            selections: [],
             warnings: {artist: "", album: ""}
         }
         this.artistInput = React.createRef();
@@ -20,7 +19,7 @@ export class AlbumSelect extends Component {
 
     // Display warning that the max number of albums have been selected
     handleClick = () => {
-        if (this.state.selections.length === 10) {
+        if (this.props.selections.length === 10) {
             this.setState({
                 warnings: {artist: "10 albums already selected", album: ""}
             })
@@ -76,7 +75,7 @@ export class AlbumSelect extends Component {
                     // Check that an album was returned and has an image
                     if (albumsFound.length && albumsFound[0].image[0]["#text"]) {
                         // Check that the album entered has not already been selected
-                        let notRepeat = (this.state.selections.filter(selection => (selection.artist === this.state.newArtist && selection.album === albumsFound[0].name)).length === 0)
+                        let notRepeat = (this.props.selections.filter(selection => (selection.artist === this.state.newArtist && selection.album === albumsFound[0].name)).length === 0)
                         if (notRepeat) {
                             this.setState({
                                 newAlbum: albumsFound[0].name,
@@ -109,29 +108,29 @@ export class AlbumSelect extends Component {
             newAlbum: "",
             searchVis: "hidden", // Toggle album search field visibility
             addVis: "hidden",
-            selections: [...this.state.selections, {artist: this.state.newArtist, album: this.state.newAlbum, thumbnail: this.state.img.thumbnail, cover: this.state.img.cover}]
         })
+        this.props.addAlbum(this.state.newArtist, this.state.newAlbum, this.state.img.thumbnail, this.state.img.cover);
         // Jump focus to the artist search field after submitting new album
         this.artistInput.current.focus();    
     }
 
     // Remove album from selection
-    unSelect = (artist, album) => {
+    handleDeselect = (artist, album) => {
         this.setState({
-            selections: this.state.selections.filter(selection => (selection.artist !== artist || selection.album !== album)),
             warnings: {artist: "", album: ""}
         })
-        clearTimeout(this.flashWarning)
+        this.props.deleteAlbum(artist, album);
+        clearTimeout(this.flashWarning);
     }
 
     render() {
         // Populate selection box with selected albums (artist name and album thumbnail)
-        let selectedAlbums = this.state.selections.map((selection, i) => {
+        let selectedAlbums = this.props.selections.map((selection, i) => {
             return (
                 <div key={i}>
                     <img src={selection.thumbnail} alt={selection.album + ", " + selection.artist}/>
                     <span>{selection.artist}</span>
-                    <button onClick={this.unSelect.bind(this, selection.artist, selection.album)}>
+                    <button onClick={this.handleDeselect.bind(this, selection.artist, selection.album)}>
                         <i className="fas fa-times"></i>
                     </button>
                 </div>
@@ -139,15 +138,15 @@ export class AlbumSelect extends Component {
         })
         // Add red border to search boxes when a warning is present
         let warningBorder = (field) => this.state.warnings[field] ? {borderColor: "red"} : {borderColor: ""};
-        let selectionCentering = (this.state.selections.length > 5) ? {alignItems: "center"} : {alignItems: ""};
+        let selectionCentering = (this.props.selections.length > 5) ? {alignItems: "center"} : {alignItems: ""};
         return (
             <div className="album-options">
                 <h2>Albums:</h2>
                 <form onSubmit={this.handleSearch.bind(this, true)}>
                     <div onClick={this.handleClick}>
                         <span>Artist</span>
-                        <input type="text" spellCheck="false" style={warningBorder("artist")} placeholder="Enter artist name..." disabled={(this.state.selections.length === 10) ? "disabled" : ""} ref={this.artistInput} value={this.state.newArtist} onChange={this.handleChange.bind(this, true)}></input>
-                        <button className="search-submit" style={warningBorder("artist")} disabled={(this.state.selections.length === 10) ? "disabled" : ""}>
+                        <input type="text" spellCheck="false" style={warningBorder("artist")} placeholder="Enter artist name..." disabled={(this.props.selections.length === 10) ? "disabled" : ""} ref={this.artistInput} value={this.state.newArtist} onChange={this.handleChange.bind(this, true)}></input>
+                        <button className="search-submit" style={warningBorder("artist")} disabled={(this.props.selections.length === 10) ? "disabled" : ""}>
                             <i className="fas fa-search"></i>
                         </button>     
                     </div>
@@ -167,7 +166,7 @@ export class AlbumSelect extends Component {
                     <i className="fas fa-plus"></i> Add album
                 </button>
                 <div className="album-selection">
-                    <p>Selection (max of 10 albums)</p>
+                    <p>Selection (3-10 albums)</p>
                     <div className="selection-box" style={selectionCentering}>
                         {selectedAlbums}
                     </div>

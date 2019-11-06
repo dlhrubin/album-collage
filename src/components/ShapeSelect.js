@@ -45,20 +45,21 @@ export class ShapeSelect extends Component {
         }
     }
 
-    shapeClick = (clicked) => {
+    handleClick = (clicked) => {
         this.setState({
             shapes: this.state.shapes.map((shape) => {
                 shape.active = (shape === clicked) ? !shape.active : false;
                 return shape
             })
         })
+        this.props.selectShape(clicked.name)
     }
 
     render() {
         const shapes = this.state.shapes.map((shape) => {
             let shapeClass = (shape.active) ? "fas" : shape.default;
             let shapeColor = (shape.active) ? "var(--pumpkin)" : "";
-            return <button key={shape.name} className={"shape-btn " + shape.name} onClick={this.shapeClick.bind(this, shape)}>
+            return <button key={shape.name} className={"shape-btn " + shape.name} onClick={this.handleClick.bind(this, shape)}>
                     <i className={shapeClass + " " + shape.icon} style={{color: shapeColor}}></i>
                    </button>
         })
