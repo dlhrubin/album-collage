@@ -139,6 +139,7 @@ export class AlbumSelect extends Component {
         })
         // Add red border to search boxes when a warning is present
         let warningBorder = (field) => this.state.warnings[field] ? {borderColor: "red"} : {borderColor: ""};
+        let selectionCentering = (this.state.selections.length > 5) ? {alignItems: "center"} : {alignItems: ""};
         return (
             <div className="album-options">
                 <h2>Albums:</h2>
@@ -167,7 +168,7 @@ export class AlbumSelect extends Component {
                 </button>
                 <div className="album-selection">
                     <p>Selection (max of 10 albums)</p>
-                    <div className="selection-box">
+                    <div className="selection-box" style={selectionCentering}>
                         {selectedAlbums}
                     </div>
                 </div>

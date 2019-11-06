@@ -6,24 +6,40 @@ export class ShapeSelect extends Component {
         this.state = {
             shapes: [
                 {
+                    name: "cross",
+                    active: false,
+                    icon: "fa-plus",
+                    default: "fas"
+                },
+                {
+                    name: "x",
+                    active: false,
+                    icon: "fa-times",
+                    default: "fas"
+                },
+                {
                     name: "square",
                     active: false,
-                    icon: "fa-square"
+                    icon: "fa-square", 
+                    default: "far"
                 },
                 {
                     name: "heart",
                     active: false,
-                    icon: "fa-heart"
+                    icon: "fa-heart",
+                    default: "far"
                 },
                 {
                     name: "circle",
                     active: false,
-                    icon: "fa-circle"
+                    icon: "fa-circle",
+                    default: "far"
                 },
                 {
                     name: "star",
                     active: false,
-                    icon: "fa-star"
+                    icon: "fa-star",
+                    default: "far"
                 }
             ]
         }
@@ -40,9 +56,9 @@ export class ShapeSelect extends Component {
 
     render() {
         const shapes = this.state.shapes.map((shape) => {
-            let shapeClass = (shape.active) ? "fas" : "far";
+            let shapeClass = (shape.active) ? "fas" : shape.default;
             let shapeColor = (shape.active) ? "var(--pumpkin)" : "";
-            return <button key={shape.name} className="shape-btn" onClick={this.shapeClick.bind(this, shape)}>
+            return <button key={shape.name} className={"shape-btn " + shape.name} onClick={this.shapeClick.bind(this, shape)}>
                     <i className={shapeClass + " " + shape.icon} style={{color: shapeColor}}></i>
                    </button>
         })
