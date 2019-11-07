@@ -41,6 +41,7 @@ export class AlbumSelect extends Component {
             warnings: {artist: "", album: ""},
             img: {thumbnail: "", cover: ""}
         })
+        this.props.clearError();
     }
 
     handleSearch = (isArtist, e) => {
@@ -111,7 +112,8 @@ export class AlbumSelect extends Component {
         })
         this.props.addAlbum(this.state.newArtist, this.state.newAlbum, this.state.img.thumbnail, this.state.img.cover);
         // Jump focus to the artist search field after submitting new album
-        this.artistInput.current.focus();    
+        this.artistInput.current.focus();  
+        this.props.clearError();  
     }
 
     // Remove album from selection
@@ -121,6 +123,7 @@ export class AlbumSelect extends Component {
         })
         this.props.deleteAlbum(artist, album);
         clearTimeout(this.flashWarning);
+        this.props.clearError();
     }
 
     render() {
@@ -138,7 +141,9 @@ export class AlbumSelect extends Component {
         })
         // Add red border to search boxes when a warning is present
         let warningBorder = (field) => this.state.warnings[field] ? {borderColor: "red"} : {borderColor: ""};
-        let selectionCentering = (this.props.selections.length > 5) ? {alignItems: "center"} : {alignItems: ""};
+        let selectionStyle = {};
+        selectionStyle["borderColor"] = this.props.errors.selection ? "red" : ""; 
+        selectionStyle["alignItems"] = (this.props.selections.length > 5) ? "center" : "";
         return (
             <div className="album-options">
                 <h2>Albums:</h2>
@@ -167,7 +172,7 @@ export class AlbumSelect extends Component {
                 </button>
                 <div className="album-selection">
                     <p>Selection (3-10 albums)</p>
-                    <div className="selection-box" style={selectionCentering}>
+                    <div className="selection-box" style={selectionStyle}>
                         {selectedAlbums}
                     </div>
                 </div>

@@ -52,15 +52,22 @@ export class ShapeSelect extends Component {
                 return shape
             })
         })
-        this.props.selectShape(clicked.name)
+        // Submit selected shape to the Menu component
+        this.props.selectShape(clicked.name, clicked.active)
+        // Clear any submission errors when a shape is clicked
+        this.props.clearError();
     }
 
     render() {
         const shapes = this.state.shapes.map((shape) => {
-            let shapeClass = (shape.active) ? "fas" : shape.default;
-            let shapeColor = (shape.active) ? "var(--pumpkin)" : "";
+            // Fill shape if shape has been selected and submit button hasn't been pressed
+            let shapeClass = (shape.active && this.props.shape) ? "fas" : shape.default;
+            let shapeStyle = {}
+            // Make shape orange if shape has been selected and submit button hasn't been pressed
+            // Make shapes red on "no shape selected" submission error
+            shapeStyle["color"] = (this.props.errors.shape) ? "red" : (shape.active && this.props.shape) ? "var(--pumpkin)" : "";    
             return <button key={shape.name} className={"shape-btn " + shape.name} onClick={this.handleClick.bind(this, shape)}>
-                    <i className={shapeClass + " " + shape.icon} style={{color: shapeColor}}></i>
+                    <i className={shapeClass + " " + shape.icon} style={shapeStyle}></i>
                    </button>
         })
         return (
