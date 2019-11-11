@@ -19,9 +19,9 @@ export class AlbumSelect extends Component {
 
     // Display warning that the max number of albums have been selected
     handleClick = () => {
-        if (this.props.selections.length === 10) {
+        if (this.props.selections.length === this.props.albumRange.max) {
             this.setState({
-                warnings: {artist: "10 albums already selected", album: ""}
+                warnings: {artist: this.props.albumRange.max + " albums already selected", album: ""}
             })
             this.flashWarning = setTimeout(() => {
                 this.setState({
@@ -150,8 +150,8 @@ export class AlbumSelect extends Component {
                 <form onSubmit={this.handleSearch.bind(this, true)}>
                     <div onClick={this.handleClick}>
                         <span>Artist</span>
-                        <input type="text" spellCheck="false" style={warningBorder("artist")} placeholder="Enter artist name..." disabled={(this.props.selections.length === 10) ? "disabled" : ""} ref={this.artistInput} value={this.state.newArtist} onChange={this.handleChange.bind(this, true)}></input>
-                        <button className="search-submit" style={warningBorder("artist")} disabled={(this.props.selections.length === 10) ? "disabled" : ""}>
+                        <input type="text" spellCheck="false" style={warningBorder("artist")} placeholder="Enter artist name..." disabled={(this.props.selections.length === this.props.albumRange.max) ? "disabled" : ""} ref={this.artistInput} value={this.state.newArtist} onChange={this.handleChange.bind(this, true)}></input>
+                        <button className="search-submit" style={warningBorder("artist")} disabled={(this.props.selections.length === this.props.albumRange.max) ? "disabled" : ""}>
                             <i className="fas fa-search"></i>
                         </button>     
                     </div>
@@ -171,7 +171,7 @@ export class AlbumSelect extends Component {
                     <i className="fas fa-plus"></i> Add album
                 </button>
                 <div className="album-selection">
-                    <p>Selection (3-10 albums)</p>
+                    <p>Selection ({this.props.albumRange.min}-{this.props.albumRange.max} albums)</p>
                     <div className="selection-box" style={selectionStyle}>
                         {selectedAlbums}
                     </div>

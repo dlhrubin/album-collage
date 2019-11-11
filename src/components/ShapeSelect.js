@@ -9,37 +9,49 @@ export class ShapeSelect extends Component {
                     name: "cross",
                     active: false,
                     icon: "fa-plus",
-                    default: "fas"
+                    unclicked: "fas",
+                    clicked: "fas",
+                    min: 4
                 },
                 {
                     name: "x",
                     active: false,
                     icon: "fa-times",
-                    default: "fas"
+                    unclicked: "fas",
+                    clicked: "fas",
+                    min: 4
                 },
                 {
                     name: "square",
                     active: false,
                     icon: "fa-square", 
-                    default: "far"
+                    unclicked: "fas",
+                    clicked: "fas",
+                    min: 4
+                },
+                {
+                    name: "diamond",
+                    active: false,
+                    icon: "diamond",
+                    unclicked: "diamond",
+                    clicked: "diamond",
+                    min: 4
                 },
                 {
                     name: "heart",
                     active: false,
                     icon: "fa-heart",
-                    default: "far"
+                    unclicked: "fas",
+                    clicked: "fas",
+                    min: 4
                 },
                 {
-                    name: "circle",
+                    name: "octagon",
                     active: false,
-                    icon: "fa-circle",
-                    default: "far"
-                },
-                {
-                    name: "star",
-                    active: false,
-                    icon: "fa-star",
-                    default: "far"
+                    icon: "octagon",
+                    unclicked: "octagon",
+                    clicked: "octagon",
+                    min: 4
                 }
             ]
         }
@@ -61,13 +73,15 @@ export class ShapeSelect extends Component {
     render() {
         const shapes = this.state.shapes.map((shape) => {
             // Fill shape if shape has been selected and submit button hasn't been pressed
-            let shapeClass = (shape.active && this.props.shape) ? "fas" : shape.default;
+            let shapeClass = (shape.active && this.props.shape) ? shape.clicked : shape.unclicked;
             let shapeStyle = {}
             // Make shape orange if shape has been selected and submit button hasn't been pressed
             // Make shapes red on "no shape selected" submission error
             shapeStyle["color"] = (this.props.errors.shape) ? "red" : (shape.active && this.props.shape) ? "var(--pumpkin)" : "";    
-            return <button key={shape.name} className={"shape-btn " + shape.name} onClick={this.handleClick.bind(this, shape)}>
-                    <i className={shapeClass + " " + shape.icon} style={shapeStyle}></i>
+            // Show shape only if minimum required number of albums have been selected
+            shapeStyle["display"] = (this.props.numAlbums >= shape.min) ? "" : "none";
+            return <button key={shape.name} className={"shape-btn " + shape.name} style={shapeStyle} onClick={this.handleClick.bind(this, shape)}>
+                    {shape.icon.startsWith("fa") ? <i className={shapeClass + " " + shape.icon}></i> : <div></div>}
                    </button>
         })
         return (

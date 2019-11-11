@@ -9,7 +9,7 @@ export class Menu extends Component {
             selections: [],
             shape: "",
             errors: {selection: "", shape: ""},
-            albumRange: {min: 3, max: 10}
+            albumRange: {min: 2, max: 30}
         }
     }
 
@@ -38,7 +38,7 @@ export class Menu extends Component {
         // Throw error if minimum number of albums have not been selected
         if (this.state.selections.length < this.state.albumRange.min) {
             this.setState({
-                errors: {selection: "Please select at least 3 albums", shape: ""}
+                errors: {selection: "Please select at least " + this.state.albumRange.min + " albums", shape: ""}
             })
         // Throw error if no shape has been selected
         } else if (!this.state.shape) {
@@ -67,8 +67,8 @@ export class Menu extends Component {
         return (
             <section className="menu">
                 <h1>Music Collage</h1>
-                <AlbumSelect selections={this.state.selections} errors={this.state.errors} addAlbum={this.handleAddAlbum} deleteAlbum={this.handleDeleteAlbum} clearError={this.handleClearError}/>
-                <ShapeSelect shape={this.state.shape} errors={this.state.errors} selectShape={this.handleSelectShape} clearError={this.handleClearError}/>
+                <AlbumSelect selections={this.state.selections} errors={this.state.errors} albumRange={this.state.albumRange} addAlbum={this.handleAddAlbum} deleteAlbum={this.handleDeleteAlbum} clearError={this.handleClearError}/>
+                <ShapeSelect numAlbums={this.state.selections.length} shape={this.state.shape} errors={this.state.errors} selectShape={this.handleSelectShape} clearError={this.handleClearError}/>
                 <div className="collage-submit">
                     <button className="search-submit" onClick={this.handleSubmit}>Collage-ify</button>
                     <p className="warning">{(this.state.errors.selection) ? this.state.errors.selection : (this.state.errors.shape) ? this.state.errors.shape : ""}</p>
