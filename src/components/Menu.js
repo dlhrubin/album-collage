@@ -2,6 +2,8 @@ import React, {Component} from "react";
 import AlbumSelect from "./AlbumSelect";
 import ShapeSelect from "./ShapeSelect";
 
+let possibleNums = [2, 4, 5, 6, 7, 8, 9, 10, 13, 14, 16, 17, 18, 19, 20, 22, 25, 26, 28, 30]
+
 export class Menu extends Component {
     constructor(props) {
         super(props);
@@ -17,6 +19,7 @@ export class Menu extends Component {
     handleAddAlbum = (artist, album, thumbnail, cover) => {
         this.setState({
             selections: [...this.state.selections, {artist, album, thumbnail, cover}],
+            shape: ""
         })
     }
 
@@ -24,6 +27,7 @@ export class Menu extends Component {
     handleDeleteAlbum = (artist, album) => {
         this.setState({
             selections: this.state.selections.filter(selection => (selection.artist !== artist || selection.album !== album)),
+            shape: ""
         })
     }
 
@@ -40,6 +44,11 @@ export class Menu extends Component {
             this.setState({
                 errors: {selection: "Please select at least " + this.state.albumRange.min + " albums", shape: ""}
             })
+        // Throw error if no collage shape available for selected number of albums 
+        } else if (!possibleNums.includes(this.state.selections.length)) {
+            this.setState({
+                errors: {selection: "", shape: "No collage shape available"}
+        })
         // Throw error if no shape has been selected
         } else if (!this.state.shape) {
             this.setState({

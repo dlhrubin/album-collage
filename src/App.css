@@ -210,41 +210,25 @@ button {
     color: var(--pumpkin);
 }
 
-.shape-btn div {
-    background-color: var(--cream);
-    width: 100%;
-    height: 100%;
-}
-
 .shape-btn div:hover {
     background-color: var(--pumpkin);
 }
 
 .shape-btn i {
     position: absolute;
+    top: 0;
     left: 0;
     right: 0;
 }
 
-.diamond div {
-    transform: rotate(45deg);
-    height: 25px;
-    width: 25px;
+.diamond i {
+    transform: rotate(45deg) scale(0.9);
     margin-left: 2.5px;
-}
-
-.cross {
-    width: 32px;
-}
-
-.cross i {
-    position: relative;
-    bottom: 1px;
+    top: -2px;
 }
 
 .x, .cross {
     width: 30px;
-    position: relative;
 }
 
 .x {
@@ -259,48 +243,12 @@ button {
     top: -1px;
 }
 
-.octagon div {
-    position: relative;
-}
-
-.octagon div:before {
-    content: "";
-    width: 30px;
-    height: 0px;
-    position: absolute;
-    top: 0;
-    left: 0;
-    border-bottom: 7px solid var(--cream);
-    border-left: 7px solid var(--mint);
-    border-right: 7px solid var(--mint);
-    box-sizing: border-box;
-}
-
-.octagon div:after {
-    content: "";
-    width: 30px;
-    height: 0px;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    border-top: 7px solid var(--cream);
-    border-left: 7px solid var(--mint);
-    border-right: 7px solid var(--mint);
-    box-sizing: border-box;
-}
-
-.octagon div:hover:before {
-    border-bottom-color: var(--pumpkin);
-}
-
-.octagon div:hover:after {
-    border-top-color: var(--pumpkin);
-}
-
 /*---Collage submission---*/
 
 .collage-submit {
-    position: relative;
+    display: flex;
+    border: 1px solid black;
+    width: 100%;
 }
 
 .collage-submit button {
@@ -316,7 +264,10 @@ button {
 }
 
 .collage-submit .warning {
-    bottom: -17px;
+    border: 1px solid blue;
+    box-sizing: border-box;
+    align-self: flex-end;
+    display: block;
 }
 
 /*---Collage---*/
