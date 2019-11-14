@@ -1,1 +1,295 @@
+body {
+    --mint: #c2e8ce;
+    --cream: #f2eee5;
+    --pumpkin: #f6ad7b;
+    --rust: #be7575;
+    --blue: #7ba8f6;
+    --pink: #e8c5c2;
+    font-family: 'Rubik', sans-serif;
+}
 
+h1 {
+    color: var(--cream);
+    text-shadow: 1px 1px 2px var(--rust);
+    font-size: 2.1em;
+    margin: 10px 0px;
+}
+
+h2 {
+    color: var(--rust);
+    margin-bottom: 15px;
+}
+
+button {
+    outline: none;
+    border: none;
+    font-family: inherit;
+    cursor: pointer;
+}
+
+.app {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    display: flex;
+}
+
+/*---Selection menu---*/
+
+.menu {
+    display: flex;
+    flex-direction: column;
+    margin-right: 70px;
+    padding: 0px 25px;
+    background-color: var(--mint);
+    box-shadow: 0.5px 0px 5px var(--rust);
+}
+
+.menu > div {
+    display: flex;
+    flex-direction: column;
+}
+
+.album-options form {
+    margin-bottom: 8px;
+}
+
+.album-options form div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--blue);
+    font-weight: bold;
+    position: relative;
+}
+
+.warning {
+    color: red;
+    position: absolute;
+    margin: 2px 0px 0px 67px;
+    font-size: 0.8em;
+}
+
+.album-options input {
+    margin-left: 10px;
+    padding: 8px;
+    outline: none;
+    border: 1px solid var(--rust);
+    box-sizing: border-box;
+    border-radius: 8px;
+    padding: 8px 30px 8px 8px;
+    font-family: inherit;
+}
+
+.album-options input:focus, .album-options > button:focus {
+    border-color: var(--pumpkin);
+    box-shadow: 0px 0px 3px var(--pumpkin);
+}
+
+.album-options input:disabled {
+    border-color: darkgray;
+}
+
+.search-submit {
+    color: var(--cream);
+}
+
+.search-submit:hover {
+    background-color: var(--pink);
+}
+
+.album-options form button {
+    position: absolute;
+    right: 0;
+    height: 100%;
+    background-color: var(--blue);
+    border: 1px solid var(--rust);
+    border-left: none;
+    border-radius: 0px 8px 8px 0px;
+}
+
+.album-options input:focus + button {
+    border-color: var(--pumpkin);
+}
+
+.album-options form button:disabled {
+    background-color: silver;
+    border-color: darkgray;
+    cursor: auto;
+}
+
+.album-options > button {
+    width: 100px;
+    align-self: flex-end;
+    background-color: var(--rust);
+    border: 1px solid var(--cream);
+    border-radius: 10px;
+    padding: 5px 0px;
+}
+
+.album-selection p {
+    color: gray;
+    font-weight: bold;
+    font-size: 0.9em;
+    margin: 8px 0px;
+}
+
+/*---Selection box---*/
+
+.selection-box {
+    border: 3px dashed var(--cream);
+    min-height: 146px;
+    max-height: 155px;
+    padding: 7.5px 7.5px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    overflow: auto;
+}
+
+.selection-box div {
+    background-color: var(--cream);
+    width: 47.5%;
+    height: 20px;
+    box-sizing: border-box;
+    margin: 2.5px 2.5px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.selection-box img {
+    width: 20px;
+}
+
+.selection-box span {
+    padding: 3px 3px 3px 5px;
+    font-size: 0.7em;
+    font-weight: bold;
+    color: var(--pumpkin);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.selection-box button {
+    color: var(--blue);
+    background-color: var(--cream);
+    width: 15px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.selection-box button:hover {
+    color: var(--pink);
+}
+
+.selection-box::-webkit-scrollbar {
+    width: 5px;
+}
+  
+.selection-box::-webkit-scrollbar-track {
+    background-color: var(--cream); 
+}
+   
+.selection-box::-webkit-scrollbar-thumb {
+    background-color: darkgray;
+    border-radius: 5px;
+}
+
+.selection-box::-webkit-scrollbar-thumb:hover {
+    background-color: gray;
+}
+  
+
+/*---Shape selection---*/
+
+.shapes {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    min-height: 40px;
+}
+
+.shape-btn {
+    position: relative;
+    background-color: rgba(0,0,0,0);
+    font-size: 2em;
+    color: var(--cream);
+    width: 30px;
+    height: 30px;
+    padding: 0;
+}
+
+.shape-btn:hover {
+    color: var(--pumpkin);
+}
+
+.shape-btn div:hover {
+    background-color: var(--pumpkin);
+}
+
+.shape-btn i {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+
+.diamond i {
+    transform: rotate(45deg) scale(0.9);
+    margin-left: 2.5px;
+    top: -2px;
+}
+
+.x, .cross {
+    width: 30px;
+}
+
+.x {
+    font-size: 2.3em;
+}
+
+.x i, .cross i {
+    top: -3px;
+}
+
+.square i, .heart i {
+    top: -1px;
+}
+
+/*---Collage submission---*/
+
+.collage-submit {
+    display: flex;
+    width: 100%;
+    align-items: flex-end;
+}
+
+.collage-submit button {
+    background-color: var(--blue);
+    border: 1px solid var(--cream);
+    border-radius: 10px;
+    padding: 8px;
+    font-size: 1em;
+    width: 100px;
+    height: 40px;
+    margin-top: 15px;
+}
+
+.collage-submit .warning {
+    position: relative;
+    width: 100%;
+    text-align: right;
+    margin: 0;
+}
+
+/*---Collage---*/
+
+.collage {
+    height: auto;
+}
