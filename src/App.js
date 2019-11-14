@@ -17,8 +17,6 @@ class App extends Component {
             selections,
             shape
         })
-        console.log(selections)
-        console.log(shape)
     }
 
     render() {

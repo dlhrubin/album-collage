@@ -141,7 +141,8 @@ button {
 
 .selection-box {
     border: 3px dashed var(--cream);
-    height: 146px;
+    min-height: 146px;
+    max-height: 155px;
     padding: 7.5px 7.5px;
     box-sizing: border-box;
     display: flex;
@@ -186,6 +187,24 @@ button {
 .selection-box button:hover {
     color: var(--pink);
 }
+
+.selection-box::-webkit-scrollbar {
+    width: 5px;
+}
+  
+.selection-box::-webkit-scrollbar-track {
+    background-color: var(--cream); 
+}
+   
+.selection-box::-webkit-scrollbar-thumb {
+    background-color: darkgray;
+    border-radius: 5px;
+}
+
+.selection-box::-webkit-scrollbar-thumb:hover {
+    background-color: gray;
+}
+  
 
 /*---Shape selection---*/
 
@@ -247,8 +266,8 @@ button {
 
 .collage-submit {
     display: flex;
-    border: 1px solid black;
     width: 100%;
+    align-items: flex-end;
 }
 
 .collage-submit button {
@@ -259,15 +278,14 @@ button {
     font-size: 1em;
     width: 100px;
     height: 40px;
-    align-self: flex-end;
     margin-top: 15px;
 }
 
 .collage-submit .warning {
-    border: 1px solid blue;
-    box-sizing: border-box;
-    align-self: flex-end;
-    display: block;
+    position: relative;
+    width: 100%;
+    text-align: right;
+    margin: 0;
 }
 
 /*---Collage---*/

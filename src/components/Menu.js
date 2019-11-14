@@ -47,7 +47,7 @@ export class Menu extends Component {
         // Throw error if no collage shape available for selected number of albums 
         } else if (!possibleNums.includes(this.state.selections.length)) {
             this.setState({
-                errors: {selection: "", shape: "No collage shape available"}
+                errors: {selection: "", shape: "No collage shape for this number of albums"}
         })
         // Throw error if no shape has been selected
         } else if (!this.state.shape) {
