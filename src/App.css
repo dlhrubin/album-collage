@@ -42,7 +42,6 @@ button {
 .menu {
     display: flex;
     flex-direction: column;
-    margin-right: 70px;
     padding: 0px 25px;
     background-color: var(--mint);
     box-shadow: 0.5px 0px 5px var(--rust);
@@ -291,5 +290,56 @@ button {
 /*---Collage---*/
 
 .collage {
-    height: auto;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.collage-grid {
+    display: grid;
+}
+
+.collage-grid > div {
+    height: 174px;
+    width: 174px;
+    position: relative;
+}
+
+.collage-grid img {
+    position: absolute;
+    z-index: 0;
+}
+
+.overlay {
+    position: absolute;
+    height: 0;
+    width: 0;
+    z-index: 1;
+    border-style: solid;
+}
+
+.top-left {
+    border-width: 174px 174px 0 0;
+    border-color: white transparent transparent transparent;
+}
+
+.top-right {
+    border-width: 174px 0 0 174px;
+    border-color: white transparent transparent transparent;
+}
+
+.bottom-left {
+    border-width: 0 174px 174px 0;
+    border-color: transparent transparent white transparent;
+}
+
+.bottom-right {
+    border-width: 0 0 174px 174px;
+    border-color: transparent transparent white transparent;
+}
+
+.diamond-2, .square-4 {
+    grid-template-columns: 1fr 1fr;
 }
