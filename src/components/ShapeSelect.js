@@ -77,7 +77,7 @@ export class ShapeSelect extends Component {
             let shapeStyle = {}
             // Make shape orange if shape has been selected and submit button hasn't been pressed
             // Make shapes red on "no shape selected" submission error
-            shapeStyle["color"] = (this.props.errors.shape) ? "red" : (shape.active && this.props.shape) ? "var(--pumpkin)" : "";    
+            shapeStyle["color"] = (this.props.errors.shape) ? "red" : (shape.active && this.props.shape) ? "var(--highlight)" : "";    
             // Show shape only if minimum required number of albums have been selected
             shapeStyle["display"] = (shape.numbers.includes(this.props.numAlbums)) ? "" : "none";
             return <button key={shape.name} className={"shape-btn " + shape.name} style={shapeStyle} onClick={this.handleClick.bind(this, shape)}>

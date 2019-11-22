@@ -1,0 +1,327 @@
+$base-color: #c2e8ce;
+$light-accent: #f2eee5;
+$highlight: #f6ad7b;
+$dark-accent: #be7575;
+$emphasis: #7ba8f6;
+$hover-color: #e8c5c2;
+$size: 250px;
+
+body {
+    /* Declaring this color as a CSS variable as well so that ShapeSelect.js can access it... need to find better solution */
+    --highlight: #f6ad7b;
+    font-family: 'Rubik', sans-serif;
+}
+
+h1 {
+    color: $light-accent;
+    text-shadow: 1px 1px 2px $dark-accent;
+    font-size: 2.1em;
+    margin: 10px 0px;
+}
+
+h2 {
+    color: $dark-accent;
+    margin-bottom: 15px;
+}
+
+button {
+    outline: none;
+    border: none;
+    font-family: inherit;
+    cursor: pointer;
+}
+
+.app {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    display: flex;
+}
+
+/*---Selection menu---*/
+
+.menu {
+    display: flex;
+    flex-direction: column;
+    padding: 0px 25px;
+    background-color: $base-color;
+    box-shadow: 0.5px 0px 5px $dark-accent;
+    > div {
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+.album-options form {
+    margin-bottom: 8px;
+    div {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: $emphasis;
+        font-weight: bold;
+        position: relative;
+    }
+}
+
+.warning {
+    color: red;
+    position: absolute;
+    margin: 2px 0px 0px 67px;
+    font-size: 0.8em;
+}
+
+.album-options {
+    input {
+        margin-left: 10px;
+        padding: 8px;
+        outline: none;
+        border: 1px solid $dark-accent;
+        box-sizing: border-box;
+        border-radius: 8px;
+        padding: 8px 30px 8px 8px;
+        font-family: inherit;
+    }
+    input:focus, > button:focus {
+        border-color: $highlight;
+        box-shadow: 0px 0px 3px $highlight;
+    }
+    input:disabled {
+        border-color: darkgray;
+    }
+    form button {
+        position: absolute;
+        right: 0;
+        height: 100%;
+        background-color: $emphasis;
+        border: 1px solid $dark-accent;
+        border-left: none;
+        border-radius: 0px 8px 8px 0px;
+    }
+    input:focus + button {
+        border-color: $highlight;
+    }
+    form button:disabled {
+        background-color: silver;
+        border-color: darkgray;
+        cursor: auto;
+    }
+    > button {
+        width: 100px;
+        align-self: flex-end;
+        background-color: $dark-accent;
+        border: 1px solid $light-accent;
+        border-radius: 10px;
+        padding: 5px 0px;
+    }
+}
+
+.search-submit {
+    color: $light-accent;
+}
+
+.search-submit:hover {
+    background-color: $hover-color;
+}
+
+.album-selection p {
+    color: gray;
+    font-weight: bold;
+    font-size: 0.9em;
+    margin: 8px 0px;
+}
+
+/*---Selection box---*/
+
+.selection-box {
+    border: 3px dashed $light-accent;
+    min-height: 146px;
+    max-height: 155px;
+    padding: 7.5px 7.5px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    overflow: auto;
+    div {
+        background-color: $light-accent;
+        width: 47.5%;
+        height: 20px;
+        box-sizing: border-box;
+        margin: 2.5px 2.5px;
+        display: flex;
+        justify-content: space-between;
+    }
+    img {
+        width: 20px;
+    }
+    span {
+        padding: 3px 3px 3px 5px;
+        font-size: 0.7em;
+        font-weight: bold;
+        color: $highlight;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+    button {
+        color: $emphasis;
+        background-color: $light-accent;
+        width: 15px;
+        display: flex;
+        justify-content: flex-end;
+    }
+    button:hover {
+        color: $hover-color;
+    }
+}
+
+/* Webkit scrollbar not working with nesting... */
+.selection-box::-webkit-scrollbar {
+    width: 5px;
+}
+  
+.selection-box::-webkit-scrollbar-track {
+    background-color: $light-accent; 
+}
+   
+.selection-box::-webkit-scrollbar-thumb {
+    background-color: darkgray;
+    border-radius: 5px;
+}
+
+.selection-box::-webkit-scrollbar-thumb:hover {
+    background-color: gray;
+}
+
+/*---Shape selection---*/
+
+.shapes {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    min-height: 40px;
+}
+
+.shape-btn {
+    position: relative;
+    background-color: rgba(0,0,0,0);
+    font-size: 2em;
+    color: $light-accent;
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    :hover {
+        color: $highlight;
+    }
+    i {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+    }
+}
+
+.diamond i {
+    transform: rotate(45deg) scale(0.9);
+    margin-left: 2.5px;
+    top: -2px;
+}
+
+.x, .cross {
+    width: 30px;
+}
+
+.x {
+    font-size: 2.3em;
+}
+
+.x i, .cross i {
+    top: -3px;
+}
+
+.square i, .heart i {
+    top: -1px;
+}
+
+/*---Collage submission---*/
+
+.collage-submit {
+    display: flex;
+    width: 100%;
+    align-items: flex-end;
+    button {
+        background-color: $emphasis;
+        border: 1px solid $light-accent;
+        border-radius: 10px;
+        padding: 8px;
+        font-size: 1em;
+        width: 100px;
+        height: 40px;
+        margin-top: 15px;
+    }
+    .warning {
+        position: relative;
+        width: 100%;
+        text-align: right;
+        margin: 0;
+    }
+}
+
+/*---Collage---*/
+
+.collage {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.collage-grid {
+    display: grid;
+    width: $size;
+    height: $size;
+    > div {
+        height: 50%;
+        width: 50%;
+        position: relative;
+    }
+    img {
+        position: absolute;
+        z-index: 0;
+        width: $size / 2;
+        height: $size / 2;
+    }
+}
+
+.overlay {
+    position: absolute;
+    height: 0;
+    width: 0;
+    z-index: 1;
+    border-style: solid;
+}
+
+@mixin triangle($vertical, $horizontal) {
+    .#{$vertical}-#{$horizontal} {
+        border-color: transparent;
+        border-#{$vertical}-color: white;
+        border-width: 0 $size / 2;
+        border-#{$vertical}-width: $size / 2;
+        border-#{$horizontal}-width: 0; 
+    }
+}
+
+@include triangle(top, left);
+@include triangle(top, right);
+@include triangle(bottom, left);
+@include triangle(bottom, right);
+
+.diamond-2, .square-4 {
+    grid-template-columns: 1fr 1fr;
+}

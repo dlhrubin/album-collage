@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import './App.css';
+import './App.scss';
 import Menu from "./components/Menu";
 import Collage from "./components/Collage";
 
