@@ -19,11 +19,30 @@ class App extends Component {
         })
     }
 
+    // Shuffle album order
+    handleShuffle = () => {
+        let sameAsBefore = true;
+        let unshuffled;
+        let shuffled;
+        // Check that new order is not identical to old order
+        while (sameAsBefore) {
+            unshuffled = [...this.state.selections];
+            shuffled = [];
+            for (let i=0; i < this.state.selections.length; i++) {
+                shuffled = [...shuffled, unshuffled.splice(Math.floor(Math.random() * unshuffled.length), 1)[0]];
+                sameAsBefore = (sameAsBefore === false) ? false : (shuffled[i] === this.state.selections[i]) ? true : false;
+            }
+        }
+        this.setState ({
+            selections: shuffled
+        })
+    }    
+
     render() {
         return (
             <div className="app">
                 <Menu submitCollage={this.handleSubmit}/>
-                <Collage selections={this.state.selections} shape={this.state.shape}/>
+                <Collage selections={this.state.selections} shape={this.state.shape} shuffle={this.handleShuffle}/>
             </div>
         );
     }

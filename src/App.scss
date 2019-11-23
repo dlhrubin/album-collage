@@ -278,8 +278,20 @@ button {
     height: 100%;
     width: 100%;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+    button {
+        margin-bottom: 20px;
+        background-color: $emphasis;
+        padding: 4px 8px;
+        border-radius: 10px;
+        font-size: 1.3em;
+        color: white;
+    }
+    button:hover {
+        background-color: $highlight;
+    }
 }
 
 .collage-grid {
