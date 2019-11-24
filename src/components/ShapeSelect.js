@@ -19,7 +19,7 @@ export class ShapeSelect extends Component {
                     icon: "fa-times",
                     unclicked: "fas",
                     clicked: "fas",
-                    numbers: [5, 9, 10, 13, 14, 17, 18, 22, 26, 30]
+                    numbers: [10, 14, 18, 22, 26, 30]
                 },
                 {
                     name: "square",

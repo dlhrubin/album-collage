@@ -15,6 +15,25 @@ export class Menu extends Component {
         }
     }
 
+    componentDidUpdate(prevProps) {
+        if (this.props.editing !== prevProps.editing) {
+            // If in editing mode, add the submitted selections and shape back into the menu
+            if (this.props.editing) {
+                this.setState({
+                    selections: this.props.selections,
+                    shape: this.props.shape
+                })
+            } else {
+                this.setState({
+                    selections: [],
+                    shape: ""
+                })
+                this.handleClearError();
+            }
+        }
+
+    }
+
     // Add user-added album to selections
     handleAddAlbum = (artist, album, thumbnail, cover) => {
         this.setState({
@@ -79,7 +98,7 @@ export class Menu extends Component {
                 <AlbumSelect selections={this.state.selections} errors={this.state.errors} albumRange={this.state.albumRange} addAlbum={this.handleAddAlbum} deleteAlbum={this.handleDeleteAlbum} clearError={this.handleClearError}/>
                 <ShapeSelect numAlbums={this.state.selections.length} shape={this.state.shape} errors={this.state.errors} selectShape={this.handleSelectShape} clearError={this.handleClearError}/>
                 <div className="collage-submit">
-                    <button className="search-submit" onClick={this.handleSubmit}>Collage-ify</button>
+                    <button className="search-submit" onClick={this.handleSubmit}>{this.props.editing ? "Save Edits" : "Collage-ify"}</button>
                     <p className="warning">{(this.state.errors.selection) ? this.state.errors.selection : (this.state.errors.shape) ? this.state.errors.shape : ""}</p>
                 </div>
             </section>

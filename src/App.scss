@@ -4,7 +4,7 @@ $highlight: #f6ad7b;
 $dark-accent: #be7575;
 $emphasis: #7ba8f6;
 $hover-color: #e8c5c2;
-$size: 250px;
+$size: 125px;
 
 body {
     /* Declaring this color as a CSS variable as well so that ShapeSelect.js can access it... need to find better solution */
@@ -292,22 +292,40 @@ button {
     button:hover {
         background-color: $highlight;
     }
+    button:disabled:hover {
+        background-color: $emphasis;
+    }
+}
+
+.editing-screen {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    background-color: lightgray;
+    opacity: 0.8;
+}
+
+.edit-dock {
+    position: absolute;
+    top: 20%;
+    button {
+        margin: 0 15px;
+    }
 }
 
 .collage-grid {
     display: grid;
-    width: $size;
-    height: $size;
     > div {
-        height: 50%;
-        width: 50%;
+        height: $size;
+        width: $size;
         position: relative;
     }
     img {
         position: absolute;
         z-index: 0;
-        width: $size / 2;
-        height: $size / 2;
+        width: $size;
+        height: $size;
     }
 }
 
@@ -319,21 +337,49 @@ button {
     border-style: solid;
 }
 
-@mixin triangle($vertical, $horizontal) {
+.blank-square {
+    background-color: transparent;
+}
+
+@mixin halfTriangle($vertical, $horizontal) {
     .#{$vertical}-#{$horizontal} {
         border-color: transparent;
         border-#{$vertical}-color: white;
-        border-width: 0 $size / 2;
-        border-#{$vertical}-width: $size / 2;
+        border-width: 0 $size;
+        border-#{$vertical}-width: $size;
         border-#{$horizontal}-width: 0; 
     }
 }
 
-@include triangle(top, left);
-@include triangle(top, right);
-@include triangle(bottom, left);
-@include triangle(bottom, right);
+@include halfTriangle(top, left);
+@include halfTriangle(top, right);
+@include halfTriangle(bottom, left);
+@include halfTriangle(bottom, right);
+
+.top {
+    border-width: $size $size 0 $size;
+    border-color: white transparent transparent transparent; 
+}
+
+.right {
+    border-width: $size $size $size 0;
+    border-color: transparent white transparent transparent;
+}
+
+.bottom {
+    border-width: 0 $size $size $size;
+    border-color: transparent transparent white transparent;
+}
+
+.left {
+    border-width: $size 0 $size $size;
+    border-color: transparent transparent transparent white;
+}
 
 .diamond-2, .square-4 {
     grid-template-columns: 1fr 1fr;
+}
+
+.cross-5 {
+    grid-template-columns: 1fr 1fr 1fr;
 }

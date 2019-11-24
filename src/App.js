@@ -8,14 +8,16 @@ class App extends Component {
         super(props);
         this.state = {
             selections: [],
-            shape: ""
+            shape: "",
+            editing: false
         }
     }
   
     handleSubmit = (selections, shape) => {
         this.setState({
             selections,
-            shape
+            shape,
+            editing: false
         })
     }
 
@@ -38,11 +40,18 @@ class App extends Component {
         })
     }    
 
+    // Edit collage
+    handleEdit = () => {
+        this.setState({
+            editing: !this.state.editing
+        })
+    }
+
     render() {
         return (
             <div className="app">
-                <Menu submitCollage={this.handleSubmit}/>
-                <Collage selections={this.state.selections} shape={this.state.shape} shuffle={this.handleShuffle}/>
+                <Menu selections={this.state.selections} shape={this.state.shape} editing={this.state.editing} submitCollage={this.handleSubmit} editCollage={this.handleEdit}/>
+                <Collage selections={this.state.selections} shape={this.state.shape} editing={this.state.editing} shuffleCollage={this.handleShuffle} editCollage={this.handleEdit}/>
             </div>
         );
     }
