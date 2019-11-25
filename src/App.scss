@@ -308,7 +308,7 @@ button {
 
 .edit-dock {
     position: absolute;
-    top: 20%;
+    top: 10%;
     button {
         margin: 0 15px;
     }
@@ -377,9 +377,17 @@ button {
 }
 
 .diamond-2, .square-4 {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(2, 1fr);
 }
 
-.cross-5 {
-    grid-template-columns: 1fr 1fr 1fr;
+.cross-5, .octagon-7 {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.heart-6 {
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.diamond-8 {
+    grid-template-columns: repeat(5, 1fr);
 }
