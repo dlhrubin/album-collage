@@ -182,7 +182,7 @@ button {
 
 /* Webkit scrollbar not working with nesting... */
 .selection-box::-webkit-scrollbar {
-    width: 5px;
+    height: 9px;
 }
   
 .selection-box::-webkit-scrollbar-track {
@@ -380,14 +380,14 @@ button {
     grid-template-columns: repeat(2, 1fr);
 }
 
-.cross-5, .octagon-7 {
+.cross-5, .octagon-7, .square-9 {
     grid-template-columns: repeat(3, 1fr);
 }
 
-.heart-6 {
+.heart-6, .square-16 {
     grid-template-columns: repeat(4, 1fr);
 }
 
-.diamond-8 {
+.diamond-8, .cross-9, .square-25 {
     grid-template-columns: repeat(5, 1fr);
 }

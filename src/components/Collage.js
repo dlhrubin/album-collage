@@ -13,27 +13,27 @@ export class Collage extends Component {
         let collage;
         // Implement cross shape
         if (this.props.shape === "cross") {
+            collage = this.props.selections.map((album, i) => {
+                return (
+                    <div key={album.album}>
+                        <img src={album.cover} alt={album.album + ", " + album.artist} />
+                    </div>
+                )
+            });
             if (this.props.selections.length === 5) {
-                collage = this.props.selections.map((album, i) => {
-                    return (
-                        <div key={album.album}>
-                            <img src={album.cover} alt={album.album + ", " + album.artist} />
-                        </div>
-                    )
-                });
                 collage = addBlanks(collage, [0, 2, 6, 8])
+            } else if (this.props.selections.length === 9) {
+                collage = addBlanks(collage, [0, 1, 3, 4, 5, 6, 8, 9, 15, 16, 18, 19, 20, 21, 23, 24])               
             }
         // Implement square collage shape
         } else if (this.props.shape === "square") {
-            if (this.props.selections.length === 4) {
-                collage = this.props.selections.map(album => {
-                    return (
-                        <div key={album.album}>
-                            <img src={album.cover} alt={album.album + ", " + album.artist} />
-                        </div>
-                    )
-                });
-            }
+            collage = this.props.selections.map(album => {
+                return (
+                    <div key={album.album}>
+                        <img src={album.cover} alt={album.album + ", " + album.artist} />
+                    </div>
+                )
+            });
         // Implement diamond collage shape
         } else if (this.props.shape === "diamond") {
             if (this.props.selections.length === 2) {
