@@ -128,17 +128,22 @@ export class Collage extends Component {
         } else {
             collage = <div />
         }
+        let buttonStyle = {opacity: (this.props.editing || !this.props.shape) ? "0.3" : ""};
+        let buttonDisabled = (this.props.editing || !this.props.shape) ? true : false;
         return (
             <section className="collage">
                 <div className="edit-dock">
-                    <button onClick={this.props.editCollage} style={{display: (this.props.shape) ? "" : "none", backgroundColor: this.props.editing ? "var(--highlight)" : ""}}>
+                    <button onClick={this.props.editCollage} style={{backgroundColor: this.props.editing ? "var(--highlight)" : "", opacity: !this.props.shape ? "0.3" : ""}} disabled={!this.props.shape ? true : false}>
                         <i className="fas fa-edit"></i>
                     </button>
-                    <button onClick={this.props.shuffleCollage} style={{display: (this.props.shape) ? "" : "none", opacity: (this.props.editing) ? "0.3" : ""}} disabled={this.props.editing ? true : false}>
+                    <button onClick={this.props.shuffleCollage} style={buttonStyle} disabled={buttonDisabled}>
                         <i className="fas fa-random"></i>
                     </button>
-                    <button onClick={this.props.resetCollage} style={{display: (this.props.shape) ? "" : "none", opacity: (this.props.editing) ? "0.3" : ""}} disabled={this.props.editing ? true : false}>
+                    <button onClick={this.props.resetCollage} style={buttonStyle} disabled={buttonDisabled}>
                         <i className="fas fa-undo"></i>
+                    </button>
+                    <button onClick={this.props.deleteCollage} style={buttonStyle} disabled={buttonDisabled}>
+                        <i className="fas fa-times"></i>
                     </button>
                 </div>
                 <div className={"collage-grid " + this.props.shape + "-" + this.props.selections.length} style={{opacity: this.props.editing ? "0.3" : ""}}>

@@ -4,7 +4,7 @@ $highlight: #f6ad7b;
 $dark-accent: #be7575;
 $emphasis: #7ba8f6;
 $hover-color: #e8c5c2;
-$size: 125px;
+$size: 100px;
 
 body {
     /* Declaring this color as a CSS variable as well so that ShapeSelect.js can access it... need to find better solution */
@@ -286,7 +286,7 @@ button {
         background-color: $emphasis;
         padding: 4px 8px;
         border-radius: 10px;
-        font-size: 1.3em;
+        font-size: 1.15em;
         color: white;
     }
     button:hover {

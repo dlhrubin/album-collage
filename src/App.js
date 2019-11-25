@@ -55,11 +55,19 @@ class App extends Component {
         })
     }
 
+    // Delete collage
+    handleDelete = () => {
+        this.setState({
+            selections: [],
+            shape: ""
+        })
+    }
+
     render() {
         return (
             <div className="app">
                 <Menu selections={this.state.selections} shape={this.state.shape} editing={this.state.editing} submitCollage={this.handleSubmit} editCollage={this.handleEdit}/>
-                <Collage selections={this.state.selections} shape={this.state.shape} editing={this.state.editing} userInput={this.state.userInput} shuffleCollage={this.handleShuffle} editCollage={this.handleEdit} resetCollage={this.handleReset}/>
+                <Collage selections={this.state.selections} shape={this.state.shape} editing={this.state.editing} userInput={this.state.userInput} shuffleCollage={this.handleShuffle} editCollage={this.handleEdit} resetCollage={this.handleReset} deleteCollage={this.handleDelete}/>
             </div>
         );
     }

@@ -57,10 +57,34 @@ export class ShapeSelect extends Component {
         }
     }
 
+    // Update local state of each shape when parent state changes, e.g. when editing or deleting an album
+    componentDidUpdate(prevProps) {
+        if (this.props.selectedShape !== prevProps.selectedShape) {
+            if (!this.props.selectedShape) {
+                this.setState({
+                    shapes: this.state.shapes.map((shape) => {
+                        shape.active = false;
+                        return shape
+                    })
+                })
+            } else if (this.props.selectedShape && !prevProps.selectedShape) {
+                this.setState({
+                    shapes: this.state.shapes.map((shape) => {
+                        shape.active = (shape.name === this.props.selectedShape) ? true : false;
+                        return shape
+                    })
+                })
+            }
+        }
+    }
+
     handleClick = (clicked) => {
         this.setState({
             shapes: this.state.shapes.map((shape) => {
                 shape.active = (shape === clicked) ? !shape.active : false;
+                if (shape === clicked) {
+                    console.log(shape.active)
+                }
                 return shape
             })
         })
