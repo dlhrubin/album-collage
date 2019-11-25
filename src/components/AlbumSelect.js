@@ -17,6 +17,17 @@ export class AlbumSelect extends Component {
         this.addAlbum = React.createRef();     
     }
 
+    // Reset search bars when submit button or edit button is clicked in App
+    handleReset = () => {
+        this.setState({
+            newArtist: "",
+            newAlbum: "",
+            searchVis: "hidden", // Toggle album search field visibility
+            addVis: "hidden", // Toggle add album button field visibility
+        })
+        this.props.clearError();  
+    }
+
     // Display warning that the max number of albums have been selected
     handleClick = () => {
         if (this.props.selections.length === this.props.albumRange.max) {

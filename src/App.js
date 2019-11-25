@@ -15,6 +15,7 @@ class App extends Component {
   
     handleSubmit = (selections, shape) => {
         this.setState({
+            userInput: selections,
             selections,
             shape,
             editing: false
@@ -47,11 +48,18 @@ class App extends Component {
         })
     }
 
+    // Reset collage to original, unshuffled user input album order
+    handleReset = () => {
+        this.setState({
+            selections: this.state.userInput
+        })
+    }
+
     render() {
         return (
             <div className="app">
                 <Menu selections={this.state.selections} shape={this.state.shape} editing={this.state.editing} submitCollage={this.handleSubmit} editCollage={this.handleEdit}/>
-                <Collage selections={this.state.selections} shape={this.state.shape} editing={this.state.editing} shuffleCollage={this.handleShuffle} editCollage={this.handleEdit}/>
+                <Collage selections={this.state.selections} shape={this.state.shape} editing={this.state.editing} userInput={this.state.userInput} shuffleCollage={this.handleShuffle} editCollage={this.handleEdit} resetCollage={this.handleReset}/>
             </div>
         );
     }
