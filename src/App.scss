@@ -4,7 +4,7 @@ $highlight: #f6ad7b;
 $dark-accent: #be7575;
 $emphasis: #7ba8f6;
 $hover-color: #e8c5c2;
-$size: 100px;
+$size: 60px;
 
 body {
     /* Declaring this color as a CSS variable as well so that ShapeSelect.js can access it... need to find better solution */
@@ -390,4 +390,12 @@ button {
 
 .diamond-8, .cross-9, .square-25 {
     grid-template-columns: repeat(5, 1fr);
+}
+
+.cross-13 {
+    grid-template-columns: repeat(7, 1fr);
+}
+
+.cross-17 {
+    grid-template-columns: repeat(9, 1fr);
 }

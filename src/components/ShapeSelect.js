@@ -82,9 +82,6 @@ export class ShapeSelect extends Component {
         this.setState({
             shapes: this.state.shapes.map((shape) => {
                 shape.active = (shape === clicked) ? !shape.active : false;
-                if (shape === clicked) {
-                    console.log(shape.active)
-                }
                 return shape
             })
         })
