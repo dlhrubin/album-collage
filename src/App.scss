@@ -392,12 +392,16 @@ button {
     grid-template-columns: repeat(5, 1fr);
 }
 
-.x-14, .cross-20 {
+.x-14, .x-18, .cross-20 {
     grid-template-columns: repeat(6, 1fr);
 }
 
 .cross-13 {
     grid-template-columns: repeat(7, 1fr);
+}
+
+.x-22, .x-26 {
+    grid-template-columns: repeat(8, 1fr);
 }
 
 .cross-17 {
