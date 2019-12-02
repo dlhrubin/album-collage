@@ -7,12 +7,18 @@ let addBlanks = (collage, indices) => {
     return newArr
 }
 
+let shapeSingleCross = (collage, n) => {
+    let gridSize = 5 + (4 * n) - 2 * (n + 1);
+    return [...Array(gridSize ** 2).keys()].filter(i => (i - 1) % gridSize && (i < (gridSize * (n + 1)) || i >= (gridSize * (n + 1) + gridSize)))
+}
+
 export class Collage extends Component {
 
     render() {
         let collage;
         // Implement cross shape
         if (this.props.shape === "cross") {
+            // Map covers to their positions
             collage = this.props.selections.map((album, i) => {
                 return (
                     <div key={album.album}>
@@ -20,6 +26,7 @@ export class Collage extends Component {
                     </div>
                 )
             });
+            // Add blank squares
             if (this.props.selections.length === 5) {
                 collage = addBlanks(collage, [0, 2, 6, 8])
             } else if (this.props.selections.length === 9) {
@@ -28,9 +35,57 @@ export class Collage extends Component {
                 collage = addBlanks(collage, [0, 1, 2, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 18, 19, 20, 28, 29, 30, 32, 33, 34, 35, 36, 37, 39, 40, 41, 42, 43, 44, 46, 47, 48])               
             } else if (this.props.selections.length === 17) {
                 collage = addBlanks(collage, [0, 1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 14, 15, 16, 17, 18, 19, 20, 21, 23, 24, 25, 26, 27, 28, 29, 30, 32, 33, 34, 35, 45, 46, 47, 48, 50, 51, 52, 53, 54, 55, 56, 57, 59, 60, 61, 62, 63, 64, 65, 66, 68, 69, 70, 71, 72, 73, 74, 75, 77, 78, 79, 80])               
+            } else if (this.props.selections.length === 20) {
+                collage = addBlanks(collage, [0, 1, 4, 5, 6, 7, 10, 11, 24, 25, 28, 29, 30, 31, 34, 35])
+            }
+        // Implement x collage shape
+        } else if (this.props.shape === "x") {
+            if (this.props.selections.length === 10) {
+                // Map covers to their positions
+                collage = this.props.selections.map((album, i) => {
+                    return (
+                        <div key={album.album}>
+                            <img src={album.cover} alt={album.album + ", " + album.artist} />
+                            {![4, 5, 7, 8].includes(i) ? <div className={"overlay " + ([0, 2, 6].includes(i) ? "top-left" : "top-right")} /> : <div />}
+                        </div>
+                    )
+                });
+                // Add duplicates of covers as needed
+                [[9, 4], [6, 7], [3, 12], [2, 13], [1, 14], [0, 15]].forEach((tuple, i) => {
+                    collage.splice(tuple[1], 0, 
+                    <div key={this.props.selections[tuple[0]].album + "-" + i}>
+                        <img src={this.props.selections[tuple[0]].cover} alt={this.props.selections[tuple[0]].album + ", " + this.props.selections[tuple[0]].artist} />
+                        <div className={"overlay " + ([4, 12, 14].includes(tuple[1]) ? "bottom-left" : "bottom-right")} />
+                    </div>
+                    )
+                });
+            } else if (this.props.selections.length === 14) {
+                // Map covers to their positions
+                collage = this.props.selections.map((album, i) => {
+                    return (
+                        <div key={album.album}>
+                            <img src={album.cover} alt={album.album + ", " + album.artist} />
+                            {![2, 5, 6, 7, 9, 10, 12, 13].includes(i) ? <div className={"overlay " + ([0, 1, 3, 11].includes(i) ? "top-right" : [4, 8].includes(i) ? "top-left" :"")} /> : <div />}
+                            {[0, 1].includes(i) ? <div className={"overlay top-left"} /> : <div />}
+                        </div>
+                    )
+                });
+                // Add duplicates of covers as needed
+                [[1, 2], [0, 7], [11, 8], [8, 11], [0, 16], [4, 18], [3, 19], [1, 21], [1, 22], [0, 23]].forEach((tuple, i) => {
+                    collage.splice(tuple[1], 0, 
+                    <div key={this.props.selections[tuple[0]].album + "-" + i}>
+                        <img src={this.props.selections[tuple[0]].cover} alt={this.props.selections[tuple[0]].album + ", " + this.props.selections[tuple[0]].artist} />
+                        {[2, 7, 16, 21, 22, 23].includes(tuple[1]) ? <div className={"overlay " + ([2, 16].includes(tuple[1]) ? "top-left" : [7, 21].includes(tuple[1]) ? "top-right" : "bottom-right")} /> : <div />}
+                        <div className={"overlay " + ([2, 8, 16, 19, 22, 23].includes(tuple[1]) ? "bottom-left" : "bottom-right")} />
+                    </div>
+                    )
+                });
+                // Add blank squares
+                collage = addBlanks(collage, [0, 2, 3, 5, 12, 17, 18, 23, 30, 32, 33, 35])
             }
         // Implement square collage shape
         } else if (this.props.shape === "square") {
+            // Map covers to their positions
             collage = this.props.selections.map(album => {
                 return (
                     <div key={album.album}>
@@ -41,6 +96,7 @@ export class Collage extends Component {
         // Implement diamond collage shape
         } else if (this.props.shape === "diamond") {
             if (this.props.selections.length === 2) {
+                // Map covers to their positions
                 collage = this.props.selections.map((album, i) => {
                     return (
                         <div key={album.album}>
@@ -60,6 +116,7 @@ export class Collage extends Component {
                 })];
             }
             else if (this.props.selections.length === 8) {
+                // Map covers to their positions
                 collage = this.props.selections.map((album, i) => {
                     return (
                         <div key={album.album}>
@@ -69,28 +126,23 @@ export class Collage extends Component {
                         </div>
                     )
                 });
-                [[3, 7], [1, 9]].forEach(tuple => {
+                // Add duplicates of covers as needed
+                [[0, 4], [0, 8], [0, 12], [3, 7], [1, 9]].forEach((tuple, i) => {
                     collage.splice(tuple[1], 0, 
-                    <div key={this.props.selections[tuple[0]].album + "-2"}>
+                    <div key={this.props.selections[tuple[0]].album + "-" + i}>
                         <img src={this.props.selections[tuple[0]].cover} alt={this.props.selections[tuple[0]].album + ", " + this.props.selections[tuple[0]].artist} />
-                        <div className={"overlay " + ((tuple[0] === 3) ? "bottom-left" : "bottom-right")} />
+                        <div className={"overlay " + ([4, 7].includes(tuple[1]) ? "bottom-left" : "bottom-right")} />
+                        {(!tuple[0]) ? <div className={"overlay " + ((tuple[1] === 4) ? "top-left" : (tuple[1] === 8) ? "top-right" : "bottom-left")} /> : <div />}
                     </div>
                     )
-                });               
-                [[0, 4], [0, 8], [0, 12]].forEach((tuple, i) => {
-                    collage.splice(tuple[1], 0, 
-                    <div key={this.props.selections[tuple[0]].album + "-" + i + 1}>
-                        <img src={this.props.selections[tuple[0]].cover} alt={this.props.selections[tuple[0]].album + ", " + this.props.selections[tuple[0]].artist} />
-                        <div className={"overlay " + ((tuple[1] === 4) ? "top-left" : (tuple[1] === 8) ? "top-right" : "bottom-left")} />
-                        <div className={"overlay " + ((tuple[1] === 4) ? "bottom-left" : (tuple[1] === 8) ? "bottom-right" : "bottom-right")} />
-                    </div>
-                    )
-                });
+                }); 
+                // Add blank squares
                 collage = addBlanks(collage, [0, 1, 3, 4, 5, 9, 15, 19, 20, 21, 23, 24])
             }
         // Implement heart collage shape
         } else if (this.props.shape === "heart") {
             if (this.props.selections.length === 6) {
+                // Map covers to their positions
                 collage = this.props.selections.map((album, i) => {
                     return (
                         <div key={album.album}>
@@ -99,6 +151,7 @@ export class Collage extends Component {
                         </div>
                     )
                 });
+                // Add duplicates of covers as needed
                 [[1, 4], [2, 7], [3, 9], [0, 10]].forEach(tuple => {
                     collage.splice(tuple[1], 0, 
                     <div key={this.props.selections[tuple[0]].album + "-2"}>
@@ -107,11 +160,13 @@ export class Collage extends Component {
                     </div>
                     )
                 });
+                // Add blank squares
                 collage = addBlanks(collage, [8, 11])
             }
         // Implement octagon collage shape
         } else if (this.props.shape === "octagon") {
             if (this.props.selections.length === 7) {
+                // Map covers to their positions
                 collage = this.props.selections.map((album, i) => {
                     return (
                         <div key={album.album}>
@@ -120,6 +175,7 @@ export class Collage extends Component {
                         </div>
                     )
                 });
+                // Add duplicates of covers as needed
                 [[2, 6], [0, 8]].forEach(tuple => {
                     collage.splice(tuple[1], 0, 
                     <div key={this.props.selections[tuple[0]].album + "-2"}>

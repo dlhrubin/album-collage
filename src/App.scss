@@ -384,12 +384,16 @@ button {
     grid-template-columns: repeat(3, 1fr);
 }
 
-.heart-6, .square-16 {
+.x-10, .heart-6, .square-16 {
     grid-template-columns: repeat(4, 1fr);
 }
 
 .diamond-8, .cross-9, .square-25 {
     grid-template-columns: repeat(5, 1fr);
+}
+
+.x-14, .cross-20 {
+    grid-template-columns: repeat(6, 1fr);
 }
 
 .cross-13 {
