@@ -43,7 +43,7 @@ export class ShapeSelect extends Component {
                     icon: "fa-heart",
                     unclicked: "fas",
                     clicked: "fas",
-                    numbers: [6, 10, 19, 25, 30]
+                    numbers: [6, 10, 22, 24]
                 },
                 {
                     name: "octagon",

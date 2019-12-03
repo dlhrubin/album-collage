@@ -90,10 +90,12 @@ export class Collage extends Component {
         } else if (this.props.shape === "diamond") {
             if (this.props.selections.length === 2) {
                 collage = addDups(this.props.selections, collage, [[1, 2], [0, 3]]);
-            }
-            else if (this.props.selections.length === 8) {
+            } else if (this.props.selections.length === 8) {
                 collage = addDups(this.props.selections, collage, [[0, 4], [0, 8], [3, 9], [1, 11], [0, 12]]);
-                collage = addBlanks(collage, [0, 1, 3, 4, 5, 9, 15, 19, 20, 21, 23, 24])
+                collage = addBlanks(collage, [0, 1, 3, 4, 5, 9, 15, 19, 20, 21, 23, 24]);
+            } else if (this.props.selections.length === 18) {
+                collage = addDups(this.props.selections, collage, [[11, 12], [6, 17], [5, 18], [2, 21], [1, 22], [0, 23]]);
+                collage = addBlanks(collage, [0, 1, 4, 5, 6, 11, 24, 29, 30, 31, 34, 35]);
             }
             // Add overlay
             ["top-left", "top-right", "bottom-left", "bottom-right"].forEach((triangle, i) => {
@@ -102,31 +104,34 @@ export class Collage extends Component {
         // Implement heart collage shape
         } else if (this.props.shape === "heart") {
             if (this.props.selections.length === 6) {
-                // Add duplicates of covers as needed
-                [[1, 4], [2, 7], [3, 9], [0, 10]].forEach(tuple => {
-                    collage.splice(tuple[1], 0, 
-                    <div key={this.props.selections[tuple[0]].album + "-2"}>
-                        <img src={this.props.selections[tuple[0]].cover} alt={this.props.selections[tuple[0]].album + ", " + this.props.selections[tuple[0]].artist} />
-                        <div className={"overlay " + ((tuple[0] % 2) ? "bottom-left" : "bottom-right")} />
-                    </div>
-                    )
-                });
-                // Add blank squares
+                collage = addDups(this.props.selections, collage, [[1, 4], [2, 7], [3, 9], [0, 10]]);
                 collage = addBlanks(collage, [8, 11])
+            } else if (this.props.selections.length === 10) {
+                collage = addDups(this.props.selections, collage, [[1, 8], [2, 11], [3, 12], [0, 13]]);
+                collage = addBlanks(collage, [12, 15]);
+            } else if (this.props.selections.length === 22) {
+                collage = addDups(this.props.selections, collage, [[6, 16], [7, 21], [1, 22], [2, 25], [3, 26], [0, 27]]);
+                collage = addBlanks(collage, [2, 3, 24, 29, 30, 31, 34, 35]);
+            } else if (this.props.selections.length === 24) {
+                collage = addDups(this.props.selections, collage, [[7, 12], [8, 19], [1, 20], [2, 25], [11, 26], [4, 29], [3, 30], [0, 31]]);
+                collage = addBlanks(collage, [0, 3, 4, 7, 24, 31, 32, 33, 38, 39, 40, 41, 42, 45, 46, 47]);
             }
+            // Add overlay
+            ["top", "top-left", "top-right", "bottom-left", "bottom-right"].forEach((triangle, i) => {
+                collage.push(<div className={"overlay " + triangle} key={triangle + "-" + i} />)
+            })  
         // Implement octagon collage shape
         } else if (this.props.shape === "octagon") {
             if (this.props.selections.length === 7) {
-                // Add duplicates of covers as needed
-                [[2, 6], [0, 8]].forEach(tuple => {
-                    collage.splice(tuple[1], 0, 
-                    <div key={this.props.selections[tuple[0]].album + "-2"}>
-                        <img src={this.props.selections[tuple[0]].cover} alt={this.props.selections[tuple[0]].album + ", " + this.props.selections[tuple[0]].artist} />
-                        <div className={"overlay " + (tuple[0] ? "bottom-left" : "bottom-right")} />
-                    </div>
-                    )
-                });
+                collage = addDups(this.props.selections, collage, [[2, 6], [0, 8]]);
+            } else if (this.props.selections.length === 28) {
+                collage = addDups(this.props.selections, collage, [[9, 22], [4, 27], [3, 28], [0, 31]]);
+                collage = addBlanks(collage, [0, 5, 30, 35]);
             }
+            // Add overlay
+            ["top-left", "top-right", "bottom-left", "bottom-right"].forEach((triangle, i) => {
+                collage.push(<div className={"overlay " + triangle} key={triangle + "-" + i} />)
+            })  
         } else {
             collage = <div />
         }
