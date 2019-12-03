@@ -314,8 +314,22 @@ button {
     }
 }
 
+@mixin halfTriangle($vertical, $horizontal, $triangle-size) {
+    .#{$vertical}-#{$horizontal} {
+        #{$vertical}: 0;
+        #{$horizontal}: 0; 
+        border-color: transparent;
+        border-#{$vertical}-color: white;
+        border-width: 0 $triangle-size;
+        border-#{$vertical}-width: $triangle-size;
+        border-#{$horizontal}-width: 0; 
+    }
+}
+
 .collage-grid {
     display: grid;
+    position: relative;
+    border: 1px solid black;
     > div {
         height: $size;
         width: $size;
@@ -327,54 +341,103 @@ button {
         width: $size;
         height: $size;
     }
-}
-
-.overlay {
-    position: absolute;
-    height: 0;
-    width: 0;
-    z-index: 1;
-    border-style: solid;
+    .overlay {
+        position: absolute;
+        height: 0;
+        width: 0;
+        z-index: 1;
+        border-style: solid;
+    }
+    .top {
+        top: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+        border-color: white transparent transparent transparent;
+    }
+    .right {
+        top: 50%;
+        transform: translateY(-50%);
+        right: 0;
+        border-color: transparent white transparent transparent;
+    }
+    .bottom {
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+        border-color: transparent transparent white transparent;
+    }
+    .left {
+        top: 50%;
+        transform: translateY(-50%);
+        left: 0;
+        border-color: transparent transparent transparent white;        
+    }
 }
 
 .blank-square {
     background-color: transparent;
 }
 
-@mixin halfTriangle($vertical, $horizontal) {
-    .#{$vertical}-#{$horizontal} {
-        border-color: transparent;
-        border-#{$vertical}-color: white;
-        border-width: 0 $size;
-        border-#{$vertical}-width: $size;
-        border-#{$horizontal}-width: 0; 
+@mixin xOverlays($triangle-size, $corner-size) {
+    .top {
+        border-width: $triangle-size $triangle-size 0 $triangle-size;
     }
+    .right {
+        border-width: $triangle-size $triangle-size $triangle-size 0;        
+    }
+    .bottom {
+        border-width: 0 $triangle-size $triangle-size $triangle-size;
+    }
+    .left {
+        border-width: $triangle-size 0 $triangle-size $triangle-size;
+    }
+    @include halfTriangle(top, left, $corner-size);
+    @include halfTriangle(top, right, $corner-size);
+    @include halfTriangle(bottom, left, $corner-size);
+    @include halfTriangle(bottom, right, $corner-size);
 }
 
-@include halfTriangle(top, left);
-@include halfTriangle(top, right);
-@include halfTriangle(bottom, left);
-@include halfTriangle(bottom, right);
-
-.top {
-    border-width: $size $size 0 $size;
-    border-color: white transparent transparent transparent; 
+.x-10 {
+    @include xOverlays($size, $size);
 }
 
-.right {
-    border-width: $size $size $size 0;
-    border-color: transparent white transparent transparent;
+.x-14 {
+    @include xOverlays($size * 2, $size * 2);
 }
 
-.bottom {
-    border-width: 0 $size $size $size;
-    border-color: transparent transparent white transparent;
+.x-18 {
+    @include xOverlays($size * 2, $size);
 }
 
-.left {
-    border-width: $size 0 $size $size;
-    border-color: transparent transparent transparent white;
+.x-22 {
+    @include xOverlays($size * 3, $size * 2);    
 }
+
+.x-26 {
+    @include xOverlays($size * 3, $size);    
+}
+
+.x-30 { 
+    @include xOverlays($size * 4, $size * 2);
+}
+
+@mixin diamondOverlays($corner-size) {
+    @include halfTriangle(top, left, $corner-size);
+    @include halfTriangle(top, right, $corner-size);
+    @include halfTriangle(bottom, left, $corner-size);
+    @include halfTriangle(bottom, right, $corner-size);
+}
+
+.diamond-2 {
+    @include diamondOverlays($size);
+}
+
+.diamond-8 {
+    @include diamondOverlays($size * 3);
+}
+
 
 .diamond-2, .square-4 {
     grid-template-columns: repeat(2, 1fr);
@@ -406,4 +469,8 @@ button {
 
 .cross-17 {
     grid-template-columns: repeat(9, 1fr);
+}
+
+.x-30 {
+    grid-template-columns: repeat(10, 1fr);
 }
