@@ -8,10 +8,10 @@ export class ShapeSelect extends Component {
                 {
                     name: "cross",
                     active: false,
-                    icon: "fa-plus",
+                    coords: "21,3 15,3 15,15 3,15 3,21 15,21 15,33 21,33 21,21 33,21 33,15 21,15",
                     unclicked: "fas",
                     clicked: "fas",
-                    numbers: [5, 9, 13, 17, 20]
+                    numbers: [5, 9, 13, 17, 20, 28]
                 },
                 {
                     name: "x",
@@ -48,7 +48,7 @@ export class ShapeSelect extends Component {
                 {
                     name: "octagon",
                     active: false,
-                    icon: "fa-circle",
+                    coords: "23,3 13,3 3,13 3,23 13,33 23,33 33,23 33,13",
                     unclicked: "fas",
                     clicked: "fas",
                     numbers: [7, 28]
@@ -95,15 +95,18 @@ export class ShapeSelect extends Component {
         const shapes = this.state.shapes.map((shape) => {
             // Fill shape if shape has been selected and submit button hasn't been pressed
             let shapeClass = (shape.active && this.props.shape) ? shape.clicked : shape.unclicked;
-            let shapeStyle = {}
+            let shapeStyle = {};
+            let svgStyle = {};
             // Make shape orange if shape has been selected and submit button hasn't been pressed
             // Make shapes red on "no shape selected" submission error
-            shapeStyle["color"] = (this.props.errors.shape) ? "red" : (shape.active && this.props.shape) ? "var(--highlight)" : "";    
+            svgStyle["fill"] = svgStyle["stroke"] = (this.props.errors.shape) ? "red" : (shape.active && this.props.shape) ? "var(--highlight)" : "";
             // Show shape only if minimum required number of albums have been selected
             shapeStyle["display"] = (shape.numbers.includes(this.props.numAlbums)) ? "" : "none";
             return <button key={shape.name} className={"shape-btn " + shape.name} style={shapeStyle} onClick={this.handleClick.bind(this, shape)}>
-                    {shape.icon.startsWith("fa") ? <i className={shapeClass + " " + shape.icon}></i> : <div></div>}
-                   </button>
+                        <svg width="36" height="36" style={svgStyle}>
+                            <polygon points={shape.coords}/>
+                        </svg>                   
+                    </button>
         })
         return (
             <div className="shape-options">

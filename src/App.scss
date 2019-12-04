@@ -211,19 +211,25 @@ button {
     position: relative;
     background-color: rgba(0,0,0,0);
     font-size: 2em;
-    color: $light-accent;
-    width: 30px;
-    height: 30px;
+    width: 38px;
+    height: 38px;
     padding: 0;
-    :hover {
-        color: $highlight;
+    svg {
+        fill: transparent;
+        stroke: $light-accent;
+        stroke-width: 3.5;
     }
+
     i {
         position: absolute;
         top: 0;
         left: 0;
         right: 0;
     }
+}
+
+.shape-btn:hover svg {
+    stroke: $highlight;
 }
 
 .diamond i {
@@ -487,7 +493,7 @@ button {
     grid-template-columns: repeat(7, 1fr);
 }
 
-.x-22, .x-26, .heart-24 {
+.cross-28, .x-22, .x-26, .heart-24 {
     grid-template-columns: repeat(8, 1fr);
 }
 
