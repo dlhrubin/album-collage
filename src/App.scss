@@ -219,39 +219,14 @@ button {
         stroke: $light-accent;
         stroke-width: 3.5;
     }
-
-    i {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-    }
 }
 
 .shape-btn:hover svg {
     stroke: $highlight;
 }
 
-.diamond i {
-    transform: rotate(45deg) scale(0.9);
-    margin-left: 2.5px;
-    top: -2px;
-}
-
-.x, .cross {
-    width: 30px;
-}
-
-.x {
-    font-size: 2.3em;
-}
-
-.x i, .cross i {
-    top: -3px;
-}
-
-.square i, .heart i {
-    top: -1px;
+.heart svg polygon {
+    transform: scale(1.1) translate(-1.5px, -1px);
 }
 
 /*---Collage submission---*/
