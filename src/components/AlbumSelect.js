@@ -154,7 +154,6 @@ export class AlbumSelect extends Component {
         let warningBorder = (field) => this.state.warnings[field] ? {borderColor: "red"} : {borderColor: ""};
         let selectionStyle = {};
         selectionStyle["borderColor"] = this.props.errors.selection ? "red" : ""; 
-        selectionStyle["alignItems"] = (this.props.selections.length > 5) ? "center" : "";
         return (
             <div className="album-options">
                 <h2>Albums:</h2>

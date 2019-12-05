@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { getStyle } from "../utils"
 
 // Helper function to populate collage initially with a single copy of each album cover
 let populate = (selections) => {
@@ -33,7 +34,14 @@ let addDups = (selections, collage, indices) => {
     return newArr
 }
 
-
+let collageDimensions = {
+    "cross-5": [3, 3], "cross-9": [5, 5], "cross-13": [7, 7], "cross-17": [9, 9], "cross-20": [6, 6], "cross-28": [8, 8],
+    "x-10": [4, 4], "x-14": [6, 6], "x-18": [6, 6], "x-22": [8, 8], "x-26": [8, 8], "x-30": [10, 10],
+    "square-4": [2, 2], "square-9": [3, 3], "square-16": [4, 4], "square-25": [5, 5],
+    "diamond-2": [2, 2], "diamond-8": [5, 5], "diamond-18": [6, 6],
+    "heart-6": [4, 3], "heart-10": [4, 4], "heart-22": [6, 6], "heart-24": [8, 6],
+    "octagon-7": [3, 3], "octagon-28": [6, 6]    
+};
 
 /*
 let shapeSingleCross = (collage, n) => {
@@ -42,6 +50,66 @@ let shapeSingleCross = (collage, n) => {
 }
 */
 export class Collage extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            width: 0,
+            height: 0, 
+            scaleFactor: 1
+        }
+    }
+
+    // Update width and height of collage grid when shape or number of albums changes
+    componentDidUpdate(prevProps) {
+        if ((this.props.shape !== prevProps.shape) || (this.props.selections.length !== prevProps.selections.length)) {
+            let newWidth = this.props.shape ? collageDimensions[this.props.shape + "-" + this.props.selections.length][0] * 174 : 0;
+            let newHeight = this.props.shape ? collageDimensions[this.props.shape + "-" + this.props.selections.length][1] * 174 : 0;
+            this.setState({
+                width: newWidth,
+                height: newHeight
+            })
+            this.handleResize(newWidth, newHeight);
+        }
+    }
+
+    // Resize collage grid responsively according to browser size
+    handleResize = (gridWidth, gridHeight) => {
+        let collageWidth = getStyle("collage", "width");
+        let collageHeight = getStyle("collage", "height");
+        // Take height of editing buttons dock into account to avoid overlap 
+        collageHeight -= getStyle("edit-dock", "height") * 2 + 30;
+
+        let xScaleFactor = collageWidth / gridWidth;
+        let yScaleFactor = collageHeight / gridHeight;
+        let smallerFactor = Math.min(xScaleFactor, yScaleFactor);
+
+        // Prevent collage from disappearing or flipping due to 0/negative scaling
+        if (xScaleFactor >= 0 && yScaleFactor >= 0) {
+            // Set minimum size for collage such that covers are still likely to be visible
+            if (smallerFactor * gridWidth < 215 || smallerFactor * gridHeight < 215) {
+                this.setState({
+                    scaleFactor: (gridWidth > gridHeight) ? 215/gridHeight : 215/gridWidth
+                })
+            } else {
+                this.setState({
+                    scaleFactor: (xScaleFactor <= 1 || yScaleFactor <= 1) ? smallerFactor : 1
+                })
+            }
+        }
+    }
+
+    componentDidMount() {
+        //this.handleResize(this.state.width, this.state.height);
+        window.addEventListener("resize", () => {
+            this.handleResize(this.state.width, this.state.height);
+        });
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener("resize", () => {
+            this.handleResize(this.state.width, this.state.height);
+        });
+    }
 
     render() {
         // Map covers to their positions
@@ -155,7 +223,7 @@ export class Collage extends Component {
                         <i className="fas fa-times"></i>
                     </button>
                 </div>
-                <div className={"collage-grid " + this.props.shape + "-" + this.props.selections.length} style={{opacity: this.props.editing ? "0.3" : ""}}>
+                <div className={"collage-grid " + this.props.shape + "-" + this.props.selections.length} style={{transform: `scale(${this.state.scaleFactor})`, opacity: this.props.editing ? "0.3" : ""}}>
                     {collage}
                 </div>
             </section>
