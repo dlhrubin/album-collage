@@ -141,8 +141,8 @@ export class AlbumSelect extends Component {
         // Populate selection box with selected albums (artist name and album thumbnail)
         let selectedAlbums = this.props.selections.map((selection, i) => {
             return (
-                <div key={i}>
-                    <img src={selection.thumbnail} alt={selection.album + ", " + selection.artist}/>
+                <div key={i} artist={selection.artist} album={selection.album} thumbnail={selection.thumbnail} draggable="true" onDragStart={this.props.dragStart} onDragEnd={this.props.dragEnd} onDragOver={this.props.dragOver} onDrop={this.props.drop}>
+                    <img src={selection.thumbnail} alt={selection.album + ", " + selection.artist} draggable="false"/>
                     <span>{selection.artist}</span>
                     <button onClick={this.handleDeselect.bind(this, selection.artist, selection.album)}>
                         <i className="fas fa-times"></i>
