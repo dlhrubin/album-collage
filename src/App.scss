@@ -158,10 +158,10 @@ button {
         background-color: $light-accent;
         width: 125px;
         height: 20px;
-        box-sizing: border-box;
-        margin: 2.5px 2.5px;
+        border: solid $base-color 2.5px;
         display: flex;
         justify-content: space-between;
+        cursor: grab;
     }
     img {
         width: 20px;
