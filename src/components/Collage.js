@@ -57,6 +57,7 @@ export class Collage extends Component {
             height: 0, 
             scaleFactor: 1
         }
+        this.editButton = React.createRef();
     }
 
     // Update width and height of collage grid when shape or number of albums changes
@@ -70,6 +71,11 @@ export class Collage extends Component {
             })
             this.handleResize(newWidth, newHeight);
         }
+    }
+
+    // Focus on first button in edit docket when collage is generated
+    handleChangeFocus = () => {
+        this.editButton.current.focus();
     }
 
     // Resize collage grid responsively according to browser size
@@ -210,16 +216,16 @@ export class Collage extends Component {
         return (
             <section className="collage">
                 <div className="edit-dock">
-                    <button onClick={this.props.editCollage} style={{backgroundColor: this.props.editing ? "var(--highlight)" : "", opacity: !this.props.shape ? "0.3" : ""}} disabled={!this.props.shape ? true : false}>
+                    <button ref={this.editButton} aria-label="Edit Collage" onClick={this.props.editCollage} style={{backgroundColor: this.props.editing ? "var(--highlight)" : "", opacity: !this.props.shape ? "0.3" : ""}} disabled={!this.props.shape ? true : false}>
                         <i className="fas fa-edit"></i>
                     </button>
-                    <button onClick={this.props.shuffleCollage} style={buttonStyle} disabled={buttonDisabled}>
+                    <button aria-label="Shuffle Collage" onClick={this.props.shuffleCollage} style={buttonStyle} disabled={buttonDisabled}>
                         <i className="fas fa-random"></i>
                     </button>
-                    <button onClick={this.props.resetCollage} style={buttonStyle} disabled={buttonDisabled}>
+                    <button aria-label="Reset Collage" onClick={this.props.resetCollage} style={buttonStyle} disabled={buttonDisabled}>
                         <i className="fas fa-undo"></i>
                     </button>
-                    <button onClick={this.props.deleteCollage} style={buttonStyle} disabled={buttonDisabled}>
+                    <button aria-label="Delete Collage" onClick={this.props.deleteCollage} style={buttonStyle} disabled={buttonDisabled}>
                         <i className="fas fa-times"></i>
                     </button>
                 </div>

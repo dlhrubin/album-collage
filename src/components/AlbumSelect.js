@@ -144,7 +144,7 @@ export class AlbumSelect extends Component {
                 <div key={i} artist={selection.artist} album={selection.album} thumbnail={selection.thumbnail} draggable="true" onDragStart={this.props.dragStart} onDragEnd={this.props.dragEnd} onDragOver={this.props.dragOver} onDrop={this.props.drop}>
                     <img src={selection.thumbnail} alt={selection.album + ", " + selection.artist} draggable="false"/>
                     <span>{selection.artist}</span>
-                    <button onClick={this.handleDeselect.bind(this, selection.artist, selection.album)}>
+                    <button aria-label="Delete Selection" onClick={this.handleDeselect.bind(this, selection.artist, selection.album)}>
                         <i className="fas fa-times"></i>
                     </button>
                 </div>
@@ -159,9 +159,9 @@ export class AlbumSelect extends Component {
                 <h2>Albums:</h2>
                 <form onSubmit={this.handleSearch.bind(this, true)}>
                     <div onClick={this.handleClick}>
-                        <span>Artist</span>
-                        <input type="text" spellCheck="false" style={warningBorder("artist")} placeholder="Enter artist name..." disabled={(this.props.selections.length === this.props.albumRange.max) ? "disabled" : ""} ref={this.artistInput} value={this.state.newArtist} onChange={this.handleChange.bind(this, true)}></input>
-                        <button className="search-submit" style={warningBorder("artist")} disabled={(this.props.selections.length === this.props.albumRange.max) ? "disabled" : ""}>
+                        <label htmlFor="artist-search">Artist</label>
+                        <input id="artist-search" type="text" spellCheck="false" style={warningBorder("artist")} placeholder="Enter artist name..." disabled={(this.props.selections.length === this.props.albumRange.max) ? "disabled" : ""} ref={this.artistInput} value={this.state.newArtist} onChange={this.handleChange.bind(this, true)}></input>
+                        <button className="search-submit" aria-label="Artist Search" style={warningBorder("artist")} disabled={(this.props.selections.length === this.props.albumRange.max) ? "disabled" : ""}>
                             <i className="fas fa-search"></i>
                         </button>     
                     </div>
@@ -169,15 +169,15 @@ export class AlbumSelect extends Component {
                 </form>
                 <form onSubmit={this.handleSearch.bind(this, false)} style={{visibility: this.state.searchVis}}>
                     <div>
-                        <span>Album</span>
-                        <input type="text" spellCheck="false" style={warningBorder("album")} placeholder="Enter album name..." ref={this.albumInput} value={this.state.newAlbum} onChange={this.handleChange.bind(this, false)}></input>
-                        <button className="search-submit" style={warningBorder("album")}>
+                        <label htmlFor="album-search">Album</label>
+                        <input id="album-search" type="text" spellCheck="false" style={warningBorder("album")} placeholder="Enter album name..." ref={this.albumInput} value={this.state.newAlbum} onChange={this.handleChange.bind(this, false)}></input>
+                        <button className="search-submit" aria-label="Album Search" style={warningBorder("album")}>
                             <i className="fas fa-search"></i>
                         </button>
                     </div>
                     <p className="warning">{this.state.warnings.album}</p>
                 </form>
-                <button className="search-submit" onClick={this.handleSubmit} ref={this.addAlbum} style={{visibility: this.state.addVis}}>
+                <button className="search-submit" aria-label="Add Album" onClick={this.handleSubmit} ref={this.addAlbum} style={{visibility: this.state.addVis}}>
                     <i className="fas fa-plus"></i> Add album
                 </button>
                 <div className="album-selection">

@@ -89,7 +89,7 @@ export class ShapeSelect extends Component {
             svgStyle["fill"] = svgStyle["stroke"] = (this.props.errors.shape) ? "red" : (shape.active && this.props.shape) ? "var(--highlight)" : "";
             // Show shape only if minimum required number of albums have been selected
             shapeStyle["display"] = (shape.numbers.includes(this.props.numAlbums)) ? "" : "none";
-            return <button key={shape.name} className={"shape-btn " + shape.name} style={shapeStyle} onClick={this.handleClick.bind(this, shape)}>
+            return <button key={shape.name} className={"shape-btn " + shape.name} aria-label={"Select " + shape.name + " shape"} style={shapeStyle} onClick={this.handleClick.bind(this, shape)}>
                         <svg width="36" height="36" style={svgStyle}>
                             <polygon points={shape.coords}/>
                         </svg>                   

@@ -58,18 +58,6 @@ button {
     }
 }
 
-.album-options form {
-    margin-bottom: 8px;
-    div {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        color: $emphasis;
-        font-weight: bold;
-        position: relative;
-    }
-}
-
 .warning {
     color: red;
     position: absolute;
@@ -79,6 +67,17 @@ button {
 
 .album-options {
     height: 65%;
+    form {
+        margin-bottom: 8px;
+    }
+    form div {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: $emphasis;
+        font-weight: bold;
+        position: relative;
+    }
     input {
         margin-left: 10px;
         padding: 8px;
@@ -106,6 +105,9 @@ button {
         border-left: none;
         border-radius: 0px 8px 8px 0px;
     }
+    form button:focus {
+        background-color: $hover-color;
+    }
     input:focus + button {
         border-color: $highlight;
     }
@@ -115,12 +117,13 @@ button {
         cursor: auto;
     }
     > button {
-        width: 100px;
+        width: 106px;
         align-self: flex-end;
         background-color: $dark-accent;
         border: 1px solid $light-accent;
         border-radius: 10px;
-        padding: 5px 0px;
+        padding: 5px 5px;
+        font-size: 0.8em;
     }
 }
 
@@ -227,7 +230,7 @@ button {
     }
 }
 
-.shape-btn:hover svg {
+.shape-btn:hover svg, .shape-btn:focus svg {
     stroke: $highlight;
 }
 
@@ -251,6 +254,10 @@ button {
         height: 40px;
         margin-top: 15px;
     }
+    button:focus {
+        border-color: $highlight;
+        box-shadow: 0px 0px 3px $highlight;
+    }
     .warning {
         position: relative;
         width: 100%;
@@ -271,17 +278,25 @@ button {
     align-items: center;
     button {
         margin-bottom: 20px;
+        width: 40px;
         background-color: $emphasis;
         padding: 4px 8px;
         border-radius: 10px;
         font-size: 1.15em;
         color: white;
+        border: 1.5px solid $emphasis;
+
     }
     button:hover {
         background-color: $highlight;
+        border-color: $highlight;
     }
     button:disabled:hover {
         background-color: $emphasis;
+    }
+    button:focus {
+        border-color: $highlight;
+        box-shadow: 0px 0px 3px $highlight;
     }
 }
 

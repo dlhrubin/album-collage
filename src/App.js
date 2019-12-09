@@ -11,6 +11,7 @@ class App extends Component {
             shape: "",
             editing: false
         }
+        this.collageComponent = React.createRef();
     }
   
     handleSubmit = (selections, shape) => {
@@ -20,6 +21,9 @@ class App extends Component {
             shape,
             editing: false
         })
+        setTimeout(() => {
+            this.collageComponent.current.handleChangeFocus();
+        }, 1)
     }
 
     // Shuffle album order
@@ -67,7 +71,7 @@ class App extends Component {
         return (
             <div className="app">
                 <Menu selections={this.state.selections} shape={this.state.shape} editing={this.state.editing} submitCollage={this.handleSubmit} editCollage={this.handleEdit}/>
-                <Collage selections={this.state.selections} shape={this.state.shape} editing={this.state.editing} userInput={this.state.userInput} shuffleCollage={this.handleShuffle} editCollage={this.handleEdit} resetCollage={this.handleReset} deleteCollage={this.handleDelete}/>
+                <Collage ref={this.collageComponent} selections={this.state.selections} shape={this.state.shape} editing={this.state.editing} userInput={this.state.userInput} shuffleCollage={this.handleShuffle} editCollage={this.handleEdit} resetCollage={this.handleReset} deleteCollage={this.handleDelete}/>
             </div>
         );
     }
