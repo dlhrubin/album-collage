@@ -211,12 +211,16 @@ export class Collage extends Component {
         } else {
             collage = <div />
         }
+
         let buttonStyle = {opacity: (this.props.editing || !this.props.shape) ? "0.3" : ""};
         let buttonDisabled = (this.props.editing || !this.props.shape) ? true : false;
+        // On small screens, hide collage if collage is being created or edited in the selection menu
+        let collageDisplay = (this.props.panelToDisplay === "menu") ? "none" : "";
+ 
         return (
-            <section className="collage">
+            <section className="collage" style={{display: collageDisplay, backgroundColor: this.props.test}}>
                 <div className="edit-dock">
-                    <button ref={this.editButton} aria-label="Edit Collage" onClick={this.props.editCollage} style={{backgroundColor: this.props.editing ? "var(--highlight)" : "", opacity: !this.props.shape ? "0.3" : ""}} disabled={!this.props.shape ? true : false}>
+                    <button ref={this.editButton} aria-label="Edit Collage" onClick={this.props.editCollage} style={{backgroundColor: this.props.editing ? "var(--highlight)" : "", borderColor: this.props.editing ? "var(--highlight)" : "", opacity: !this.props.shape ? "0.3" : ""}} disabled={!this.props.shape ? true : false}>
                         <i className="fas fa-edit"></i>
                     </button>
                     <button aria-label="Shuffle Collage" onClick={this.props.shuffleCollage} style={buttonStyle} disabled={buttonDisabled}>

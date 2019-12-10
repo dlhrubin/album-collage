@@ -8,6 +8,7 @@
     padding: 0px 25px;
     background-color: $base-color;
     box-shadow: 0.5px 0px 5px $dark-accent;
+    min-height: 550px;
     > div {
         display: flex;
         flex-direction: column;
@@ -23,6 +24,7 @@
 
 .album-options {
     height: 65%;
+    margin-bottom: 10px;
     form {
         margin-bottom: 8px;
     }
@@ -33,6 +35,10 @@
         color: $emphasis;
         font-weight: bold;
         position: relative;
+    }
+    label {
+        display: inline-block;
+        min-width: 45px;
     }
     input {
         margin-left: 10px;
@@ -73,7 +79,6 @@
         cursor: auto;
     }
     > button {
-        width: 106px;
         align-self: flex-end;
         background-color: $dark-accent;
         border: 1px solid $light-accent;
@@ -89,14 +94,4 @@
 
 .search-submit:hover {
     background-color: $hover-color;
-}
-
-.album-selection {
-    height: 100%;
-    p {
-        color: gray;
-        font-weight: bold;
-        font-size: 0.9em;
-        margin: 8px 0px;
-    }
 }

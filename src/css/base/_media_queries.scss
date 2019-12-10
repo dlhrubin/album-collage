@@ -1,0 +1,16 @@
+@media (min-width: 325px) {
+    body {
+        font-size: 1.2em;
+    }
+    .album-options {
+        label {
+            min-width: 58px;
+        }
+    }
+}
+
+@media (min-height: 650px) {
+    .album-options {
+        margin-bottom: 0;
+    }
+}

@@ -150,6 +150,10 @@ export class AlbumSelect extends Component {
                 </div>
             )
         })
+        // Style input field border (depending on warnings) and width (depending on screen size)
+        let inputStyle = (field) => {
+            return({borderColor: this.state.warnings[field] ? "red" : "", width: this.props.inputWidth})
+        };
         // Add red border to search boxes when a warning is present
         let warningBorder = (field) => this.state.warnings[field] ? {borderColor: "red"} : {borderColor: ""};
         let selectionStyle = {};
@@ -160,7 +164,7 @@ export class AlbumSelect extends Component {
                 <form onSubmit={this.handleSearch.bind(this, true)}>
                     <div onClick={this.handleClick}>
                         <label htmlFor="artist-search">Artist</label>
-                        <input id="artist-search" type="text" spellCheck="false" style={warningBorder("artist")} placeholder="Enter artist name..." disabled={(this.props.selections.length === this.props.albumRange.max) ? "disabled" : ""} ref={this.artistInput} value={this.state.newArtist} onChange={this.handleChange.bind(this, true)}></input>
+                        <input id="artist-search" type="text" spellCheck="false" style={inputStyle("artist")} placeholder="Enter artist name..." disabled={(this.props.selections.length === this.props.albumRange.max) ? "disabled" : ""} ref={this.artistInput} value={this.state.newArtist} onChange={this.handleChange.bind(this, true)}></input>
                         <button className="search-submit" aria-label="Artist Search" style={warningBorder("artist")} disabled={(this.props.selections.length === this.props.albumRange.max) ? "disabled" : ""}>
                             <i className="fas fa-search"></i>
                         </button>     
@@ -170,7 +174,7 @@ export class AlbumSelect extends Component {
                 <form onSubmit={this.handleSearch.bind(this, false)} style={{visibility: this.state.searchVis}}>
                     <div>
                         <label htmlFor="album-search">Album</label>
-                        <input id="album-search" type="text" spellCheck="false" style={warningBorder("album")} placeholder="Enter album name..." ref={this.albumInput} value={this.state.newAlbum} onChange={this.handleChange.bind(this, false)}></input>
+                        <input id="album-search" type="text" spellCheck="false" style={inputStyle("album")} placeholder="Enter album name..." ref={this.albumInput} value={this.state.newAlbum} onChange={this.handleChange.bind(this, false)}></input>
                         <button className="search-submit" aria-label="Album Search" style={warningBorder("album")}>
                             <i className="fas fa-search"></i>
                         </button>

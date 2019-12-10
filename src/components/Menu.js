@@ -139,10 +139,13 @@ export class Menu extends Component {
     }
 
     render() {
+        // On small screens, hide selection menu if collage is not being created or edited
+        let menuDisplay = (this.props.panelToDisplay === "collage") ? "none" : "";
+        let menuWidth = (this.props.panelToDisplay === "menu") ? "100%" : "";
         return (
-            <section className="menu">
+            <section className="menu" style={{display: menuDisplay, width: menuWidth}}>
                 <h1>Music Collage</h1>
-                <AlbumSelect ref={this.albumSelectComponent} selections={this.state.selections} errors={this.state.errors} albumRange={this.state.albumRange} addAlbum={this.handleAddAlbum} deleteAlbum={this.handleDeleteAlbum} clearError={this.handleClearError} dragStart={this.handleDragStart} dragEnd={this.handleDragEnd} dragOver={this.handleDragOver} drop={this.handleDrop}/>
+                <AlbumSelect ref={this.albumSelectComponent} selections={this.state.selections} errors={this.state.errors} albumRange={this.state.albumRange} inputWidth={menuWidth} addAlbum={this.handleAddAlbum} deleteAlbum={this.handleDeleteAlbum} clearError={this.handleClearError} dragStart={this.handleDragStart} dragEnd={this.handleDragEnd} dragOver={this.handleDragOver} drop={this.handleDrop}/>
                 <ShapeSelect selectedShape={this.state.shape} numAlbums={this.state.selections.length} shape={this.state.shape} errors={this.state.errors} selectShape={this.handleSelectShape} clearError={this.handleClearError}/>
                 <div className="collage-submit">
                     <button id="submit-selections" className="search-submit" onClick={this.handleSubmit}>{this.props.editing ? "Save Edits" : "Collage-ify"}</button>

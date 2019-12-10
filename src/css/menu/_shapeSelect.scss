@@ -40,7 +40,6 @@
         border-radius: 10px;
         padding: 8px;
         font-size: 1em;
-        width: 120px;
         height: 40px;
         margin-top: 15px;
     }
@@ -53,5 +52,7 @@
         width: 100%;
         text-align: right;
         margin: 0;
+        display: block;
+        min-height: 20px;
     }
 }

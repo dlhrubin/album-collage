@@ -7,13 +7,41 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            userInput: [],
             selections: [],
             shape: "",
-            editing: false
+            editing: false,
+            hidePanel: false
         }
         this.collageComponent = React.createRef();
     }
-  
+
+    handleResize = () => {
+        // Width calculation adapted from jQuery source code
+        let windowWidth = Math.max(document.body.scrollWidth, document.documentElement.scrollWidth, document.body.offsetWidth, document.documentElement.offsetWidth, document.documentElement.clientWidth);
+        //let windowWidth = window.innerWidth;
+        if (windowWidth < 750 && !this.state.hidePanel) {
+            this.setState({
+                hidePanel: true
+            })
+            console.log(windowWidth);
+        } else if (windowWidth >= 750 && this.state.hidePanel) {
+            this.setState({
+                hidePanel: false
+            })
+            console.log(windowWidth);
+        }
+    }
+
+    componentDidMount() {
+        this.handleResize();
+        window.addEventListener("resize", this.handleResize);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener("resize", this.handleResize);
+    }
+
     handleSubmit = (selections, shape) => {
         this.setState({
             userInput: selections,
@@ -68,10 +96,13 @@ class App extends Component {
     }
 
     render() {
+        // On small screens, hide either selection menu or collage depending on user interaction
+        let panelToDisplay = (!this.state.hidePanel) ? "" : (this.state.selections.length && !this.state.editing) ? "collage" : "menu";
+ 
         return (
             <div className="app">
-                <Menu selections={this.state.selections} shape={this.state.shape} editing={this.state.editing} submitCollage={this.handleSubmit} editCollage={this.handleEdit}/>
-                <Collage ref={this.collageComponent} selections={this.state.selections} shape={this.state.shape} editing={this.state.editing} userInput={this.state.userInput} shuffleCollage={this.handleShuffle} editCollage={this.handleEdit} resetCollage={this.handleReset} deleteCollage={this.handleDelete}/>
+                <Menu selections={this.state.selections} shape={this.state.shape} editing={this.state.editing} panelToDisplay={panelToDisplay} submitCollage={this.handleSubmit} editCollage={this.handleEdit}/>
+                <Collage ref={this.collageComponent} selections={this.state.selections} shape={this.state.shape} editing={this.state.editing} userInput={this.state.userInput} panelToDisplay={panelToDisplay} shuffleCollage={this.handleShuffle} editCollage={this.handleEdit} resetCollage={this.handleReset} deleteCollage={this.handleDelete}/>
             </div>
         );
     }

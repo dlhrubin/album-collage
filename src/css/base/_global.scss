@@ -12,7 +12,7 @@ body {
     /* Declaring this color as a CSS variable as well so that ShapeSelect.js can access it... need to find better solution */
     --highlight: #f6ad7b;
     font-family: 'Rubik', sans-serif;
-    font-size: 1.2em;
+    font-size: 1em;
 }
 
 h1 {
@@ -42,4 +42,5 @@ button {
     left: 0;
     margin: auto;
     display: flex;
+    overflow-y: auto;
 }
