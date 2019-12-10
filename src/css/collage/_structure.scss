@@ -1,0 +1,116 @@
+/*---Collage---*/
+
+.collage {
+    width: 100%;
+    position: relative;
+    margin: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    button {
+        margin-bottom: 20px;
+        width: 40px;
+        background-color: $emphasis;
+        padding: 4px 8px;
+        border-radius: 10px;
+        font-size: 1.15em;
+        color: white;
+        border: 1.5px solid $emphasis;
+    }
+    button:hover {
+        background-color: $highlight;
+        border-color: $highlight;
+    }
+    button:disabled:hover {
+        background-color: $emphasis;
+        border-color: $emphasis;
+    }
+    button:focus {
+        border-color: $highlight;
+        box-shadow: 0px 0px 3px $highlight;
+    }
+}
+
+.editing-screen {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    background-color: lightgray;
+    opacity: 0.8;
+}
+
+.edit-dock {
+    position: absolute;
+    top: 0;
+    z-index: 1;
+    button {
+        margin: 0 15px;
+    }
+}
+
+@mixin halfTriangle($vertical, $horizontal, $triangle-size) {
+    .#{$vertical}-#{$horizontal} {
+        #{$vertical}: 0;
+        #{$horizontal}: 0; 
+        border-color: transparent;
+        border-#{$vertical}-color: white;
+        border-width: 0 $triangle-size;
+        border-#{$vertical}-width: $triangle-size;
+        border-#{$horizontal}-width: 0; 
+    }
+}
+
+.collage-grid {
+    display: grid;
+    position: absolute;
+    > div {
+        height: $size;
+        width: $size;
+        position: relative;
+    }
+    img {
+        position: absolute;
+        z-index: 0;
+        width: $size;
+        height: $size;
+    }
+    .overlay {
+        position: absolute;
+        height: 0;
+        width: 0;
+        z-index: 1;
+        border-style: solid;
+    }
+    .top {
+        top: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+        border-color: white transparent transparent transparent;
+    }
+    .right {
+        top: 50%;
+        transform: translateY(-50%);
+        right: 0;
+        border-color: transparent white transparent transparent;
+    }
+    .bottom {
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+        border-color: transparent transparent white transparent;
+    }
+    .left {
+        top: 50%;
+        transform: translateY(-50%);
+        left: 0;
+        border-color: transparent transparent transparent white;        
+    }
+}
+
+.blank-square {
+    background-color: transparent;
+}

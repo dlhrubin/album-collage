@@ -1,0 +1,102 @@
+/*---Selection menu---*/
+
+.menu {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 0px 25px;
+    background-color: $base-color;
+    box-shadow: 0.5px 0px 5px $dark-accent;
+    > div {
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+.warning {
+    color: red;
+    position: absolute;
+    margin: 2px 0px 0px 67px;
+    font-size: 0.8em;
+}
+
+.album-options {
+    height: 65%;
+    form {
+        margin-bottom: 8px;
+    }
+    form div {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: $emphasis;
+        font-weight: bold;
+        position: relative;
+    }
+    input {
+        margin-left: 10px;
+        padding: 8px;
+        outline: none;
+        border: 1px solid $dark-accent;
+        box-sizing: border-box;
+        border-radius: 8px;
+        padding: 8px 30px 8px 8px;
+        font-family: inherit;
+        font-size: 0.8em;
+    }
+    input:focus, > button:focus {
+        border-color: $highlight;
+        box-shadow: 0px 0px 3px $highlight;
+    }
+    input:disabled {
+        border-color: darkgray;
+    }
+    form button {
+        position: absolute;
+        right: 0;
+        height: 100%;
+        background-color: $emphasis;
+        border: 1px solid $dark-accent;
+        border-left: none;
+        border-radius: 0px 8px 8px 0px;
+    }
+    form button:focus {
+        background-color: $hover-color;
+    }
+    input:focus + button {
+        border-color: $highlight;
+    }
+    form button:disabled {
+        background-color: silver;
+        border-color: darkgray;
+        cursor: auto;
+    }
+    > button {
+        width: 106px;
+        align-self: flex-end;
+        background-color: $dark-accent;
+        border: 1px solid $light-accent;
+        border-radius: 10px;
+        padding: 5px 5px;
+        font-size: 0.8em;
+    }
+}
+
+.search-submit {
+    color: $light-accent;
+}
+
+.search-submit:hover {
+    background-color: $hover-color;
+}
+
+.album-selection {
+    height: 100%;
+    p {
+        color: gray;
+        font-weight: bold;
+        font-size: 0.9em;
+        margin: 8px 0px;
+    }
+}
