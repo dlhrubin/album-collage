@@ -16,20 +16,18 @@ class App extends Component {
         this.collageComponent = React.createRef();
     }
 
+    // Determine whether only one panel (menu or collage) should be displayed at a time based on browser width
     handleResize = () => {
         // Width calculation adapted from jQuery source code
         let windowWidth = Math.max(document.body.scrollWidth, document.documentElement.scrollWidth, document.body.offsetWidth, document.documentElement.offsetWidth, document.documentElement.clientWidth);
-        //let windowWidth = window.innerWidth;
         if (windowWidth < 750 && !this.state.hidePanel) {
             this.setState({
                 hidePanel: true
             })
-            console.log(windowWidth);
         } else if (windowWidth >= 750 && this.state.hidePanel) {
             this.setState({
                 hidePanel: false
             })
-            console.log(windowWidth);
         }
     }
 
@@ -42,6 +40,7 @@ class App extends Component {
         window.removeEventListener("resize", this.handleResize);
     }
 
+    // Submit album selections and shape
     handleSubmit = (selections, shape) => {
         this.setState({
             userInput: selections,

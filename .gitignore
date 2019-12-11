@@ -3,6 +3,9 @@
 # API key
 config.js
 
+# test cases and examples
+examples.js
+
 # dependencies
 /node_modules
 /.pnp
