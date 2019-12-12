@@ -70,7 +70,7 @@ export class AlbumSelect extends Component {
         let hasContent = (isArtist) ? this.state.newArtist : this.state.newAlbum;
         if (hasContent) {
             if (isArtist) {
-                axios.get("http://ws.audioscrobbler.com/2.0/?method=artist.search&api_key=" + this.state.key + "&artist=" + this.state.newArtist + "&format=json")
+                axios.get("https://ws.audioscrobbler.com/2.0/?method=artist.search&api_key=" + this.state.key + "&artist=" + this.state.newArtist + "&format=json")
                 .then(res => {
                     let artistsFound = res.data.results.artistmatches.artist;
                     if (artistsFound.length) {
@@ -89,7 +89,7 @@ export class AlbumSelect extends Component {
                     }
                 })
             } else {
-                axios.get("http://ws.audioscrobbler.com/2.0/?method=album.search&api_key=" + this.state.key + "&album=" + this.state.newAlbum + "&format=json")
+                axios.get("https://ws.audioscrobbler.com/2.0/?method=album.search&api_key=" + this.state.key + "&album=" + this.state.newAlbum + "&format=json")
                 .then(res => {
                     // Limit to albums with artist fields that match the user-entered artist
                     let albumsFound = res.data.results.albummatches.album.filter(album => album.artist === this.state.newArtist);
