@@ -1,6 +1,5 @@
 import React, {Component} from "react";
 import axios from "axios";
-import config from "../config"
 
 export class AlbumSelect extends Component {
     constructor(props) {
@@ -10,11 +9,21 @@ export class AlbumSelect extends Component {
             newAlbum: "",
             searchVis: "hidden",
             addVis: "hidden",
-            warnings: {artist: "", album: ""}
+            warnings: {artist: "", album: ""},
+            key: ""
         }
         this.artistInput = React.createRef();
         this.albumInput = React.createRef();   
         this.addAlbum = React.createRef();     
+    }
+
+    // Fetch API key when component mounts
+    componentDidMount() {
+        axios.get("https://iv0kqf6z1c.execute-api.us-east-2.amazonaws.com/prod").then(res => {
+            this.setState({
+                key: res.data
+            })
+        })
     }
 
     // Reset search bars when submit button or edit button is clicked in App
@@ -61,7 +70,7 @@ export class AlbumSelect extends Component {
         let hasContent = (isArtist) ? this.state.newArtist : this.state.newAlbum;
         if (hasContent) {
             if (isArtist) {
-                axios.get("http://ws.audioscrobbler.com/2.0/?method=artist.search&api_key=" + config.API_KEY + "&artist=" + this.state.newArtist + "&format=json")
+                axios.get("http://ws.audioscrobbler.com/2.0/?method=artist.search&api_key=" + this.state.key + "&artist=" + this.state.newArtist + "&format=json")
                 .then(res => {
                     let artistsFound = res.data.results.artistmatches.artist;
                     if (artistsFound.length) {
@@ -80,7 +89,7 @@ export class AlbumSelect extends Component {
                     }
                 })
             } else {
-                axios.get("http://ws.audioscrobbler.com/2.0/?method=album.search&api_key=" + config.API_KEY + "&album=" + this.state.newAlbum + "&format=json")
+                axios.get("http://ws.audioscrobbler.com/2.0/?method=album.search&api_key=" + this.state.key + "&album=" + this.state.newAlbum + "&format=json")
                 .then(res => {
                     // Limit to albums with artist fields that match the user-entered artist
                     let albumsFound = res.data.results.albummatches.album.filter(album => album.artist === this.state.newArtist);
