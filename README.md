@@ -6,6 +6,8 @@ Album Collage is a tool for generating beautiful collages of album covers. Simpl
 
 **Live link**: https://d8y3e2oie7fh5.cloudfront.net/
 
+![Example collages](album_collage_examples.png)
+
 ## Features
 * Select any artist and album available in the Last.fm database
 * Select up to 30 albums
