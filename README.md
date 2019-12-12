@@ -25,8 +25,8 @@ https://d8y3e2oie7fh5.cloudfront.net/
 **Locally**:
 1. Clone or download this project from GitHub
 2. ```cd``` into the project directory
-3. Run ```npm install``` in the command line to install dependencies
-4. Run ```npm start``` to launch in the browser of your choice
+3. Run ```npm install``` from the command line to install dependencies
+4. Run ```npm start``` to launch in your browser of choice
 
 ## Dependencies
 
