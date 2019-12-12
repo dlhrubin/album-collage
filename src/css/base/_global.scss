@@ -1,0 +1,46 @@
+/*---Global styles---*/
+
+$base-color: #c2e8ce;
+$light-accent: #f2eee5;
+$highlight: #f6ad7b;
+$dark-accent: #be7575;
+$emphasis: #7ba8f6;
+$hover-color: #e8c5c2;
+$size: 174px;
+
+body {
+    /* Declaring this color as a CSS variable as well so that ShapeSelect.js can access it... need to find better solution */
+    --highlight: #f6ad7b;
+    font-family: 'Rubik', sans-serif;
+    font-size: 1em;
+}
+
+h1 {
+    color: $light-accent;
+    text-shadow: 1px 1px 2px $dark-accent;
+    font-size: 2.1em;
+    margin: 10px 0px;
+}
+
+h2 {
+    color: $dark-accent;
+    margin-bottom: 15px;
+}
+
+button {
+    outline: none;
+    border: none;
+    font-family: inherit;
+    cursor: pointer;
+}
+
+.app {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    display: flex;
+    overflow-y: auto;
+}
