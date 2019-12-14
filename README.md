@@ -4,7 +4,7 @@
 ## Overview
 Album Collage is a tool for generating beautiful collages of album covers. Simply choose your favorite albums and select a collage shape to create a visualization of musical art!
 
-**Live link**: https://d8y3e2oie7fh5.cloudfront.net/
+**Live link**: https://www.albumcollage.com
 
 ![Example collages](album_collage_examples.png)
 
@@ -20,7 +20,7 @@ Album Collage is a tool for generating beautiful collages of album covers. Simpl
 
 **Live**:
 
-https://d8y3e2oie7fh5.cloudfront.net/
+https://www.albumcollage.com
 
 **Locally**:
 1. Clone or download this project from GitHub
