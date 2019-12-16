@@ -9,10 +9,22 @@
     }
 }
 
+@media only screen and (min-width: 750px) {
+    .selection-box div {
+        width: 113px;
+    }
+}
+
+@media only screen and (min-width: 750px) and (min-height: 650px) {
+    .selection-box div {
+        width: 125px;
+    }
+}
+
 @mixin smallSelectionBoxHeight($windowHeight) {
     @media only screen and (min-height: $windowHeight) {
         .selection-box {
-            height: $windowHeight - 420px;
+            height: $windowHeight - 445px;
         }    
     }
 }
