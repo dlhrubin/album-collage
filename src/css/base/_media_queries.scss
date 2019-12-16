@@ -1,7 +1,4 @@
 @media only screen and (min-width: 325px) {
-    body {
-        font-size: 1em;
-    }
     .album-options {
         label {
             min-width: 58px;
@@ -12,30 +9,48 @@
     }
 }
 
-@mixin selectionBoxHeight($windowHeight) {
+@media only screen and (min-width: 750px) {
+    .selection-box div {
+        width: 113px;
+    }
+}
+
+@media only screen and (min-width: 750px) and (min-height: 650px) {
+    .selection-box div {
+        width: 125px;
+    }
+}
+
+@mixin smallSelectionBoxHeight($windowHeight) {
     @media only screen and (min-height: $windowHeight) {
         .selection-box {
-            height: $windowHeight - 430px;
+            height: $windowHeight - 445px;
         }    
     }
 }
 
-@include selectionBoxHeight(575px);
-@include selectionBoxHeight(600px);
-@include selectionBoxHeight(625px);
-@include selectionBoxHeight(650px);
-@include selectionBoxHeight(675px);
-@include selectionBoxHeight(700px);
-@include selectionBoxHeight(725px);
-@include selectionBoxHeight(750px);
-@include selectionBoxHeight(775px);
-@include selectionBoxHeight(800px);
-@include selectionBoxHeight(825px);
-@include selectionBoxHeight(850px);
-@include selectionBoxHeight(875px);
+@for $i from 23 through 25 {
+    @include smallSelectionBoxHeight(25px * $i);
+}
 
-@media only screen and (min-height: 1300px) {
+@media only screen and (min-height: 650px) {
     body {
         font-size: 1.2em;
     }
+    .collage button {
+        width: 40px;
+        padding: 4px 8px;
+    }
+}
+
+@mixin largeSelectionBoxHeight($windowHeight) {
+    @media only screen and (min-height: $windowHeight) {
+        .selection-box {
+            height: $windowHeight - 470px;
+        }    
+    }
+}
+
+@for $i from 26 through 40 {
+    @include largeSelectionBoxHeight(25px * $i);
 }

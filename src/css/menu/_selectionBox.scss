@@ -12,7 +12,7 @@
 
 .selection-box {
     border: 3px dashed $light-accent;
-    height: 120px;
+    height: 105px;
     padding: 7.5px 7.5px;
     box-sizing: border-box;
     display: flex;
@@ -22,7 +22,7 @@
     overflow: auto;
     div {
         background-color: $light-accent;
-        width: 125px;
+        width: 48.5%;
         height: 20px;
         border: solid $base-color 2.5px;
         display: flex;
@@ -40,6 +40,7 @@
         text-overflow: ellipsis;
         white-space: nowrap;
         overflow: hidden;
+        width: 100%;
     }
     button {
         color: $emphasis;
