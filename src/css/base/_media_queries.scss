@@ -1,4 +1,4 @@
-@media (min-width: 325px) {
+@media only screen and (min-width: 325px) {
     body {
         font-size: 1.2em;
     }
@@ -12,8 +12,24 @@
     }
 }
 
-@media (min-height: 650px) {
-    .album-options {
-        margin-bottom: 0;
+@mixin selectionBoxHeight($windowHeight) {
+    @media only screen and (min-height: $windowHeight) {
+        .selection-box {
+            height: $windowHeight - 470px;
+        }    
     }
 }
+
+@include selectionBoxHeight(575px);
+@include selectionBoxHeight(600px);
+@include selectionBoxHeight(625px);
+@include selectionBoxHeight(650px);
+@include selectionBoxHeight(675px);
+@include selectionBoxHeight(700px);
+@include selectionBoxHeight(725px);
+@include selectionBoxHeight(750px);
+@include selectionBoxHeight(775px);
+@include selectionBoxHeight(800px);
+@include selectionBoxHeight(825px);
+@include selectionBoxHeight(850px);
+@include selectionBoxHeight(875px);
