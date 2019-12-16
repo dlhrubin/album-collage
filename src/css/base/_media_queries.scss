@@ -1,6 +1,6 @@
 @media only screen and (min-width: 325px) {
     body {
-        font-size: 1.2em;
+        font-size: 1em;
     }
     .album-options {
         label {
@@ -15,7 +15,7 @@
 @mixin selectionBoxHeight($windowHeight) {
     @media only screen and (min-height: $windowHeight) {
         .selection-box {
-            height: $windowHeight - 470px;
+            height: $windowHeight - 430px;
         }    
     }
 }
@@ -33,3 +33,9 @@
 @include selectionBoxHeight(825px);
 @include selectionBoxHeight(850px);
 @include selectionBoxHeight(875px);
+
+@media only screen and (min-height: 1300px) {
+    body {
+        font-size: 1.2em;
+    }
+}
