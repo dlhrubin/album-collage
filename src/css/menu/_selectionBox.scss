@@ -19,20 +19,22 @@
     flex-direction: column;
     flex-wrap: wrap;
     justify-content: flex-start;
+    align-items: stretch;
     overflow: auto;
-    div {
+    > div {
         background-color: $light-accent;
-        width: 48.5%;
         height: 20px;
         border: solid $base-color 2.5px;
         display: flex;
-        justify-content: space-between;
         cursor: grab;
+        position: relative;
+        width: 48.5%;
     }
     img {
         width: 20px;
     }
     span {
+        position: absolute;
         padding: 3px 3px 3px 5px;
         font-size: 0.7em;
         font-weight: bold;
@@ -48,10 +50,20 @@
         width: 15px;
         display: flex;
         justify-content: flex-end;
+        position: absolute;
+        right: 0;
+        top: 0;
+        bottom: 0;
     }
     button:hover {
         color: $hover-color;
     }
+}
+
+.title-container {
+    width: 67%;
+    position: relative;
+    overflow: hidden;
 }
 
 /* Webkit scrollbar not working with nesting... */
