@@ -152,7 +152,9 @@ export class AlbumSelect extends Component {
             return (
                 <div key={i} artist={selection.artist} album={selection.album} thumbnail={selection.thumbnail} draggable="true" onDragStart={this.props.dragStart} onDragEnd={this.props.dragEnd} onDragOver={this.props.dragOver} onDrop={this.props.drop}>
                     <img src={selection.thumbnail} alt={selection.album + ", " + selection.artist} draggable="false"/>
-                    <span>{selection.album + " (" + selection.artist + ")"}</span>
+                    <div className="title-container">
+                        <span>{selection.album + " (" + selection.artist + ")"}</span>
+                    </div>
                     <button aria-label="Delete Selection" onClick={this.handleDeselect.bind(this, selection.artist, selection.album)}>
                         <i className="fas fa-times"></i>
                     </button>
