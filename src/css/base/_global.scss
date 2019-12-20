@@ -1,16 +1,18 @@
 /*---Global styles---*/
 
 $base-color: #c2e8ce;
-$light-accent: #f2eee5;
-$highlight: #f6ad7b;
-$dark-accent: #be7575;
-$emphasis: #7ba8f6;
-$hover-color: #e8c5c2;
+$light-accent: #ffffff;
+$tertiary: #913D88;
+$dark-accent: #c50a1b;
+$emphasis: #1F3A93;
+$hover-color: #077b58;
+$neutral: #616161;
+$highlight: $tertiary;
 $size: 174px;
 
 body {
     /* Declaring this color as a CSS variable as well so that ShapeSelect.js can access it... need to find better solution */
-    --highlight: #f6ad7b;
+    --highlight: #913D88;
     font-family: 'Rubik', sans-serif;
     font-size: 1em;
     margin: 0;

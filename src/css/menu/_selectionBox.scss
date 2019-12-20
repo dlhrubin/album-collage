@@ -3,7 +3,7 @@
 .album-selection {
     height: 100%;
     p {
-        color: gray;
+        color: $neutral;
         font-weight: bold;
         font-size: 0.9em;
         margin: 8px 0px;
@@ -38,7 +38,7 @@
         padding: 3px 3px 3px 5px;
         font-size: 0.7em;
         font-weight: bold;
-        color: $highlight;
+        color: $tertiary;
         text-overflow: ellipsis;
         white-space: nowrap;
         overflow: hidden;
@@ -55,8 +55,8 @@
         top: 0;
         bottom: 0;
     }
-    button:hover {
-        color: $hover-color;
+    button:hover, button:focus {
+        color: $dark-accent;
     }
 }
 
