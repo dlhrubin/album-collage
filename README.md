@@ -34,8 +34,5 @@ This project was built using Create-React-App.
 
 * React
 * React-DOM
-* Babel
-* Webpack
-* ESLint
 * SCSS
 * Axios
