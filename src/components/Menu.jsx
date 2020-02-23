@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import AlbumSelect from './AlbumSelect';
 import ShapeSelect from './ShapeSelect';
+import { possibleNums } from '../data';
 
-const possibleNums = [2, 4, 5, 6, 7, 8, 9, 10, 13, 14, 16, 17, 18, 20, 22, 24, 25, 26, 28, 30];
-
-export class Menu extends Component {
+class Menu extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -19,12 +19,13 @@ export class Menu extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.editing !== prevProps.editing) {
+    const { shape, selections, editing } = this.props;
+    if (editing !== prevProps.editing) {
       // If in editing mode, add the submitted selections and shape back into the menu
-      if (this.props.editing) {
+      if (editing) {
         this.setState({
-          selections: this.props.selections,
-          shape: this.props.shape,
+          selections,
+          shape,
         });
       } else {
         this.setState({
@@ -39,8 +40,9 @@ export class Menu extends Component {
 
     // Add user-added album to selections
     handleAddAlbum = (artist, album, thumbnail, cover) => {
+      const { selections } = this.state;
       this.setState({
-        selections: [...this.state.selections, {
+        selections: [...selections, {
           artist, album, thumbnail, cover,
         }],
         shape: '',
@@ -49,25 +51,30 @@ export class Menu extends Component {
 
     // Remove user-deleted album from selections
     handleDeleteAlbum = (artist, album) => {
+      const { selections } = this.state;
       this.setState({
-        selections: this.state.selections.filter((selection) => (selection.artist !== artist || selection.album !== album)),
+        selections: selections.filter((selection) => (
+          selection.artist !== artist || selection.album !== album
+        )),
         shape: '',
       });
     }
 
     // Drag album selection
     handleDragStart = (e) => {
+      const { selections } = this.state;
       e.dataTransfer.setData('text', e.target);
-      const dragInd = this.state.selections.findIndex((selection) => selection.artist === e.target.getAttribute('artist') && selection.album === e.target.getAttribute('album') && selection.thumbnail === e.target.getAttribute('thumbnail'));
+      const dragInd = selections.findIndex((selection) => selection.artist === e.target.getAttribute('artist') && selection.album === e.target.getAttribute('album') && selection.thumbnail === e.target.getAttribute('thumbnail'));
       this.setState({
         dragging: dragInd,
       });
     }
 
     // Drop album selection being dragged
-    handleDrop = (e) => {
+    handleDrop = () => {
+      const { rearranged } = this.state;
       this.setState({
-        selections: this.state.rearranged,
+        selections: rearranged,
         rearranged: [],
         dragging: null,
       });
@@ -75,15 +82,19 @@ export class Menu extends Component {
 
     // Rearrange selections as albums are dragged over
     handleDragOver = (e) => {
+      const { selections, dragging } = this.state;
       e.preventDefault();
       const draggedOver = {
         artist: e.target.parentNode.getAttribute('artist'),
         album: e.target.parentNode.getAttribute('album'),
         thumbnail: e.target.parentNode.getAttribute('thumbnail'),
       };
-      const draggedOverInd = this.state.selections.findIndex((selection) => selection.artist === draggedOver.artist && selection.album === draggedOver.album && selection.thumbnail === draggedOver.thumbnail);
-      const newSelections = [...this.state.selections];
-      const dragged = newSelections.splice(this.state.dragging, 1)[0];
+      const draggedOverInd = selections.findIndex((selection) => (
+        selection.artist === draggedOver.artist
+        && selection.album === draggedOver.album
+        && selection.thumbnail === draggedOver.thumbnail));
+      const newSelections = [...selections];
+      const dragged = newSelections.splice(dragging, 1)[0];
       newSelections.splice(draggedOverInd, 0, dragged);
       this.setState({
         rearranged: newSelections,
@@ -92,7 +103,6 @@ export class Menu extends Component {
 
     // Store shape user clicks
     handleSelectShape = (name) => {
-      console.log(name);
       this.setState({
         shape: name || '',
       });
@@ -100,24 +110,26 @@ export class Menu extends Component {
 
     // Submit collage selections and shape
     handleSubmit = () => {
+      const { submitCollage } = this.props;
+      const { selections, shape, albumRange } = this.state;
       // Throw error if minimum number of albums have not been selected
-      if (this.state.selections.length < this.state.albumRange.min) {
+      if (selections.length < albumRange.min) {
         this.setState({
-          errors: { selection: `Please select at least ${this.state.albumRange.min} albums`, shape: '' },
+          errors: { selection: `Please select at least ${albumRange.min} albums`, shape: '' },
         });
         // Throw error if no collage shape available for selected number of albums
-      } else if (!possibleNums.includes(this.state.selections.length)) {
+      } else if (!possibleNums.includes(selections.length)) {
         this.setState({
           errors: { selection: '', shape: 'No collage shape for this number of albums' },
         });
         // Throw error if no shape has been selected
-      } else if (!this.state.shape) {
+      } else if (!shape) {
         this.setState({
           errors: { selection: '', shape: 'Please select a collage shape' },
         });
         // Submit album selections and shape to the App component, then reset
       } else {
-        this.props.submitCollage(this.state.selections, this.state.shape);
+        submitCollage(selections, shape);
         this.setState({
           selections: [],
           shape: '',
@@ -135,21 +147,62 @@ export class Menu extends Component {
     }
 
     render() {
+      const { panelToDisplay, editing } = this.props;
+      const {
+        selections, shape, errors, albumRange,
+      } = this.state;
       // On small screens, hide selection menu if collage is not being created or edited
-      const menuDisplay = (this.props.panelToDisplay === 'collage') ? 'none' : '';
-      const menuWidth = (this.props.panelToDisplay === 'menu') ? '100%' : '';
+      const menuDisplay = (panelToDisplay === 'collage') ? 'none' : '';
+      const menuWidth = (panelToDisplay === 'menu') ? '100%' : '';
       return (
         <section className="menu" style={{ display: menuDisplay, width: menuWidth }}>
           <h1>Album Collage</h1>
-          <AlbumSelect ref={this.albumSelectComponent} selections={this.state.selections} errors={this.state.errors} albumRange={this.state.albumRange} inputWidth={menuWidth} addAlbum={this.handleAddAlbum} deleteAlbum={this.handleDeleteAlbum} clearError={this.handleClearError} dragStart={this.handleDragStart} dragEnd={this.handleDragEnd} dragOver={this.handleDragOver} drop={this.handleDrop} />
-          <ShapeSelect selected={this.state.shape} numAlbums={this.state.selections.length} error={this.state.errors.shape} selectShape={this.handleSelectShape} clearError={this.handleClearError} />
+          <AlbumSelect
+            ref={this.albumSelectComponent}
+            selections={selections}
+            error={errors.selection}
+            albumRange={albumRange}
+            inputWidth={menuWidth}
+            addAlbum={this.handleAddAlbum}
+            deleteAlbum={this.handleDeleteAlbum}
+            clearError={this.handleClearError}
+            dragStart={this.handleDragStart}
+            dragEnd={this.handleDragEnd}
+            dragOver={this.handleDragOver}
+            drop={this.handleDrop}
+          />
+          <ShapeSelect
+            selected={shape}
+            numAlbums={selections.length}
+            error={errors.shape}
+            selectShape={this.handleSelectShape}
+            clearError={this.handleClearError}
+          />
           <div className="collage-submit">
-            <button id="submit-selections" className="search-submit" onClick={this.handleSubmit}>{this.props.editing ? 'Save Edits' : 'Collage-ify'}</button>
-            <p className="warning">{(this.state.errors.selection) ? this.state.errors.selection : (this.state.errors.shape) ? this.state.errors.shape : ''}</p>
+            <button className="search-submit" type="button" onClick={this.handleSubmit}>
+              {editing ? 'Save Edits' : 'Collage-ify'}
+            </button>
+            <p className="warning">{errors.selection || errors.shape}</p>
           </div>
         </section>
       );
     }
 }
+
+Menu.defaultProps = {
+  selections: [],
+  shape: '',
+  editing: false,
+  panelToDisplay: '',
+  submitCollage: () => {},
+};
+
+Menu.propTypes = {
+  selections: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.string)),
+  shape: PropTypes.string,
+  editing: PropTypes.bool,
+  panelToDisplay: PropTypes.string,
+  submitCollage: PropTypes.func,
+};
 
 export default Menu;
