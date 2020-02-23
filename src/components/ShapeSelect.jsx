@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { shapes } from '../data';
+import styles from '../css/base/_global.scss';
 
 const ShapeSelect = ({
   selected, numAlbums, error, selectShape, clearError,
@@ -18,9 +19,9 @@ const ShapeSelect = ({
     // Make shapes red on "no shape selected" submission error
     if (error) {
       color = 'red';
-    // Make shape orange if shape has been selected and submit button hasn't been pressed
+    // Highlight shape if shape has been selected and submit button hasn't been pressed
     } else if (selected === shape.name) {
-      color = 'var(--highlight)';
+      color = styles.highlight;
     // Fill shape if shape has been selected and submit button hasn't been pressed
     } else {
       color = '';

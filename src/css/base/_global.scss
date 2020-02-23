@@ -1,46 +1,48 @@
-/*---Global styles---*/
+/* ---Global styles--- */
 
 $base-color: #c2e8ce;
-$light-accent: #ffffff;
-$tertiary: #913D88;
+$light-accent: #fff;
+$tertiary: #913d88;
 $dark-accent: #c50a1b;
-$emphasis: #1F3A93;
+$emphasis: #1f3a93;
 $hover-color: $tertiary;
 $neutral: #616161;
 $highlight: $tertiary;
 $size: 174px;
 
+:export {
+  highlight: $highlight;
+}
+
 body {
-    /* Declaring this color as a CSS variable as well so that ShapeSelect.js can access it... need to find better solution */
-    --highlight: #913D88;
-    font-family: 'Rubik', sans-serif;
-    font-size: 1em;
-    margin: 0;
+  font-family: 'Rubik', sans-serif;
+  font-size: 1em;
+  margin: 0;
 }
 
 h1 {
-    color: $light-accent;
-    text-shadow: 1px 1px 2px $dark-accent;
-    font-size: 2.3em;
-    margin: 10px 0px;
-    position: absolute;
-    top: 0;
+  color: $light-accent;
+  text-shadow: 1px 1px 2px $dark-accent;
+  font-size: 2.3em;
+  margin: 10px 0;
+  position: absolute;
+  top: 0;
 }
 
 h2 {
-    color: $dark-accent;
-    margin-bottom: 15px;
+  color: $dark-accent;
+  margin-bottom: 15px;
 }
 
 button {
-    outline: none;
-    border: none;
-    font-family: inherit;
-    cursor: pointer;
+  outline: none;
+  border: none;
+  font-family: inherit;
+  cursor: pointer;
 }
 
 .app {
-    display: flex;
-    overflow-y: auto;
-    height: 100vh;
+  display: flex;
+  overflow-y: auto;
+  height: 100vh;
 }

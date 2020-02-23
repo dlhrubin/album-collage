@@ -1,121 +1,143 @@
-/*---Shapes---*/
+/* ---Shapes--- */
 
 @mixin xOverlays($triangle-size, $corner-size) {
-    .top {
-        border-width: $triangle-size $triangle-size 0 $triangle-size;
-    }
-    .right {
-        border-width: $triangle-size $triangle-size $triangle-size 0;        
-    }
-    .bottom {
-        border-width: 0 $triangle-size $triangle-size $triangle-size;
-    }
-    .left {
-        border-width: $triangle-size 0 $triangle-size $triangle-size;
-    }
-    @include halfTriangle(top, left, $corner-size);
-    @include halfTriangle(top, right, $corner-size);
-    @include halfTriangle(bottom, left, $corner-size);
-    @include halfTriangle(bottom, right, $corner-size);
+  .top {
+    border-width: $triangle-size $triangle-size 0 $triangle-size;
+  }
+
+  .right {
+    border-width: $triangle-size $triangle-size $triangle-size 0;
+  }
+
+  .bottom {
+    border-width: 0 $triangle-size $triangle-size $triangle-size;
+  }
+
+  .left {
+    border-width: $triangle-size 0 $triangle-size $triangle-size;
+  }
+
+  @include halfTriangle(top, left, $corner-size);
+  @include halfTriangle(top, right, $corner-size);
+  @include halfTriangle(bottom, left, $corner-size);
+  @include halfTriangle(bottom, right, $corner-size);
 }
 
 .x-10 {
-    @include xOverlays($size, $size);
+  @include xOverlays($size, $size);
 }
 
 .x-14 {
-    @include xOverlays($size * 2, $size * 2);
+  @include xOverlays($size * 2, $size * 2);
 }
 
 .x-18 {
-    @include xOverlays($size * 2, $size);
+  @include xOverlays($size * 2, $size);
 }
 
 .x-22 {
-    @include xOverlays($size * 3, $size * 2);    
+  @include xOverlays($size * 3, $size * 2);
 }
 
 .x-26 {
-    @include xOverlays($size * 3, $size);    
-}
-
-.x-30 { 
-    @include xOverlays($size * 4, $size * 2);
-}
-
-@mixin cornerOverlays($corner-size) {
-    @include halfTriangle(top, left, $corner-size);
-    @include halfTriangle(top, right, $corner-size);
-    @include halfTriangle(bottom, left, $corner-size);
-    @include halfTriangle(bottom, right, $corner-size);
-}
-
-.diamond-2, .octagon-7 {
-    @include cornerOverlays($size);
-}
-
-.diamond-8, .diamond-18 {
-    @include cornerOverlays($size * 3);
-}
-
-@mixin heartOverlays($top-corner-size, $triangle-size, $bottom-corner-size) {
-    .top {
-        border-width: $triangle-size $triangle-size 0 $triangle-size;
-    }
-    @include halfTriangle(top, left, $top-corner-size);
-    @include halfTriangle(top, right, $top-corner-size);
-    @include halfTriangle(bottom, left, $bottom-corner-size);
-    @include halfTriangle(bottom, right, $bottom-corner-size);
-}
-
-.heart-6, .heart-10 {
-    @include heartOverlays($size, $size, $size * 2);
-}
-
-.heart-22 {
-    @include heartOverlays($size, $size * 2, $size * 3);
-}
-
-.heart-24 {
-    @include heartOverlays($size * 2, $size * 2, $size * 4);
-}
-
-.octagon-28 {
-    @include cornerOverlays($size * 2);    
-}
-
-.diamond-2, .square-4 {
-    grid-template-columns: repeat(2, 1fr);
-}
-
-.cross-5, .octagon-7, .square-9 {
-    grid-template-columns: repeat(3, 1fr);
-}
-
-.x-10, .heart-6, .square-16, .heart-10 {
-    grid-template-columns: repeat(4, 1fr);
-}
-
-.diamond-8, .cross-9, .square-25 {
-    grid-template-columns: repeat(5, 1fr);
-}
-
-.x-14, .x-18, .cross-20, .diamond-18, .heart-22, .octagon-28 {
-    grid-template-columns: repeat(6, 1fr);
-}
-
-.cross-13 {
-    grid-template-columns: repeat(7, 1fr);
-}
-
-.cross-28, .x-22, .x-26, .heart-24 {
-    grid-template-columns: repeat(8, 1fr);
-}
-
-.cross-17 {
-    grid-template-columns: repeat(9, 1fr);
+  @include xOverlays($size * 3, $size);
 }
 
 .x-30 {
-    grid-template-columns: repeat(10, 1fr);
+  @include xOverlays($size * 4, $size * 2);
+
+  grid-template-columns: repeat(10, 1fr);
+}
+
+@mixin cornerOverlays($corner-size) {
+  @include halfTriangle(top, left, $corner-size);
+  @include halfTriangle(top, right, $corner-size);
+  @include halfTriangle(bottom, left, $corner-size);
+  @include halfTriangle(bottom, right, $corner-size);
+}
+
+.diamond-2,
+.octagon-7 {
+  @include cornerOverlays($size);
+}
+
+.diamond-8,
+.diamond-18 {
+  @include cornerOverlays($size * 3);
+}
+
+@mixin heartOverlays($top-corner-size, $triangle-size, $bottom-corner-size) {
+  .top {
+    border-width: $triangle-size $triangle-size 0 $triangle-size;
+  }
+
+  @include halfTriangle(top, left, $top-corner-size);
+  @include halfTriangle(top, right, $top-corner-size);
+  @include halfTriangle(bottom, left, $bottom-corner-size);
+  @include halfTriangle(bottom, right, $bottom-corner-size);
+}
+
+.heart-6,
+.heart-10 {
+  @include heartOverlays($size, $size, $size * 2);
+}
+
+.heart-22 {
+  @include heartOverlays($size, $size * 2, $size * 3);
+}
+
+.heart-24 {
+  @include heartOverlays($size * 2, $size * 2, $size * 4);
+}
+
+.octagon-28 {
+  @include cornerOverlays($size * 2);
+}
+
+.diamond-2,
+.square-4 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.cross-5,
+.octagon-7,
+.square-9 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.x-10,
+.heart-6,
+.square-16,
+.heart-10 {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.diamond-8,
+.cross-9,
+.square-25 {
+  grid-template-columns: repeat(5, 1fr);
+}
+
+.x-14,
+.x-18,
+.cross-20,
+.diamond-18,
+.heart-22,
+.octagon-28 {
+  grid-template-columns: repeat(6, 1fr);
+}
+
+.cross-13 {
+  grid-template-columns: repeat(7, 1fr);
+}
+
+.cross-28,
+.x-22,
+.x-26,
+.heart-24 {
+  grid-template-columns: repeat(8, 1fr);
+}
+
+.cross-17 {
+  grid-template-columns: repeat(9, 1fr);
 }

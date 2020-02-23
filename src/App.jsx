@@ -2,15 +2,14 @@ import React, { Component } from 'react';
 import './App.scss';
 import Menu from './components/Menu';
 import Collage from './components/Collage';
-import { allThirty } from './examples';
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      userInput: allThirty,
-      selections: allThirty,
-      shape: 'x',
+      userInput: [],
+      selections: [],
+      shape: '',
       editing: false,
       hidePanel: false,
     };

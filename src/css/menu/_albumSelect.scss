@@ -1,94 +1,105 @@
-/*---Selection menu---*/
+/* ---Selection menu--- */
 
 .menu {
-    position: relative;
-    z-index: 1;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 0 25px;
+  background-color: $base-color;
+  box-shadow: 0.5px 0 5px $dark-accent;
+  min-height: 550px;
+
+  > div {
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
-    padding: 0px 25px;
-    background-color: $base-color;
-    box-shadow: 0.5px 0px 5px $dark-accent;
-    min-height: 550px;
-    > div {
-        display: flex;
-        flex-direction: column;
-    }
+  }
 }
 
 .warning {
-    color: red;
-    position: absolute;
-    margin: 2px 0px 0px 67px;
-    font-size: 0.8em;
+  color: red;
+  position: absolute;
+  margin: 2px 0 0 67px;
+  font-size: 0.8em;
 }
 
 .album-options {
-    form {
-        margin-bottom: 8px;
-    }
-    form div {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        color: $emphasis;
-        font-weight: bold;
-        position: relative;
-    }
-    label {
-        flex: 1;
-        display: flex;
-        align-items: center;
-    }
-    span {
-        display: inline-block;
-        width: 55px;
-    }
-    input {
-        margin-left: 10px;
-        outline: none;
-        border: 1px solid $neutral;
-        box-sizing: border-box;
-        border-radius: 8px;
-        padding: 8px 30px 8px 8px;
-        font-family: inherit;
-        font-size: 0.8em;
-    }
-    input:focus, > button:focus {
-        border-color: $highlight;
-        box-shadow: 0px 0px 3px $highlight;
-    }
-    input:disabled {
-        border-color: darkgray;
-    }
-    form button {
-        position: absolute;
-        right: 0;
-        height: 100%;
-        background-color: $emphasis;
-        border: 1px solid $neutral;
-        border-left: none;
-        border-radius: 0px 8px 8px 0px;
-    }
-    form button:disabled {
-        background-color: silver;
-        border-color: darkgray;
-        cursor: auto;
-    }
-    > button {
-        align-self: flex-end;
-        background-color: $dark-accent;
-        border: 1px solid $light-accent;
-        border-radius: 10px;
-        padding: 5px 5px;
-        font-size: 0.8em;
-    }
+  form {
+    margin-bottom: 8px;
+  }
+
+  form div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: $emphasis;
+    font-weight: bold;
+    position: relative;
+  }
+
+  label {
+    flex: 1;
+    display: flex;
+    align-items: center;
+  }
+
+  span {
+    display: inline-block;
+    width: 55px;
+  }
+
+  input {
+    margin-left: 10px;
+    outline: none;
+    border: 1px solid $neutral;
+    box-sizing: border-box;
+    border-radius: 8px;
+    padding: 8px 30px 8px 8px;
+    font-family: inherit;
+    font-size: 0.8em;
+  }
+
+  > button {
+    align-self: flex-end;
+    background-color: $dark-accent;
+    border: 1px solid $light-accent;
+    border-radius: 10px;
+    padding: 5px 5px;
+    font-size: 0.8em;
+  }
+
+  form button {
+    position: absolute;
+    right: 0;
+    height: 100%;
+    background-color: $emphasis;
+    border: 1px solid $neutral;
+    border-left: none;
+    border-radius: 0 8px 8px 0;
+  }
+
+  input:focus,
+  > button:focus {
+    border-color: $highlight;
+    box-shadow: 0 0 3px $highlight;
+  }
+
+  input:disabled {
+    border-color: darkgray;
+  }
+
+  form button:disabled {
+    background-color: silver;
+    border-color: darkgray;
+    cursor: auto;
+  }
 }
 
 .search-submit {
-    color: $light-accent;
+  color: $light-accent;
 }
 
 .search-submit:hover {
-    background-color: $hover-color;
+  background-color: $hover-color;
 }

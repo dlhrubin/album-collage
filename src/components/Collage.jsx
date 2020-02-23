@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import getStyle from '../utils';
 import { collageDimensions } from '../data';
+import styles from '../css/base/_global.scss';
 
 // Helper function to populate collage initially with a single copy of each album cover
 const populate = (selections) => (
@@ -250,7 +251,7 @@ class Collage extends Component {
     return (
       <section className="collage" style={{ display: collageDisplay }}>
         <div className="edit-dock">
-          <button ref={this.editButton} type="button" aria-label="Edit Collage" onClick={editCollage} style={{ backgroundColor: editing ? 'var(--highlight)' : '', borderColor: editing ? 'var(--highlight)' : '', opacity: !shape ? '0.3' : '' }} disabled={!shape}>
+          <button ref={this.editButton} type="button" aria-label="Edit Collage" onClick={editCollage} style={{ backgroundColor: editing ? styles.highlight : '', borderColor: editing ? styles.highlight : '', opacity: !shape ? '0.3' : '' }} disabled={!shape}>
             <i className="fas fa-edit" />
           </button>
           <button type="button" aria-label="Shuffle Collage" onClick={shuffleCollage} style={buttonStyle} disabled={buttonDisabled}>

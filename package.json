@@ -15,7 +15,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "deploy": "aws s3 sync build/ s3://albumcollage",
-    "lint": "eslint --ext .js --ext .jsx .",
+    "lint": "eslint --fix --ext .js --ext .jsx .",
+    "css-lint": "node_modules/.bin/stylelint --fix '**/*.scss' --config ./.stylelintrc.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -40,6 +41,8 @@
     "eslint-plugin-import": "^2.20.1",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.18.3",
-    "eslint-plugin-react-hooks": "^1.7.0"
+    "eslint-plugin-react-hooks": "^1.7.0",
+    "stylelint": "^13.2.0",
+    "stylelint-config-standard": "^20.0.0"
   }
 }
