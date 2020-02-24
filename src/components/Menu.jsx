@@ -34,7 +34,7 @@ class Menu extends Component {
         });
         this.handleClearError();
       }
-      this.albumSelectComponent.current.handleReset();
+      this.albumSelectComponent.current.clearWarnings();
     }
   }
 
@@ -135,7 +135,7 @@ class Menu extends Component {
           shape: '',
           errors: { selection: '', shape: '' },
         });
-        this.albumSelectComponent.current.handleReset();
+        this.albumSelectComponent.current.clearWarnings();
       }
     }
 

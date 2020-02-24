@@ -2,14 +2,15 @@ import React, { Component } from 'react';
 import './App.scss';
 import Menu from './components/Menu';
 import Collage from './components/Collage';
+import {allThirty} from './examples';
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      userInput: [],
-      selections: [],
-      shape: '',
+      userInput: allThirty,
+      selections: allThirty,
+      shape: 'x',
       editing: false,
       hidePanel: false,
     };
@@ -54,6 +55,14 @@ class App extends Component {
     }, () => { this.collageComponent.current.handleChangeFocus(); });
   }
 
+  // Edit collage
+  handleEdit = () => {
+    const { editing } = this.state;
+    this.setState({
+      editing: !editing,
+    });
+  }
+
   // Shuffle album order
   handleShuffle = () => {
     const { selections } = this.state;
@@ -72,14 +81,6 @@ class App extends Component {
     }
     this.setState({
       selections: shuffled,
-    });
-  }
-
-  // Edit collage
-  handleEdit = () => {
-    const { editing } = this.state;
-    this.setState({
-      editing: !editing,
     });
   }
 

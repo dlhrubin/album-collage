@@ -28,14 +28,16 @@ class AlbumSelect extends Component {
   }
 
   // Reset search bars when submit button or edit button is clicked in App
-  handleReset = () => {
+  clearWarnings = () => {
     const { clearError } = this.props;
     this.setState({
       newArtist: '',
       newAlbum: '',
       searchVis: 'hidden', // Toggle album search field visibility
       addVis: 'hidden', // Toggle add album button field visibility
+      warnings: { artist: '', album: '' },
     });
+    clearTimeout(this.flashWarning);
     clearError();
   }
 
@@ -190,12 +192,12 @@ class AlbumSelect extends Component {
       <div className="album-options">
         <h2>Albums:</h2>
         <form onSubmit={this.handleSearch.bind(this, true)}>
-          <div onClick={maxAlbums ? this.handleClick : undefined} onKeyPress={maxAlbums ? this.handleClick : undefined} role={maxAlbums ? 'button' : undefined} tabIndex={maxAlbums ? 0 : undefined}>
+          <div className="artist-search-box" onClick={maxAlbums ? this.handleClick : undefined} onKeyPress={maxAlbums ? this.handleClick : undefined} role={maxAlbums ? 'button' : undefined} tabIndex={maxAlbums ? 0 : undefined}>
             <label htmlFor="artist-search">
               <span>Artist</span>
               <input id="artist-search" type="search" spellCheck="false" style={inputStyle('artist')} placeholder="Enter artist name..." autoComplete="off" disabled={(selections.length === albumRange.max) ? 'disabled' : ''} ref={this.artistInput} value={newArtist} onChange={this.handleChange.bind(this, true)} />
             </label>
-            <button className="search-submit" type="button" aria-label="Artist Search" style={warningBorder('artist')} autoComplete="off" disabled={(selections.length === albumRange.max) ? 'disabled' : ''}>
+            <button className="search-submit" type="submit" aria-label="Artist Search" style={warningBorder('artist')} disabled={(selections.length === albumRange.max) ? 'disabled' : ''}>
               <i className="fas fa-search" />
             </button>
           </div>
@@ -205,9 +207,9 @@ class AlbumSelect extends Component {
           <div>
             <label htmlFor="album-search">
               <span>Album</span>
-              <input id="album-search" type="search" spellCheck="false" style={inputStyle('album')} placeholder="Enter album name..." ref={this.albumInput} value={newAlbum} onChange={this.handleChange.bind(this, false)} />
+              <input id="album-search" type="search" spellCheck="false" style={inputStyle('album')} placeholder="Enter album name..." autoComplete="off" ref={this.albumInput} value={newAlbum} onChange={this.handleChange.bind(this, false)} />
             </label>
-            <button className="search-submit" type="button" aria-label="Album Search" style={warningBorder('album')}>
+            <button className="search-submit" type="submit" aria-label="Album Search" style={warningBorder('album')}>
               <i className="fas fa-search" />
             </button>
           </div>
