@@ -27,8 +27,19 @@ class AlbumSelect extends Component {
     });
   }
 
+  // If user deletes album from full selection box, clear "max number of albums selected" warning
+  componentDidUpdate(prevProps) {
+    const { selections, albumRange } = this.props;
+    if (selections.length !== prevProps.selections.length && selections.length < albumRange.max) {
+      clearTimeout(this.flashWarning);
+      this.setState({
+        warnings: { artist: '', album: '' },
+      });
+    }
+  }
+
   // Reset search bars when submit button or edit button is clicked in App
-  clearWarnings = () => {
+  clearAlbumSelect = () => {
     const { clearError } = this.props;
     this.setState({
       newArtist: '',
@@ -140,7 +151,7 @@ class AlbumSelect extends Component {
 
   handleSubmit = () => {
     const { newArtist, newAlbum, img } = this.state;
-    const { addAlbum, clearError } = this.props;
+    const { addAlbum } = this.props;
     this.setState({
       newArtist: '',
       newAlbum: '',
@@ -150,39 +161,15 @@ class AlbumSelect extends Component {
     addAlbum(newArtist, newAlbum, img.thumbnail, img.cover);
     // Jump focus to the artist search field after submitting new album
     this.artistInput.current.focus();
-    clearError();
-  }
-
-  // Remove album from selection
-  handleDeselect = (artist, album) => {
-    const { deleteAlbum, clearError } = this.props;
-    this.setState({
-      warnings: { artist: '', album: '' },
-    });
-    deleteAlbum(artist, album);
-    clearTimeout(this.flashWarning);
-    clearError();
   }
 
   render() {
     const {
-      selections, error, albumRange, inputWidth, dragStart, dragEnd, dragOver, drop,
+      selections, albumRange, inputWidth,
     } = this.props;
     const {
       newArtist, newAlbum, warnings, searchVis, addVis,
     } = this.state;
-    // Populate selection box with selected albums (artist name and album thumbnail)
-    const selectedAlbums = selections.map((selection, i) => (
-      <div key={`${selection.artist}-${selection.album}`} artist={selection.artist} album={selection.album} thumbnail={selection.thumbnail} draggable="true" onDragStart={dragStart} onDragEnd={dragEnd} onDragOver={dragOver} onDrop={drop}>
-        <img src={selection.thumbnail} alt={`${selection.album}, ${selection.artist}`} draggable="false" />
-        <div className="title-container">
-          <span>{`${selection.album} (${selection.artist})`}</span>
-        </div>
-        <button type="button" aria-label="Delete Selection" onClick={this.handleDeselect.bind(this, selection.artist, selection.album)}>
-          <i className="fas fa-times" />
-        </button>
-      </div>
-    ));
     // Style input field border (depending on warnings) and width (depending on screen size)
     const inputStyle = (field) => ({ borderColor: warnings[field] ? 'red' : '', width: inputWidth });
     // Add red border to search boxes when a warning is present
@@ -220,19 +207,6 @@ class AlbumSelect extends Component {
           {' '}
           Add album
         </button>
-        <div className="album-selection">
-          <p>
-            Selection (
-            {albumRange.min}
-            -
-            {albumRange.max}
-            {' '}
-            albums)
-          </p>
-          <div className="selection-box" style={{ borderColor: error ? 'red' : '' }}>
-            {selectedAlbums}
-          </div>
-        </div>
       </div>
     );
   }
@@ -240,30 +214,18 @@ class AlbumSelect extends Component {
 
 AlbumSelect.defaultProps = {
   selections: [],
-  error: '',
   albumRange: {},
   inputWidth: '',
   addAlbum: () => {},
-  deleteAlbum: () => {},
   clearError: () => {},
-  dragStart: () => {},
-  dragEnd: () => {},
-  dragOver: () => {},
-  drop: () => {},
 };
 
 AlbumSelect.propTypes = {
   selections: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.string)),
-  error: PropTypes.string,
   albumRange: PropTypes.objectOf(PropTypes.number),
   inputWidth: PropTypes.string,
   addAlbum: PropTypes.func,
-  deleteAlbum: PropTypes.func,
   clearError: PropTypes.func,
-  dragStart: PropTypes.func,
-  dragEnd: PropTypes.func,
-  dragOver: PropTypes.func,
-  drop: PropTypes.func,
 };
 
 

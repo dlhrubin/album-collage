@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import AlbumSelect from './AlbumSelect';
-import ShapeSelect from './ShapeSelect';
+import AlbumSelect from './menu/AlbumSelect';
+import SelectionBox from './menu/SelectionBox';
+import ShapeSelect from './menu/ShapeSelect';
 import { possibleNums } from '../data';
 
 class Menu extends Component {
@@ -34,7 +35,7 @@ class Menu extends Component {
         });
         this.handleClearError();
       }
-      this.albumSelectComponent.current.clearWarnings();
+      this.albumSelectComponent.current.clearAlbumSelect();
     }
   }
 
@@ -46,6 +47,7 @@ class Menu extends Component {
           artist, album, thumbnail, cover,
         }],
         shape: '',
+        errors: { selection: '', shape: '' },
       });
     }
 
@@ -57,6 +59,7 @@ class Menu extends Component {
           selection.artist !== artist || selection.album !== album
         )),
         shape: '',
+        errors: { selection: '', shape: '' },
       });
     }
 
@@ -135,7 +138,7 @@ class Menu extends Component {
           shape: '',
           errors: { selection: '', shape: '' },
         });
-        this.albumSelectComponent.current.clearWarnings();
+        this.albumSelectComponent.current.clearAlbumSelect();
       }
     }
 
@@ -160,12 +163,16 @@ class Menu extends Component {
           <AlbumSelect
             ref={this.albumSelectComponent}
             selections={selections}
-            error={errors.selection}
             albumRange={albumRange}
             inputWidth={menuWidth}
             addAlbum={this.handleAddAlbum}
-            deleteAlbum={this.handleDeleteAlbum}
             clearError={this.handleClearError}
+          />
+          <SelectionBox
+            selections={selections}
+            error={errors.selection}
+            albumRange={albumRange}
+            deleteAlbum={this.handleDeleteAlbum}
             dragStart={this.handleDragStart}
             dragEnd={this.handleDragEnd}
             dragOver={this.handleDragOver}

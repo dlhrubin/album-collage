@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { shapes } from '../data';
-import styles from '../css/base/_global.scss';
+import { shapes } from '../../data';
+import styles from '../../css/base/_global.scss';
 
 const ShapeSelect = ({
   selected, numAlbums, error, selectShape, clearError,
