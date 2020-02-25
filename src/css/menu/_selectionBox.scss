@@ -7,6 +7,7 @@
     color: $neutral;
     font-weight: bold;
     margin: 8px 0;
+    font-size: 0.9em;
   }
 }
 
@@ -25,10 +26,10 @@
   border: 2px dashed lightgray;
 
   > div {
-    background: $dark-accent;
+    background: white;
     height: 20px;
     margin: 2.5px;
-    box-shadow: 0 0 5px $tertiary;
+    box-shadow: 0 0 5px $tertiary, 0 0 5px $tertiary ;
     display: flex;
     cursor: grab;
     position: relative;
@@ -41,10 +42,10 @@
 
   span {
     position: absolute;
-    padding: 3px 3px 3px 5px;
+    padding: 2px 3px 2px 5px;
     font-size: 0.875em;
     font-weight: bold;
-    color: $light-accent;
+    color: $neutral;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
@@ -52,8 +53,8 @@
   }
 
   button {
-    color: $light-accent;
-    background: $dark-accent;
+    color: $secondary;
+    background: inherit;
     width: 15px;
     display: flex;
     justify-content: flex-end;
@@ -61,6 +62,7 @@
     right: 0;
     top: 0;
     bottom: 0;
+    font-size: 0.9em;
   }
 
   button:hover,

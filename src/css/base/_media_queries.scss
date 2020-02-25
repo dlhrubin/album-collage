@@ -10,6 +10,15 @@
   }
 }
 
+@media only screen and (min-width: 750px) {
+  .album-options span {
+      width: 50px;
+  }
+  .warning {
+      margin: 2px 0 0 60px;
+  }
+}
+
 @mixin smallSelectionBoxHeight($windowHeight) {
   @media only screen and (min-height: $windowHeight) {
     .selection-box {
@@ -26,6 +35,9 @@
   .collage button {
     width: 40px;
     padding: 4px 8px;
+  }
+  .menu h2 {
+    margin: 15px 0;
   }
 }
 

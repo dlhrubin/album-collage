@@ -3,7 +3,9 @@
 .menu {
   background: linear-gradient(to right, $tertiary, $emphasis);
   display: flex;
-  box-shadow: 1px 0 5px #e1e1e1;
+  box-shadow: 1px 0 5px $neutral;
+  min-height: 550px;
+
 }
 
 .menu-content {
@@ -18,7 +20,6 @@
   border-radius: 10px;
   background: $base-color;
   margin: 10px;
-  min-height: 550px;
 
   > div {
     display: flex;
@@ -29,8 +30,8 @@
 .warning {
   color: red;
   position: absolute;
-  margin: 2px 0 0 67px;
-  font-size: 0.8em;
+  margin: 2px 0 0 70px;
+  font-size: 0.875em;
 }
 
 .album-options {
@@ -54,7 +55,7 @@
 
   span {
     display: inline-block;
-    width: 50px;
+    width: 70px;
     color: $secondary;
     font-size: 1.05em;
   }
