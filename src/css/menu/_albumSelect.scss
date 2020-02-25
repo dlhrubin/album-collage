@@ -1,14 +1,23 @@
 /* ---Selection menu--- */
 
 .menu {
+  background: linear-gradient(to right, $tertiary, $emphasis);
+  display: flex;
+  box-shadow: 1px 0 5px #e1e1e1;
+}
+
+.menu-content {
+  overflow: hidden;
   position: relative;
   z-index: 1;
+  flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   padding: 0 25px;
-  background-color: $base-color;
-  box-shadow: 0.5px 0 5px $dark-accent;
+  border-radius: 10px;
+  background: $base-color;
+  margin: 10px;
   min-height: 550px;
 
   > div {
@@ -33,7 +42,6 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    color: $emphasis;
     font-weight: bold;
     position: relative;
   }
@@ -46,52 +54,62 @@
 
   span {
     display: inline-block;
-    width: 55px;
+    width: 50px;
+    color: $secondary;
+    font-size: 1.05em;
   }
 
   input {
     margin-left: 10px;
     outline: none;
-    border: 1px solid $neutral;
+    border: none;
+    border-bottom: 3px solid $neutral;
     box-sizing: border-box;
-    border-radius: 8px;
+    border-radius: 8px 8px 0 0;
     padding: 8px 30px 8px 8px;
     font-family: inherit;
-    font-size: 0.8em;
+    font-size: 1em;
   }
 
   > button {
     align-self: flex-end;
-    background-color: $dark-accent;
-    border: 1px solid $light-accent;
+    background: $dark-accent;
     border-radius: 10px;
     padding: 5px 5px;
-    font-size: 0.8em;
   }
 
   form button {
     position: absolute;
     right: 0;
     height: 100%;
-    background-color: $emphasis;
-    border: 1px solid $neutral;
-    border-left: none;
+    background: transparent;
+    color: $emphasis;
+    border: none;
     border-radius: 0 8px 8px 0;
   }
 
-  input:focus,
-  > button:focus {
-    border-color: $highlight;
-    box-shadow: 0 0 3px $highlight;
+  input:hover {
+    border-color: $tertiary;
+  }
+
+  input:focus {
+    box-shadow: 0 0 7px $highlight;
+    border-color: $tertiary;
   }
 
   input:disabled {
     border-color: darkgray;
   }
 
+  form button:hover,
+  form button:focus {
+    background: transparent;
+    box-shadow: none;
+    color: $tertiary;
+  }
+
   form button:disabled {
-    background-color: silver;
-    border-color: darkgray;
+    color: darkgray;
     cursor: auto;
   }
 }
@@ -104,6 +122,12 @@
   color: $light-accent;
 }
 
-.search-submit:hover {
-  background-color: $hover-color;
+.search-submit:hover,
+.search-submit:focus {
+  background: $tertiary;
+  border-color: $highlight;
+}
+
+.search-submit:focus {
+  box-shadow: 0 0 7px $highlight;
 }

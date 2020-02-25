@@ -159,37 +159,39 @@ class Menu extends Component {
       const menuWidth = (panelToDisplay === 'menu') ? '100%' : '';
       return (
         <section className="menu" style={{ display: menuDisplay, width: menuWidth }}>
-          <h1>Album Collage</h1>
-          <AlbumSelect
-            ref={this.albumSelectComponent}
-            selections={selections}
-            albumRange={albumRange}
-            inputWidth={menuWidth}
-            addAlbum={this.handleAddAlbum}
-            clearError={this.handleClearError}
-          />
-          <SelectionBox
-            selections={selections}
-            error={errors.selection}
-            albumRange={albumRange}
-            deleteAlbum={this.handleDeleteAlbum}
-            dragStart={this.handleDragStart}
-            dragEnd={this.handleDragEnd}
-            dragOver={this.handleDragOver}
-            drop={this.handleDrop}
-          />
-          <ShapeSelect
-            selected={shape}
-            numAlbums={selections.length}
-            error={errors.shape}
-            selectShape={this.handleSelectShape}
-            clearError={this.handleClearError}
-          />
-          <div className="collage-submit">
-            <button className="search-submit" type="button" onClick={this.handleSubmit}>
-              {editing ? 'Save Edits' : 'Collage-ify'}
-            </button>
-            <p className="warning">{errors.selection || errors.shape}</p>
+          <div className="menu-content">
+            <h1>Album Collage</h1>
+            <AlbumSelect
+              ref={this.albumSelectComponent}
+              selections={selections}
+              albumRange={albumRange}
+              inputWidth={menuWidth}
+              addAlbum={this.handleAddAlbum}
+              clearError={this.handleClearError}
+            />
+            <SelectionBox
+              selections={selections}
+              error={errors.selection}
+              albumRange={albumRange}
+              deleteAlbum={this.handleDeleteAlbum}
+              dragStart={this.handleDragStart}
+              dragEnd={this.handleDragEnd}
+              dragOver={this.handleDragOver}
+              drop={this.handleDrop}
+            />
+            <ShapeSelect
+              selected={shape}
+              numAlbums={selections.length}
+              error={errors.shape}
+              selectShape={this.handleSelectShape}
+              clearError={this.handleClearError}
+            />
+            <div className="collage-submit">
+              <button className="search-submit" type="button" onClick={this.handleSubmit}>
+                {editing ? 'Save Edits' : 'Collage-ify'}
+              </button>
+              <p className="warning">{errors.selection || errors.shape}</p>
+            </div>
           </div>
         </section>
       );

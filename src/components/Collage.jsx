@@ -251,16 +251,16 @@ class Collage extends Component {
     return (
       <section className="collage" style={{ display: collageDisplay }}>
         <div className="edit-dock">
-          <button ref={this.editButton} type="button" aria-label="Edit Collage" onClick={editCollage} style={{ backgroundColor: editing ? styles.highlight : '', borderColor: editing ? styles.highlight : '', opacity: !shape ? '0.3' : '' }} disabled={!shape}>
+          <button className="search-submit" ref={this.editButton} type="button" aria-label="Edit Collage" onClick={editCollage} style={{ backgroundColor: editing ? styles.highlight : '', borderColor: editing ? styles.highlight : '', opacity: !shape ? '0.3' : '' }} disabled={!shape}>
             <i className="fas fa-edit" />
           </button>
-          <button type="button" aria-label="Shuffle Collage" onClick={shuffleCollage} style={buttonStyle} disabled={buttonDisabled}>
+          <button className="search-submit" type="button" aria-label="Shuffle Collage" onClick={shuffleCollage} style={buttonStyle} disabled={buttonDisabled}>
             <i className="fas fa-random" />
           </button>
-          <button type="button" aria-label="Reset Collage" onClick={resetCollage} style={buttonStyle} disabled={buttonDisabled}>
+          <button className="search-submit" type="button" aria-label="Reset Collage" onClick={resetCollage} style={buttonStyle} disabled={buttonDisabled}>
             <i className="fas fa-undo" />
           </button>
-          <button type="button" aria-label="Delete Collage" onClick={deleteCollage} style={buttonStyle} disabled={buttonDisabled}>
+          <button className="search-submit" type="button" aria-label="Delete Collage" onClick={deleteCollage} style={buttonStyle} disabled={buttonDisabled}>
             <i className="fas fa-times" />
           </button>
         </div>
