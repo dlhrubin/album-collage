@@ -11,6 +11,8 @@ class App extends Component {
       selections: [],
       shape: '',
       editing: false,
+      submitted: false,
+      menuOffset: 0,
       hidePanel: false,
     };
     this.collageComponent = React.createRef();
@@ -33,14 +35,22 @@ class App extends Component {
     const windowWidth = Math.max(document.body.scrollWidth, document.documentElement.scrollWidth,
       document.body.offsetWidth, document.documentElement.offsetWidth,
       document.documentElement.clientWidth);
+    const menuWidth = document.getElementById('menu-panel').offsetWidth;
     if (windowWidth < 750 && !hidePanel) {
       this.setState({
         hidePanel: true,
       });
-    } else if (windowWidth >= 750 && hidePanel) {
-      this.setState({
-        hidePanel: false,
-      });
+    } else if (windowWidth >= 750) {
+      if (hidePanel) {
+        this.setState({
+          hidePanel: false,
+        });
+      } else {
+        // If not in hide panel mode, get width of menu panel for sliding animation
+        this.setState({
+          menuOffset: menuWidth,
+        });
+      }
     }
   }
 
@@ -51,6 +61,7 @@ class App extends Component {
       selections,
       shape,
       editing: false,
+      submitted: true,
     }, () => { this.collageComponent.current.handleChangeFocus(); });
   }
 
@@ -96,12 +107,14 @@ class App extends Component {
     this.setState({
       selections: [],
       shape: '',
+      submitted: false,
+      editing: false,
     });
   }
 
   render() {
     const {
-      selections, shape, editing, hidePanel,
+      selections, shape, editing, submitted, menuOffset, hidePanel,
     } = this.state;
     // On small screens, hide either selection menu or collage depending on user interaction
     let panelToDisplay;
@@ -119,6 +132,8 @@ class App extends Component {
           selections={selections}
           shape={shape}
           editing={editing}
+          submitted={submitted}
+          menuOffset={menuOffset}
           panelToDisplay={panelToDisplay}
           submitCollage={this.handleSubmit}
         />
@@ -127,6 +142,8 @@ class App extends Component {
           selections={selections}
           shape={shape}
           editing={editing}
+          submitted={submitted}
+          menuOffset={menuOffset}
           panelToDisplay={panelToDisplay}
           shuffleCollage={this.handleShuffle}
           editCollage={this.handleEdit}

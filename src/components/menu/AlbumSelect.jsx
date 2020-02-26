@@ -165,7 +165,7 @@ class AlbumSelect extends Component {
 
   render() {
     const {
-      selections, albumRange, inputWidth,
+      selections, focused, albumRange, inputWidth,
     } = this.props;
     const {
       newArtist, newAlbum, warnings, searchVis, addVis,
@@ -175,6 +175,8 @@ class AlbumSelect extends Component {
     // Add red border to search boxes when a warning is present
     const warningBorder = (field) => (warnings[field] ? { borderColor: 'red' } : { borderColor: '' });
     const maxAlbums = selections.length === albumRange.max;
+    // Disable album search if menu panel is not in focus
+    const disableSearch = selections.length === albumRange.max || !focused;
     return (
       <div className="album-options">
         <h2>Albums:</h2>
@@ -182,9 +184,9 @@ class AlbumSelect extends Component {
           <div className="artist-search-box" onClick={maxAlbums ? this.handleClick : undefined} onKeyPress={maxAlbums ? this.handleClick : undefined} role={maxAlbums ? 'button' : undefined} tabIndex={maxAlbums ? 0 : undefined}>
             <label htmlFor="artist-search">
               <span>Artist</span>
-              <input id="artist-search" type="search" spellCheck="false" style={inputStyle('artist')} placeholder="Enter artist name..." autoComplete="off" disabled={(selections.length === albumRange.max) ? 'disabled' : ''} ref={this.artistInput} value={newArtist} onChange={this.handleChange.bind(this, true)} />
+              <input id="artist-search" type="search" spellCheck="false" style={inputStyle('artist')} placeholder="Enter artist name..." autoComplete="off" disabled={disableSearch ? 'disabled' : ''} ref={this.artistInput} value={newArtist} onChange={this.handleChange.bind(this, true)} />
             </label>
-            <button className="search-submit" type="submit" aria-label="Artist Search" style={warningBorder('artist')} disabled={(selections.length === albumRange.max) ? 'disabled' : ''}>
+            <button className="search-submit" type="submit" aria-label="Artist Search" style={warningBorder('artist')} disabled={disableSearch ? 'disabled' : ''}>
               <i className="fas fa-search" />
             </button>
           </div>
@@ -214,6 +216,7 @@ class AlbumSelect extends Component {
 
 AlbumSelect.defaultProps = {
   selections: [],
+  focused: true,
   albumRange: {},
   inputWidth: '',
   addAlbum: () => {},
@@ -222,6 +225,7 @@ AlbumSelect.defaultProps = {
 
 AlbumSelect.propTypes = {
   selections: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.string)),
+  focused: PropTypes.bool,
   albumRange: PropTypes.objectOf(PropTypes.number),
   inputWidth: PropTypes.string,
   addAlbum: PropTypes.func,

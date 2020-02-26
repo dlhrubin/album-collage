@@ -13,6 +13,7 @@ $size: 174px;
 
 :export {
   highlight: $highlight;
+  tertiary: $tertiary;
 }
 
 body {
@@ -40,6 +41,15 @@ button {
   font-family: inherit;
   cursor: pointer;
   font-size: 1em;
+}
+
+button:disabled {
+  cursor: auto;
+}
+
+button,
+svg {
+  transition: 0.1s;
 }
 
 .app {

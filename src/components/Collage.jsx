@@ -112,8 +112,8 @@ class Collage extends Component {
 
   render() {
     const {
-      selections, shape, editing, panelToDisplay, shuffleCollage, editCollage, resetCollage,
-      deleteCollage,
+      selections, shape, editing, submitted, menuOffset, panelToDisplay, shuffleCollage,
+      editCollage, resetCollage, deleteCollage,
     } = this.props;
     const { scaleFactor } = this.state;
     // Map covers to their positions
@@ -245,13 +245,19 @@ class Collage extends Component {
 
     const buttonStyle = { opacity: (editing || !shape) ? '0.3' : '' };
     const buttonDisabled = !!((editing || !shape));
+    const editFocus = {
+      backgroundColor: editing ? styles.highlight : '',
+      borderColor: editing ? styles.highlight : '',
+      boxShadow: editing ? `0 0 7px ${styles.tertiary}` : '',
+      opacity: !shape ? '0.3' : '',
+    };
     // On small screens, hide collage if collage is being created or edited in the selection menu
     const collageDisplay = (panelToDisplay === 'menu') ? 'none' : '';
 
     return (
-      <section className="collage" style={{ display: collageDisplay }}>
+      <section id="collage-panel" className="collage" style={{ display: collageDisplay, transform: (!submitted || editing) || panelToDisplay ? '' : `translate(-${menuOffset / 2}px)` }}>
         <div className="edit-dock">
-          <button className="search-submit" ref={this.editButton} type="button" aria-label="Edit Collage" onClick={editCollage} style={{ backgroundColor: editing ? styles.highlight : '', borderColor: editing ? styles.highlight : '', opacity: !shape ? '0.3' : '' }} disabled={!shape}>
+          <button className="search-submit" ref={this.editButton} type="button" aria-label="Edit Collage" onClick={editCollage} style={editFocus} disabled={!shape}>
             <i className="fas fa-edit" />
           </button>
           <button className="search-submit" type="button" aria-label="Shuffle Collage" onClick={shuffleCollage} style={buttonStyle} disabled={buttonDisabled}>
@@ -277,6 +283,8 @@ Collage.defaultProps = {
   selections: [],
   shape: '',
   editing: false,
+  submitted: false,
+  menuOffset: 0,
   panelToDisplay: '',
   shuffleCollage: () => {},
   editCollage: () => {},
@@ -288,6 +296,8 @@ Collage.propTypes = {
   selections: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.string)),
   shape: PropTypes.string,
   editing: PropTypes.bool,
+  submitted: PropTypes.bool,
+  menuOffset: PropTypes.number,
   panelToDisplay: PropTypes.string,
   shuffleCollage: PropTypes.func,
   editCollage: PropTypes.func,

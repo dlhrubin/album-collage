@@ -150,20 +150,25 @@ class Menu extends Component {
     }
 
     render() {
-      const { panelToDisplay, editing } = this.props;
+      const {
+        menuOffset, panelToDisplay, editing, submitted,
+      } = this.props;
       const {
         selections, shape, errors, albumRange,
       } = this.state;
       // On small screens, hide selection menu if collage is not being created or edited
       const menuDisplay = (panelToDisplay === 'collage') ? 'none' : '';
       const menuWidth = (panelToDisplay === 'menu') ? '100%' : '';
+      // Enable menu if in editing mode
+      const focused = !submitted || editing;
       return (
-        <section className="menu" style={{ display: menuDisplay, width: menuWidth }}>
+        <section id="menu-panel" className="menu" style={{ display: menuDisplay, width: menuWidth, transform: focused || panelToDisplay ? '' : `translate(-${menuOffset}px)` }}>
           <div className="menu-content">
             <h1>Album Collage</h1>
             <AlbumSelect
               ref={this.albumSelectComponent}
               selections={selections}
+              focused={focused}
               albumRange={albumRange}
               inputWidth={menuWidth}
               addAlbum={this.handleAddAlbum}
@@ -187,7 +192,7 @@ class Menu extends Component {
               clearError={this.handleClearError}
             />
             <div className="collage-submit">
-              <button className="search-submit" type="button" onClick={this.handleSubmit}>
+              <button className="search-submit" type="button" disabled={!focused} onClick={this.handleSubmit}>
                 {editing ? 'Save Edits' : 'Collage-ify'}
               </button>
               <p className="warning">{errors.selection || errors.shape}</p>
@@ -202,6 +207,8 @@ Menu.defaultProps = {
   selections: [],
   shape: '',
   editing: false,
+  submitted: false,
+  menuOffset: 0,
   panelToDisplay: '',
   submitCollage: () => {},
 };
@@ -210,6 +217,8 @@ Menu.propTypes = {
   selections: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.string)),
   shape: PropTypes.string,
   editing: PropTypes.bool,
+  submitted: PropTypes.bool,
+  menuOffset: PropTypes.number,
   panelToDisplay: PropTypes.string,
   submitCollage: PropTypes.func,
 };
