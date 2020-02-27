@@ -1,5 +1,17 @@
 /* ---Collage and editing dock--- */
 
+.collage {
+  width: 100%;
+  min-height: 520px;
+  position: relative;
+  margin: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: transform 1s;
+}
+
 .editing-screen {
   position: absolute;
   width: 100%;
@@ -29,18 +41,6 @@
     background: $emphasis;
     border-color: $emphasis;
   }
-}
-
-.collage {
-  width: 100%;
-  min-height: 520px;
-  position: relative;
-  margin: 15px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  transition: transform 1s;
 }
 
 @mixin halfTriangle($vertical, $horizontal, $triangle-size) {

@@ -162,7 +162,13 @@ class Menu extends Component {
       // Enable menu if in editing mode
       const focused = !submitted || editing;
       return (
-        <section id="menu-panel" className="menu" style={{ display: menuDisplay, width: menuWidth, transform: focused || panelToDisplay ? '' : `translate(-${menuOffset}px)` }}>
+        <section
+          id="menu-panel"
+          className="menu"
+          style={{
+            display: menuDisplay, width: menuWidth, transform: focused || panelToDisplay ? '' : `translate(-${menuOffset}px)`, boxShadow: focused ? '' : 'none',
+          }}
+        >
           <div className="menu-content">
             <h1>Album Collage</h1>
             <AlbumSelect

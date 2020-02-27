@@ -43,13 +43,13 @@ button {
   font-size: 1em;
 }
 
-button:disabled {
-  cursor: auto;
-}
-
 button,
 svg {
   transition: 0.1s;
+}
+
+button:disabled {
+  cursor: auto;
 }
 
 .app {

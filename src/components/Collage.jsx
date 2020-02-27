@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import getStyle from '../utils';
 import { collageDimensions } from '../data';
 import styles from '../css/base/_global.scss';
 
@@ -47,13 +46,14 @@ class Collage extends Component {
       width: 0,
       height: 0,
       scaleFactor: 1,
+      collageOffset: 0,
     };
     this.editButton = React.createRef();
   }
 
   componentDidMount() {
-    const { width, height } = this.state;
     window.addEventListener('resize', () => {
+      const { width, height } = this.state;
       this.handleResize(width, height);
     });
   }
@@ -73,18 +73,18 @@ class Collage extends Component {
   }
 
   componentWillUnmount() {
-    const { width, height } = this.state;
     window.removeEventListener('resize', () => {
+      const { width, height } = this.state;
       this.handleResize(width, height);
     });
   }
 
   // Resize collage grid responsively according to browser size
   handleResize = (gridWidth, gridHeight) => {
-    const collageWidth = getStyle('collage', 'width');
-    let collageHeight = getStyle('collage', 'height');
-    // Take height of editing buttons dock into account to avoid overlap
-    collageHeight -= getStyle('edit-dock', 'height') * 2 + 30;
+    const dockHeight = document.getElementById('edit-dock').offsetHeight;
+    const collageWidth = document.getElementById('collage-panel').offsetWidth;
+    // Subtract margin and height of editing buttons dock to avoid overlap/spillover
+    const collageHeight = document.getElementById('collage-panel').offsetHeight - dockHeight - 30;
 
     const xScaleFactor = collageWidth / gridWidth;
     const yScaleFactor = collageHeight / gridHeight;
@@ -96,10 +96,12 @@ class Collage extends Component {
       if (smallerFactor * gridWidth < 215 || smallerFactor * gridHeight < 215) {
         this.setState({
           scaleFactor: (gridWidth > gridHeight) ? 215 / gridHeight : 215 / gridWidth,
+          collageOffset: dockHeight / 2,
         });
       } else {
         this.setState({
           scaleFactor: (xScaleFactor <= 1 || yScaleFactor <= 1) ? smallerFactor : 1,
+          collageOffset: dockHeight / 2,
         });
       }
     }
@@ -115,7 +117,7 @@ class Collage extends Component {
       selections, shape, editing, submitted, menuOffset, panelToDisplay, shuffleCollage,
       editCollage, resetCollage, deleteCollage,
     } = this.props;
-    const { scaleFactor } = this.state;
+    const { scaleFactor, collageOffset } = this.state;
     // Map covers to their positions
     let collage = populate(selections);
     // Implement cross shape
@@ -256,7 +258,7 @@ class Collage extends Component {
 
     return (
       <section id="collage-panel" className="collage" style={{ display: collageDisplay, transform: (!submitted || editing) || panelToDisplay ? '' : `translate(-${menuOffset / 2}px)` }}>
-        <div className="edit-dock">
+        <div id="edit-dock" className="edit-dock">
           <button className="search-submit" ref={this.editButton} type="button" aria-label="Edit Collage" onClick={editCollage} style={editFocus} disabled={!shape}>
             <i className="fas fa-edit" />
           </button>
@@ -270,7 +272,7 @@ class Collage extends Component {
             <i className="fas fa-times" />
           </button>
         </div>
-        <div className={`collage-grid ${shape}-${selections.length}`} style={{ transform: `scale(${scaleFactor})`, opacity: editing ? '0.3' : '' }}>
+        <div className={`collage-grid ${shape}-${selections.length}`} style={{ marginTop: `${collageOffset}px`, transform: `scale(${scaleFactor})`, opacity: editing ? '0.3' : '' }}>
           {collage}
         </div>
       </section>
