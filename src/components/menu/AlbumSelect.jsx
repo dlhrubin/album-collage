@@ -97,11 +97,7 @@ class AlbumSelect extends Component {
               this.setState({
                 newArtist: artistsFound[0].name,
                 searchVis: 'visible', // Toggle album search field visibility
-              });
-              // Jump focus to the album search field after state changes to make it visible
-              setTimeout(() => {
-                this.albumInput.current.focus();
-              }, 1);
+              }, () => { setTimeout(() => this.albumInput.current.focus(), 1); });
             } else {
               this.setState({
                 warnings: { artist: 'Artist not found', album: '' },
@@ -129,10 +125,7 @@ class AlbumSelect extends Component {
                     thumbnail: albumsFound[0].image.filter((entry) => entry.size === 'small')[0]['#text'],
                     cover: albumsFound[0].image.filter((entry) => entry.size === 'large')[0]['#text'],
                   },
-                });
-                setTimeout(() => {
-                  this.addAlbum.current.focus();
-                }, 1);
+                }, () => { setTimeout(() => this.addAlbum.current.focus(), 15); });
               } else {
                 this.setState({
                   newAlbum: albumsFound[0].name,

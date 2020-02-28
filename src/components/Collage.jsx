@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { collageDimensions } from '../data';
 import styles from '../css/base/_global.scss';
 
-// Helper function to populate collage initially with a single copy of each album cover
+// Populate collage initially with a single copy of each album cover
 const populate = (selections) => (
   selections.map((album) => (
     <div key={album.album}>
@@ -12,14 +12,14 @@ const populate = (selections) => (
   ))
 );
 
-// Helper function to add blank squares to the collage
+// Add blank squares to the collage
 const addBlanks = (collage, indices) => {
   const newArr = [...collage];
   indices.forEach((coord) => newArr.splice(coord, 0, <div key={`blank-${coord}`} className="blank-square" />));
   return newArr;
 };
 
-// Helper function to insert duplicate covers into the collage as needed
+// Insert duplicate covers into the collage as needed
 const addDups = (selections, collage, indices) => {
   const newArr = [...collage];
   indices.forEach((tuple) => {
@@ -31,14 +31,27 @@ const addDups = (selections, collage, indices) => {
   return newArr;
 };
 
-/*
-let shapeSingleCross = (collage, n) => {
-    let gridSize = 5 + (4 * n) - 2 * (n + 1);
-    return [...Array(gridSize ** 2).keys()].filter(i =>
-      (i - 1) % gridSize && (i < (gridSize * (n + 1)) || i >= (gridSize * (n + 1) + gridSize))
-    )
-}
-*/
+// Filter indices to make cross
+const populateCross = (gridSize, n) => (
+  [...Array(gridSize ** 2).keys()]
+    .filter((i) => (i - n) % gridSize
+      && (i < gridSize * n || i >= gridSize * n + gridSize))
+);
+
+// Dynamically generate single cross shape
+const shapeSingleCross = (collage, n) => {
+  const gridSize = 2 * n + 1;
+  return addBlanks(collage, populateCross(gridSize, n));
+};
+
+// Dynamically generate double cross shape
+const shapeDoubleCross = (collage, n) => {
+  const gridSize = 2 * n + 2;
+  const cross1 = populateCross(gridSize, n);
+  const cross2 = populateCross(gridSize, n + 1);
+  return addBlanks(collage, cross1.filter((i) => cross2.includes(i)));
+};
+
 class Collage extends Component {
   constructor(props) {
     super(props);
@@ -123,26 +136,10 @@ class Collage extends Component {
     // Implement cross shape
     if (shape === 'cross') {
       // Add blank squares
-      if (selections.length === 5) {
-        collage = addBlanks(collage, [0, 2, 6, 8]);
-      } else if (selections.length === 9) {
-        collage = addBlanks(collage, [0, 1, 3, 4, 5, 6, 8, 9, 15, 16, 18, 19, 20, 21, 23, 24]);
-      } else if (selections.length === 13) {
-        collage = addBlanks(collage, [0, 1, 2, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 18, 19,
-          20, 28, 29, 30, 32, 33, 34, 35, 36, 37, 39, 40, 41, 42, 43,
-          44, 46, 47, 48]);
-      } else if (selections.length === 17) {
-        collage = addBlanks(collage, [0, 1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 14, 15, 16, 17, 18,
-          19, 20, 21, 23, 24, 25, 26, 27, 28, 29, 30, 32, 33, 34, 35,
-          45, 46, 47, 48, 50, 51, 52, 53, 54, 55, 56, 57, 59, 60, 61,
-          62, 63, 64, 65, 66, 68, 69, 70, 71, 72, 73, 74, 75, 77, 78,
-          79, 80]);
-      } else if (selections.length === 20) {
-        collage = addBlanks(collage, [0, 1, 4, 5, 6, 7, 10, 11, 24, 25, 28, 29, 30, 31, 34, 35]);
-      } else if (selections.length === 28) {
-        collage = addBlanks(collage, [0, 1, 2, 5, 6, 7, 8, 9, 10, 13, 14, 15, 16, 17, 18, 21, 22,
-          23, 40, 41, 42, 45, 46, 47, 48, 49, 50, 53, 54, 55, 56, 57,
-          58, 61, 62, 63]);
+      if (selections.length < 20) {
+        collage = shapeSingleCross(collage, (selections.length - 1) / 4);
+      } else {
+        collage = shapeDoubleCross(collage, (selections.length - 4) / 8);
       }
       // Implement x collage shape
     } else if (shape === 'x') {
