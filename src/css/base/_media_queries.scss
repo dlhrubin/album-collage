@@ -1,44 +1,51 @@
 @media only screen and (min-width: 325px) {
-    .album-options {
-        label {
-            min-width: 58px;
-        }
+  .album-options {
+    label {
+      min-width: 58px;
     }
-    .edit-dock button {
-            margin: 0 15px;
-    }
+  }
+
+  .edit-dock button {
+    margin: 0 15px;
+  }
+}
+
+@media only screen and (min-width: 750px) {
+  .album-options span {
+    width: 50px;
+  }
+
+  .warning {
+    margin: 2px 0 0 60px;
+  }
 }
 
 @mixin smallSelectionBoxHeight($windowHeight) {
-    @media only screen and (min-height: $windowHeight) {
-        .selection-box {
-            height: $windowHeight - 445px;
-        }    
+  @media only screen and (min-height: $windowHeight) {
+    .selection-box {
+      height: $windowHeight - 445px;
     }
+  }
 }
 
 @for $i from 23 through 25 {
-    @include smallSelectionBoxHeight(25px * $i);
+  @include smallSelectionBoxHeight(25px * $i);
 }
 
 @media only screen and (min-height: 650px) {
-    body {
-        font-size: 1.2em;
-    }
-    .collage button {
-        width: 40px;
-        padding: 4px 8px;
-    }
+  .menu h2 {
+    margin: 15px 0;
+  }
 }
 
 @mixin largeSelectionBoxHeight($windowHeight) {
-    @media only screen and (min-height: $windowHeight) {
-        .selection-box {
-            height: $windowHeight - 470px;
-        }    
+  @media only screen and (min-height: $windowHeight) {
+    .selection-box {
+      height: $windowHeight - 470px;
     }
+  }
 }
 
 @for $i from 26 through 65 {
-    @include largeSelectionBoxHeight(25px * $i);
+  @include largeSelectionBoxHeight(25px * $i);
 }

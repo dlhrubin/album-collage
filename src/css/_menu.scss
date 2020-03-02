@@ -1,0 +1,49 @@
+/* ---Selection menu--- */
+
+.menu {
+  background: linear-gradient(to right, $tertiary, $emphasis);
+  display: flex;
+  box-shadow: 1px 0 5px $neutral;
+  min-height: 550px;
+  transition: transform 1s;
+}
+
+.menu-content {
+  overflow: hidden;
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 0 25px;
+  border-radius: 10px;
+  background: $base-color;
+  margin: 10px;
+
+  > div {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.warning {
+  color: red;
+  position: absolute;
+  margin: 2px 0 0 70px;
+  font-size: 0.875em;
+}
+
+.search-submit {
+  color: $light-accent;
+}
+
+.search-submit:hover,
+.search-submit:focus {
+  background: $tertiary;
+  border-color: $highlight;
+}
+
+.search-submit:focus {
+  box-shadow: 0 0 7px $highlight;
+}

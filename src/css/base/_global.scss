@@ -1,46 +1,59 @@
-/*---Global styles---*/
+/* ---Global styles--- */
 
-$base-color: #c2e8ce;
-$light-accent: #ffffff;
-$tertiary: #913D88;
-$dark-accent: #c50a1b;
-$emphasis: #1F3A93;
+$base-color: #f3f4f5;
+$light-accent: #fff;
+$tertiary: #e86ce0;
+$secondary: #5b8dd7;
+$dark-accent: #2b0719;
+$emphasis: #2cd2ee;
 $hover-color: $tertiary;
-$neutral: #616161;
+$neutral: #757575;
 $highlight: $tertiary;
 $size: 174px;
 
+:export {
+  highlight: $highlight;
+  tertiary: $tertiary;
+}
+
 body {
-    /* Declaring this color as a CSS variable as well so that ShapeSelect.js can access it... need to find better solution */
-    --highlight: #913D88;
-    font-family: 'Rubik', sans-serif;
-    font-size: 1em;
-    margin: 0;
+  font-family: 'Rubik', sans-serif;
+  font-size: 1em;
+  margin: 0;
 }
 
 h1 {
-    color: $light-accent;
-    text-shadow: 1px 1px 2px $dark-accent;
-    font-size: 2.3em;
-    margin: 10px 0px;
-    position: absolute;
-    top: 0;
+  color: $light-accent;
+  text-shadow: 0 0 10px $tertiary, 0 0 7px $tertiary;
+  font-size: 2.1em;
+  margin: 10px 0;
 }
 
 h2 {
-    color: $dark-accent;
-    margin-bottom: 15px;
+  color: $neutral;
+  margin: 9.2px 0;
+  font-size: 1.4em;
 }
 
 button {
-    outline: none;
-    border: none;
-    font-family: inherit;
-    cursor: pointer;
+  outline: none;
+  border: none;
+  font-family: inherit;
+  cursor: pointer;
+  font-size: 1em;
+}
+
+button,
+svg {
+  transition: 0.1s;
+}
+
+button:disabled {
+  cursor: auto;
 }
 
 .app {
-    display: flex;
-    overflow-y: auto;
-    height: 100vh;
+  display: flex;
+  overflow-y: auto;
+  height: 100vh;
 }
