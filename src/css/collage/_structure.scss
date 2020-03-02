@@ -12,15 +12,6 @@
   transition: transform 1s;
 }
 
-.editing-screen {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  z-index: 2;
-  background: lightgray;
-  opacity: 0.8;
-}
-
 .edit-dock {
   position: absolute;
   top: 0;
@@ -35,6 +26,7 @@
     background: $emphasis;
     border-radius: 10px;
     font-size: 1.3em;
+    transition: opacity 1s;
   }
 
   button:disabled:hover {
@@ -58,6 +50,7 @@
 .collage-grid {
   display: grid;
   position: absolute;
+  transition: opacity 1s;
 
   > div {
     height: $size;
