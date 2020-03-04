@@ -81,7 +81,15 @@ class AlbumSelect extends Component {
     const hasContent = (isArtist) ? newArtist : newAlbum;
     if (hasContent) {
       if (isArtist) {
-        axios.get(`https://ws.audioscrobbler.com/2.0/?method=artist.search&api_key=${config.KEY}&artist=${newArtist}&format=json`)
+        axios.get('https://ws.audioscrobbler.com/2.0/',
+          {
+            params: {
+              method: 'artist.search',
+              api_key: config.KEY,
+              artist: newArtist,
+              format: 'json',
+            },
+          })
           .then((res) => {
             const artistsFound = res.data.results.artistmatches.artist;
             if (artistsFound.length) {
@@ -96,7 +104,15 @@ class AlbumSelect extends Component {
             }
           });
       } else {
-        axios.get(`https://ws.audioscrobbler.com/2.0/?method=album.search&api_key=${config.KEY}&album=${newAlbum}&format=json`)
+        axios.get('https://ws.audioscrobbler.com/2.0/',
+          {
+            params: {
+              method: 'album.search',
+              api_key: config.KEY,
+              album: newAlbum,
+              format: 'json',
+            },
+          })
           .then((res) => {
             // Limit to albums with artist fields that match the user-entered artist
             const albumsFound = res.data.results.albummatches.album
@@ -170,13 +186,13 @@ class AlbumSelect extends Component {
               <span>Artist</span>
               <input id="artist-search" type="search" spellCheck="false" style={inputStyle('artist')} placeholder="Enter artist name..." autoComplete="off" disabled={disableSearch ? 'disabled' : ''} ref={this.artistInput} value={newArtist} onChange={this.handleChange.bind(this, true)} />
             </label>
-            <button className="search-submit" type="submit" aria-label="Artist Search" style={warningBorder('artist')} disabled={disableSearch ? 'disabled' : ''}>
+            <button id="artist-submit" className="search-submit" type="submit" aria-label="Artist Search" style={warningBorder('artist')} disabled={disableSearch ? 'disabled' : ''}>
               <i className="fas fa-search" />
             </button>
           </div>
-          <p className="warning">{warnings.artist}</p>
+          <p id="artist-warning" className="warning">{warnings.artist}</p>
         </form>
-        <form onSubmit={this.handleSearch.bind(this, false)} style={{ visibility: searchVis }}>
+        <form id="album-form" onSubmit={this.handleSearch.bind(this, false)} style={{ visibility: searchVis }}>
           <div>
             <label htmlFor="album-search">
               <span>Album</span>
@@ -186,9 +202,9 @@ class AlbumSelect extends Component {
               <i className="fas fa-search" />
             </button>
           </div>
-          <p className="warning">{warnings.album}</p>
+          <p id="album-warning" className="warning">{warnings.album}</p>
         </form>
-        <button className="search-submit" type="button" aria-label="Add Album" onClick={this.handleSubmit} ref={this.addAlbum} style={{ visibility: addVis }}>
+        <button id="form-submit" className="search-submit" type="button" aria-label="Add Album" onClick={this.handleSubmit} ref={this.addAlbum} style={{ visibility: addVis }}>
           <i className="fas fa-plus" />
           {' '}
           Add album
