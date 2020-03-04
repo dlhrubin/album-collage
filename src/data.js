@@ -31,7 +31,9 @@ export const shapes = [
   },
 ];
 
-export const possibleNums = [...new Set(shapes.map((shape) => [...shape.numbers]).flat())];
+const allNums = [];
+shapes.map((shape) => [...shape.numbers]).forEach((numbers) => allNums.push(...numbers));
+export const possibleNums = [...new Set(allNums)];
 possibleNums.sort((a, b) => a - b);
 
 export const collageDimensions = {

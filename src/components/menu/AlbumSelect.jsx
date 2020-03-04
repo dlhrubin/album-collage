@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
+import config from '../../config';
 
 class AlbumSelect extends Component {
   constructor(props) {
@@ -11,20 +12,10 @@ class AlbumSelect extends Component {
       searchVis: 'hidden',
       addVis: 'hidden',
       warnings: { artist: '', album: '' },
-      key: '',
     };
     this.artistInput = React.createRef();
     this.albumInput = React.createRef();
     this.addAlbum = React.createRef();
-  }
-
-  // Fetch API key when component mounts
-  componentDidMount() {
-    axios.get('https://iv0kqf6z1c.execute-api.us-east-2.amazonaws.com/prod').then((res) => {
-      this.setState({
-        key: res.data,
-      });
-    });
   }
 
   // If user deletes album from full selection box, clear "max number of albums selected" warning
@@ -84,13 +75,13 @@ class AlbumSelect extends Component {
 
   handleSearch = (isArtist, e) => {
     const { selections } = this.props;
-    const { newArtist, newAlbum, key } = this.state;
+    const { newArtist, newAlbum } = this.state;
     e.preventDefault();
     // Check that user has entered text into the field
     const hasContent = (isArtist) ? newArtist : newAlbum;
     if (hasContent) {
       if (isArtist) {
-        axios.get(`https://ws.audioscrobbler.com/2.0/?method=artist.search&api_key=${key}&artist=${newArtist}&format=json`)
+        axios.get(`https://ws.audioscrobbler.com/2.0/?method=artist.search&api_key=${config.KEY}&artist=${newArtist}&format=json`)
           .then((res) => {
             const artistsFound = res.data.results.artistmatches.artist;
             if (artistsFound.length) {
@@ -105,7 +96,7 @@ class AlbumSelect extends Component {
             }
           });
       } else {
-        axios.get(`https://ws.audioscrobbler.com/2.0/?method=album.search&api_key=${key}&album=${newAlbum}&format=json`)
+        axios.get(`https://ws.audioscrobbler.com/2.0/?method=album.search&api_key=${config.KEY}&album=${newAlbum}&format=json`)
           .then((res) => {
             // Limit to albums with artist fields that match the user-entered artist
             const albumsFound = res.data.results.albummatches.album
@@ -173,7 +164,7 @@ class AlbumSelect extends Component {
     return (
       <div className="album-options">
         <h2>Albums:</h2>
-        <form onSubmit={this.handleSearch.bind(this, true)}>
+        <form id="artist-form" onSubmit={this.handleSearch.bind(this, true)}>
           <div className="artist-search-box" onClick={maxAlbums ? this.handleClick : undefined} onKeyPress={maxAlbums ? this.handleClick : undefined} role={maxAlbums ? 'button' : undefined} tabIndex={maxAlbums ? 0 : undefined}>
             <label htmlFor="artist-search">
               <span>Artist</span>
