@@ -1,6 +1,6 @@
 import React from 'react';
 import { mount, shallow } from 'enzyme';
-import axios from '../__mocks__/axios';
+import { search, addFirstAlbum } from '../../testUtils';
 import AlbumSelect from './AlbumSelect';
 import Menu from '../Menu';
 import { allThirty } from '../../examples';
@@ -8,14 +8,6 @@ import artist1 from '../__fixtures__/artist1';
 import noArtist from '../__fixtures__/noArtist';
 import album1 from '../__fixtures__/album1';
 import noAlbum from '../__fixtures__/noAlbum';
-
-const search = (wrapper, isArtist, value, data) => {
-  const form = isArtist ? 'artist' : 'album';
-  wrapper.find(`#${form}-search`).simulate('change', { target: { value } });
-  wrapper.update();
-  axios.get.mockImplementationOnce(() => Promise.resolve(data));
-  wrapper.find(`#${form}-form`).simulate('submit');
-};
 
 describe('AlbumSelect', () => {
   it('renders without crashing', () => {
@@ -66,10 +58,7 @@ describe('AlbumSelect', () => {
     const wrapper = mount(<Menu />);
 
     it('makes call to artist API when user searches for artist', async () => {
-      await search(wrapper, true, 'a', artist1);
-      wrapper.update();
-      await search(wrapper, false, 'a', album1);
-      wrapper.update();
+      await addFirstAlbum(wrapper);
       expect(wrapper.find(AlbumSelect).state().newAlbum)
         .toEqual(album1.data.results.albummatches.album[0].name);
     });
@@ -89,19 +78,17 @@ describe('AlbumSelect', () => {
       wrapper.update();
       expect(wrapper.find('#album-warning').text()).toEqual('Album not found');
       expect(wrapper.find('#form-submit').props().style.visibility).toEqual('hidden');
+      // Selection box stay empty
+      expect(wrapper.find('#selections').find('.selection').length).toEqual(0);
     });
     it('displays warning when album has already been selected', async () => {
-      await search(wrapper, true, 'a', artist1);
-      wrapper.update();
-      await search(wrapper, false, 'a', album1);
-      wrapper.update();
+      await addFirstAlbum(wrapper);
       wrapper.find('#form-submit').simulate('click');
-      await search(wrapper, true, 'a', artist1);
-      wrapper.update();
-      await search(wrapper, false, 'a', album1);
-      wrapper.update();
+      await addFirstAlbum(wrapper);
       expect(wrapper.find('#album-warning').text()).toEqual('Album already selected');
       expect(wrapper.find('#form-submit').props().style.visibility).toEqual('hidden');
+      // Selection box should not add another album
+      expect(wrapper.find('#selections').find('.selection').length).toEqual(1);
     });
     it('clears warning when user types', () => {
       wrapper.find('#album-search').simulate('change', { target: { value: 'AMa' } });

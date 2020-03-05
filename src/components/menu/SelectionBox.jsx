@@ -6,7 +6,7 @@ const SelectionBox = ({
 }) => {
   // Populate selection box with selected albums (artist name and album thumbnail)
   const selectedAlbums = selections.map((selection, i) => (
-    <div key={`${selection.artist}-${selection.album}`} artist={selection.artist} album={selection.album} thumbnail={selection.thumbnail} draggable="true" onDragStart={dragStart} onDragEnd={dragEnd} onDragOver={dragOver} onDrop={drop}>
+    <div className="selection" key={`${selection.artist}-${selection.album}`} artist={selection.artist} album={selection.album} thumbnail={selection.thumbnail} draggable="true" onDragStart={dragStart} onDragEnd={dragEnd} onDragOver={dragOver} onDrop={drop}>
       <img src={selection.thumbnail} alt={`${selection.album}, ${selection.artist}`} draggable="false" />
       <div className="title-container">
         <span>{`${selection.album} (${selection.artist})`}</span>
@@ -26,7 +26,7 @@ const SelectionBox = ({
         {' '}
         albums)
       </p>
-      <div className="selection-box" style={{ borderColor: error ? 'red' : '' }}>
+      <div id="selections" className="selection-box" style={{ borderColor: error ? 'red' : '' }}>
         {selectedAlbums}
       </div>
     </div>
