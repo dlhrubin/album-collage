@@ -1,35 +1,33 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import MultiBackend from 'react-dnd-multi-backend';
+import HTML5toTouch from 'react-dnd-multi-backend/dist/esm/HTML5toTouch';
+import { DndProvider } from 'react-dnd';
+import Item from './SelectionBox/Item';
 
 const SelectionBox = ({
-  selections, albumRange, error, deleteAlbum, dragStart, dragEnd, dragOver, drop,
+  selections, albumRange, error, deleteAlbum, drop,
 }) => {
   // Populate selection box with selected albums (artist name and album thumbnail)
-  const selectedAlbums = selections.map((selection, i) => (
-    <div className="selection" key={`${selection.artist}-${selection.album}`} artist={selection.artist} album={selection.album} thumbnail={selection.thumbnail} draggable="true" onDragStart={dragStart} onDragEnd={dragEnd} onDragOver={dragOver} onDrop={drop}>
-      <img src={selection.thumbnail} alt={`${selection.album}, ${selection.artist}`} draggable="false" />
-      <div className="title-container">
-        <span>{`${selection.album} (${selection.artist})`}</span>
-      </div>
-      <button type="button" aria-label="Delete Selection" onClick={() => deleteAlbum(selection.artist, selection.album)}>
-        <i className="fas fa-times" />
-      </button>
-    </div>
+  const selectedAlbums = selections.map((selection) => (
+    <Item key={selection.id} selection={selection} deleteAlbum={deleteAlbum} drop={drop} />
   ));
   return (
-    <div className="album-selection">
-      <p>
-        Selection (
-        {albumRange.min}
-        -
-        {albumRange.max}
-        {' '}
-        albums)
-      </p>
-      <div id="selections" className="selection-box" style={{ borderColor: error ? 'red' : '' }}>
-        {selectedAlbums}
+    <DndProvider backend={MultiBackend} options={HTML5toTouch}>
+      <div className="album-selection">
+        <p>
+          Selection (
+          {albumRange.min}
+          -
+          {albumRange.max}
+          {' '}
+          albums)
+        </p>
+        <div id="selections" className="selection-box" style={{ borderColor: error ? 'red' : '' }}>
+          {selectedAlbums}
+        </div>
       </div>
-    </div>
+    </DndProvider>
   );
 };
 
@@ -38,9 +36,6 @@ SelectionBox.defaultProps = {
   error: '',
   albumRange: {},
   deleteAlbum: () => {},
-  dragStart: () => {},
-  dragEnd: () => {},
-  dragOver: () => {},
   drop: () => {},
 };
 
@@ -49,9 +44,6 @@ SelectionBox.propTypes = {
   error: PropTypes.string,
   albumRange: PropTypes.objectOf(PropTypes.number),
   deleteAlbum: PropTypes.func,
-  dragStart: PropTypes.func,
-  dragEnd: PropTypes.func,
-  dragOver: PropTypes.func,
   drop: PropTypes.func,
 };
 
