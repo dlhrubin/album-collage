@@ -14,33 +14,32 @@ const ShapeSelect = ({
     clearError();
   };
 
-  const shapeButtons = shapes.map((shape) => {
-    let color;
-    // Make shapes red on "no shape selected" submission error
-    if (error) {
-      color = 'red';
-    // Highlight shape if shape has been selected and submit button hasn't been pressed
-    } else if (selected === shape.name) {
-      color = styles.highlight;
-    // Fill shape if shape has been selected and submit button hasn't been pressed
-    } else {
-      color = '';
-    }
-    const svgStyle = { fill: color, stroke: color };
-    // Show shape only if minimum required number of albums have been selected
-    const shapeStyle = { display: (shape.numbers.includes(numAlbums)) ? '' : 'none' };
-    return (
-      <button key={shape.name} name={shape.name} type="button" className={`shape-btn ${shape.name}`} aria-label={`Select ${shape.name} shape`} style={shapeStyle} onClick={handleClick}>
-        <svg width="36" height="36" style={svgStyle}>
-          <polygon points={shape.coords} />
-        </svg>
-      </button>
-    );
-  });
+  // Show shape only if required number of albums has been selected
+  const shapeButtons = shapes.filter((shape) => shape.numbers.includes(numAlbums))
+    .map((shape) => {
+      let color;
+      // Make shapes red on "no shape selected" submission error
+      if (error) {
+        color = 'red';
+        // Highlight shape if shape has been selected and submit button hasn't been pressed
+      } else if (selected === shape.name) {
+        color = styles.highlight;
+        // Fill shape if shape has been selected and submit button hasn't been pressed
+      } else {
+        color = '';
+      }
+      return (
+        <button key={shape.name} name={shape.name} type="button" className={`shape-btn ${shape.name}`} aria-label={`Select ${shape.name} shape`} onClick={handleClick}>
+          <svg width="36" height="36" style={{ fill: color, stroke: color }}>
+            <polygon points={shape.coords} />
+          </svg>
+        </button>
+      );
+    });
   return (
     <div className="shape-options">
       <h2>Collage shape:</h2>
-      <div className="shapes">
+      <div id="shapes" className="shapes">
         {shapeButtons}
       </div>
     </div>

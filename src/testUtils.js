@@ -2,6 +2,7 @@ import axios from './components/__mocks__/axios';
 import artist1 from './components/__fixtures__/artist1';
 import album1 from './components/__fixtures__/album1';
 import album2 from './components/__fixtures__/album2';
+import album3 from './components/__fixtures__/album3';
 
 // Trigger artist or album API call/search event
 export const search = (wrapper, isArtist, value, data) => {
@@ -12,16 +13,17 @@ export const search = (wrapper, isArtist, value, data) => {
   wrapper.find(`#${form}-form`).simulate('submit');
 };
 
-export const addFirstAlbum = async (wrapper) => {
-  await search(wrapper, true, 'a', artist1);
-  wrapper.update();
-  await search(wrapper, false, 'a', album1);
-  wrapper.update();
-};
+const addAlbum = (query, album) => {
+  return (
+    async (wrapper) => {
+      await search(wrapper, true, 'a', artist1);
+      wrapper.update();
+      await search(wrapper, false, query, album);
+      wrapper.update();
+    }
+  )
+} 
 
-export const addSecondAlbum = async (wrapper) => {
-  await search(wrapper, true, 'a', artist1);
-  wrapper.update();
-  await search(wrapper, false, 'w', album2);
-  wrapper.update();
-};
+export const addFirstAlbum = addAlbum('a', album1);
+export const addSecondAlbum = addAlbum('w', album2);
+export const addThirdAlbum = addAlbum('tr', album3);

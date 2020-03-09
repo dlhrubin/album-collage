@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import AlbumSelect from './menu/AlbumSelect';
-import SelectionBox from './menu/SelectionBox';
-import ShapeSelect from './menu/ShapeSelect';
+import AlbumSelect from './Menu/AlbumSelect';
+import SelectionBox from './Menu/SelectionBox';
+import ShapeSelect from './Menu/ShapeSelect';
 import { possibleNums } from '../data';
 
 class Menu extends Component {
@@ -136,6 +136,7 @@ class Menu extends Component {
         <section
           id="menu-panel"
           className="menu"
+          aria-hidden={focused || panelToDisplay ? 'false' : 'true'}
           style={{
             display: menuDisplay, width: menuWidth, transform: focused || panelToDisplay ? '' : `translate(-${menuOffset}px)`, boxShadow: focused ? '' : 'none',
           }}
@@ -166,10 +167,10 @@ class Menu extends Component {
               clearError={this.handleClearError}
             />
             <div className="collage-submit">
-              <button className="search-submit" type="button" disabled={!focused} onClick={this.handleSubmit}>
+              <button id="collage-submit" className="search-submit" type="button" disabled={!focused} onClick={this.handleSubmit}>
                 {editing ? 'Save Edits' : 'Collage-ify'}
               </button>
-              <p className="warning">{errors.selection || errors.shape}</p>
+              <p id="collage-warning" className="warning">{errors.selection || errors.shape}</p>
             </div>
           </div>
         </section>

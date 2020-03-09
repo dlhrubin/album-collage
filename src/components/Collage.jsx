@@ -62,6 +62,8 @@ class Collage extends Component {
       collageOffset: 0,
     };
     this.editButton = React.createRef();
+    this.editDock = React.createRef();
+    this.collagePanel = React.createRef();
   }
 
   componentDidMount() {
@@ -94,10 +96,10 @@ class Collage extends Component {
 
   // Resize collage grid responsively according to browser size
   handleResize = (gridWidth, gridHeight) => {
-    const dockHeight = document.getElementById('edit-dock').offsetHeight;
-    const collageWidth = document.getElementById('collage-panel').offsetWidth;
+    const dockHeight = this.editDock.current.offsetHeight;
+    const collageWidth = this.collagePanel.current.offsetWidth;
     // Subtract margin and height of editing buttons dock to avoid overlap/spillover
-    const collageHeight = document.getElementById('collage-panel').offsetHeight - dockHeight - 30;
+    const collageHeight = this.collagePanel.current.offsetHeight - dockHeight - 30;
 
     const xScaleFactor = collageWidth / gridWidth;
     const yScaleFactor = collageHeight / gridHeight;
@@ -254,8 +256,8 @@ class Collage extends Component {
     const collageDisplay = (panelToDisplay === 'menu') ? 'none' : '';
 
     return (
-      <section id="collage-panel" className="collage" style={{ display: collageDisplay, transform: (!submitted || editing) || panelToDisplay ? '' : `translate(-${menuOffset / 2}px)` }}>
-        <div id="edit-dock" className="edit-dock">
+      <section id="collage-panel" className="collage" ref={this.collagePanel} style={{ display: collageDisplay, transform: (!submitted || editing) || panelToDisplay ? '' : `translate(-${menuOffset / 2}px)` }}>
+        <div id="edit-dock" className="edit-dock" ref={this.editDock}>
           <button className="search-submit" ref={this.editButton} type="button" aria-label="Edit Collage" onClick={editCollage} style={editFocus} disabled={!shape}>
             <i className="fas fa-edit" />
           </button>

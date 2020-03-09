@@ -21,7 +21,7 @@ const Item = ({ selection, deleteAlbum, drop }) => {
   return (
     connectDrag(
       connectDrop(
-        <div style={{ opacity }}>
+        <div className="selection" style={{ opacity }}>
           <img src={selection.thumbnail} alt={`${selection.album}, ${selection.artist}`} draggable="false" />
           <div className="title-container">
             <span>{`${selection.album} (${selection.artist})`}</span>
