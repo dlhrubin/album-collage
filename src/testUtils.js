@@ -13,16 +13,14 @@ export const search = (wrapper, isArtist, value, data) => {
   wrapper.find(`#${form}-form`).simulate('submit');
 };
 
-const addAlbum = (query, album) => {
-  return (
-    async (wrapper) => {
-      await search(wrapper, true, 'a', artist1);
-      wrapper.update();
-      await search(wrapper, false, query, album);
-      wrapper.update();
-    }
-  )
-} 
+const addAlbum = (query, album) => (
+  async (wrapper) => {
+    await search(wrapper, true, 'a', artist1);
+    wrapper.update();
+    await search(wrapper, false, query, album);
+    wrapper.update();
+  }
+);
 
 export const addFirstAlbum = addAlbum('a', album1);
 export const addSecondAlbum = addAlbum('w', album2);

@@ -6,7 +6,7 @@ import styles from '../css/base/_global.scss';
 // Populate collage initially with a single copy of each album cover
 const populate = (selections) => (
   selections.map((album) => (
-    <div key={album.album}>
+    <div key={album.album} className="album-tile">
       <img src={album.cover} alt={`${album.album}, ${album.artist}`} />
     </div>
   ))
@@ -24,7 +24,7 @@ const addDups = (selections, collage, indices) => {
   const newArr = [...collage];
   indices.forEach((tuple) => {
     newArr.splice(tuple[1], 0,
-      <div key={`${selections[tuple[0]].album}-${tuple[1]}`}>
+      <div key={`${selections[tuple[0]].album}-${tuple[1]}`} className="album-tile">
         <img src={selections[tuple[0]].cover} alt={`${selections[tuple[0]].album}, ${selections[tuple[0]].artist}`} />
       </div>);
   });
@@ -258,20 +258,20 @@ class Collage extends Component {
     return (
       <section id="collage-panel" className="collage" ref={this.collagePanel} style={{ display: collageDisplay, transform: (!submitted || editing) || panelToDisplay ? '' : `translate(-${menuOffset / 2}px)` }}>
         <div id="edit-dock" className="edit-dock" ref={this.editDock}>
-          <button className="search-submit" ref={this.editButton} type="button" aria-label="Edit Collage" onClick={editCollage} style={editFocus} disabled={!shape}>
+          <button id="edit-collage" className="search-submit" ref={this.editButton} type="button" aria-label="Edit Collage" onClick={editCollage} style={editFocus} disabled={!shape}>
             <i className="fas fa-edit" />
           </button>
-          <button className="search-submit" type="button" aria-label="Shuffle Collage" onClick={shuffleCollage} style={buttonStyle} disabled={buttonDisabled}>
+          <button id="shuffle-collage" className="search-submit" type="button" aria-label="Shuffle Collage" onClick={shuffleCollage} style={buttonStyle} disabled={buttonDisabled}>
             <i className="fas fa-random" />
           </button>
-          <button className="search-submit" type="button" aria-label="Reset Collage" onClick={resetCollage} style={buttonStyle} disabled={buttonDisabled}>
+          <button id="reset-collage" className="search-submit" type="button" aria-label="Reset Collage" onClick={resetCollage} style={buttonStyle} disabled={buttonDisabled}>
             <i className="fas fa-undo" />
           </button>
-          <button className="search-submit" type="button" aria-label="Delete Collage" onClick={deleteCollage} style={buttonStyle} disabled={buttonDisabled}>
+          <button id="delete-collage" className="search-submit" type="button" aria-label="Delete Collage" onClick={deleteCollage} style={buttonStyle} disabled={buttonDisabled}>
             <i className="fas fa-times" />
           </button>
         </div>
-        <div className={`collage-grid ${shape}-${selections.length}`} style={{ marginTop: `${collageOffset}px`, transform: `scale(${scaleFactor})`, opacity: editing ? '0.3' : '' }}>
+        <div id="collage-grid" className={`collage-grid ${shape}-${selections.length}`} style={{ marginTop: `${collageOffset}px`, transform: `scale(${scaleFactor})`, opacity: editing ? '0.3' : '' }}>
           {collage}
         </div>
       </section>

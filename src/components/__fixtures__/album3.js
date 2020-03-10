@@ -135,4 +135,4 @@ const album3 = {
   request: {},
 };
 
-export default album3
+export default album3;
