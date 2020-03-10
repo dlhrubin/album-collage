@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import AlbumSelect from './menu/AlbumSelect';
-import SelectionBox from './menu/SelectionBox';
-import ShapeSelect from './menu/ShapeSelect';
+import AlbumSelect from './Menu/AlbumSelect';
+import SelectionBox from './Menu/SelectionBox';
+import ShapeSelect from './Menu/ShapeSelect';
 import { possibleNums } from '../data';
 
 class Menu extends Component {
@@ -13,8 +13,6 @@ class Menu extends Component {
       shape: '',
       errors: { selection: '', shape: '' },
       albumRange: { min: 2, max: 30 },
-      rearranged: [],
-      dragging: null,
     };
     this.albumSelectComponent = React.createRef();
   }
@@ -42,9 +40,10 @@ class Menu extends Component {
     // Add user-added album to selections
     handleAddAlbum = (artist, album, thumbnail, cover) => {
       const { selections } = this.state;
+      const id = `${album} (${artist})`;
       this.setState({
         selections: [...selections, {
-          artist, album, thumbnail, cover,
+          id, artist, album, thumbnail, cover,
         }],
         shape: '',
         errors: { selection: '', shape: '' },
@@ -63,44 +62,16 @@ class Menu extends Component {
       });
     }
 
-    // Drag album selection
-    handleDragStart = (e) => {
-      const { selections } = this.state;
-      e.dataTransfer.setData('text', e.target);
-      const dragInd = selections.findIndex((selection) => selection.artist === e.target.getAttribute('artist') && selection.album === e.target.getAttribute('album') && selection.thumbnail === e.target.getAttribute('thumbnail'));
-      this.setState({
-        dragging: dragInd,
-      });
-    }
-
     // Drop album selection being dragged
-    handleDrop = () => {
-      const { rearranged } = this.state;
+    handleDrop = (targetId, droppedId) => {
+      const { selections } = this.state;
+      const rearranged = [...selections];
+      const targetInd = selections.findIndex((selection) => selection.id === targetId);
+      const droppedInd = selections.findIndex((selection) => selection.id === droppedId);
+      const dropped = rearranged.splice(droppedInd, 1)[0];
+      rearranged.splice(targetInd, 0, dropped);
       this.setState({
         selections: rearranged,
-        rearranged: [],
-        dragging: null,
-      });
-    }
-
-    // Rearrange selections as albums are dragged over
-    handleDragOver = (e) => {
-      const { selections, dragging } = this.state;
-      e.preventDefault();
-      const draggedOver = {
-        artist: e.target.parentNode.getAttribute('artist'),
-        album: e.target.parentNode.getAttribute('album'),
-        thumbnail: e.target.parentNode.getAttribute('thumbnail'),
-      };
-      const draggedOverInd = selections.findIndex((selection) => (
-        selection.artist === draggedOver.artist
-        && selection.album === draggedOver.album
-        && selection.thumbnail === draggedOver.thumbnail));
-      const newSelections = [...selections];
-      const dragged = newSelections.splice(dragging, 1)[0];
-      newSelections.splice(draggedOverInd, 0, dragged);
-      this.setState({
-        rearranged: newSelections,
       });
     }
 
@@ -165,6 +136,7 @@ class Menu extends Component {
         <section
           id="menu-panel"
           className="menu"
+          aria-hidden={focused || panelToDisplay ? 'false' : 'true'}
           style={{
             display: menuDisplay, width: menuWidth, transform: focused || panelToDisplay ? '' : `translate(-${menuOffset}px)`, boxShadow: focused ? '' : 'none',
           }}
@@ -185,9 +157,6 @@ class Menu extends Component {
               error={errors.selection}
               albumRange={albumRange}
               deleteAlbum={this.handleDeleteAlbum}
-              dragStart={this.handleDragStart}
-              dragEnd={this.handleDragEnd}
-              dragOver={this.handleDragOver}
               drop={this.handleDrop}
             />
             <ShapeSelect
@@ -198,10 +167,10 @@ class Menu extends Component {
               clearError={this.handleClearError}
             />
             <div className="collage-submit">
-              <button className="search-submit" type="button" disabled={!focused} onClick={this.handleSubmit}>
+              <button id="collage-submit" className="search-submit" type="button" disabled={!focused} onClick={this.handleSubmit}>
                 {editing ? 'Save Edits' : 'Collage-ify'}
               </button>
-              <p className="warning">{errors.selection || errors.shape}</p>
+              <p id="collage-warning" className="warning">{errors.selection || errors.shape}</p>
             </div>
           </div>
         </section>

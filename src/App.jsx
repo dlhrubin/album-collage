@@ -35,7 +35,6 @@ class App extends Component {
     const windowWidth = Math.max(document.body.scrollWidth, document.documentElement.scrollWidth,
       document.body.offsetWidth, document.documentElement.offsetWidth,
       document.documentElement.clientWidth);
-    const menuWidth = document.getElementById('menu-panel').offsetWidth;
     if (windowWidth < 750 && !hidePanel) {
       this.setState({
         hidePanel: true,
@@ -48,7 +47,7 @@ class App extends Component {
       } else {
         // If not in hide panel mode, get width of menu panel for sliding animation
         this.setState({
-          menuOffset: menuWidth,
+          menuOffset: document.getElementById('menu-panel').offsetWidth,
         });
       }
     }
