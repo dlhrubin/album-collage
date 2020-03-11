@@ -36,3 +36,8 @@ This project was built using Create-React-App.
 * React-DOM
 * SCSS
 * Axios
+* React DnD
+* Jest
+* Enzyme
+* ESLint
+* stylelint
