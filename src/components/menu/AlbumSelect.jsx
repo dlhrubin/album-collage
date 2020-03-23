@@ -73,79 +73,84 @@ class AlbumSelect extends Component {
     clearError();
   }
 
-  handleSearch = (isArtist, e) => {
+  handleSearchArtist = (e) => {
+    const { newArtist } = this.state;
+    e.preventDefault();
+    // Check that user has entered text into the field
+    if (newArtist) {
+      axios.get('https://ws.audioscrobbler.com/2.0/',
+        {
+          params: {
+            method: 'artist.search',
+            api_key: config.KEY,
+            artist: newArtist,
+            format: 'json',
+          },
+        })
+        .then((res) => {
+          const artistsFound = res.data.results.artistmatches.artist;
+          if (artistsFound.length) {
+            this.setState({
+              newArtist: artistsFound[0].name,
+              searchVis: 'visible', // Toggle album search field visibility
+            }, () => { setTimeout(() => this.albumInput.current.focus(), 1); });
+          } else {
+            this.setState({
+              warnings: { artist: 'Artist not found', album: '' },
+            });
+          }
+        });
+    }
+  }
+
+  handleSearchAlbum = (e) => {
     const { selections } = this.props;
     const { newArtist, newAlbum } = this.state;
     e.preventDefault();
     // Check that user has entered text into the field
-    const hasContent = (isArtist) ? newArtist : newAlbum;
-    if (hasContent) {
-      if (isArtist) {
-        axios.get('https://ws.audioscrobbler.com/2.0/',
-          {
-            params: {
-              method: 'artist.search',
-              api_key: config.KEY,
-              artist: newArtist,
-              format: 'json',
-            },
-          })
-          .then((res) => {
-            const artistsFound = res.data.results.artistmatches.artist;
-            if (artistsFound.length) {
+    if (newAlbum) {
+      axios.get('https://ws.audioscrobbler.com/2.0/',
+        {
+          params: {
+            method: 'album.search',
+            api_key: config.KEY,
+            album: newAlbum,
+            format: 'json',
+          },
+        })
+        .then((res) => {
+          // Limit to albums with artist fields that match the user-entered artist
+          const albumsFound = res.data.results.albummatches.album
+            .filter((album) => album.artist === newArtist);
+          // Check that an album was returned and has an image
+          const chosenAlbum = albumsFound[0];
+          if (albumsFound.length && chosenAlbum.image[0]['#text']) {
+            // Check that the album entered has not already been selected
+            const repeat = selections
+              .filter((selection) => selection.artist === newArtist
+                                    && selection.album === chosenAlbum.name)
+              .length;
+            if (!repeat) {
               this.setState({
-                newArtist: artistsFound[0].name,
-                searchVis: 'visible', // Toggle album search field visibility
-              }, () => { setTimeout(() => this.albumInput.current.focus(), 1); });
+                newAlbum: chosenAlbum.name,
+                addVis: 'visible',
+                img: {
+                  thumbnail: chosenAlbum.image.filter((entry) => entry.size === 'small')[0]['#text'],
+                  cover: chosenAlbum.image.filter((entry) => entry.size === 'large')[0]['#text'],
+                },
+              }, () => { setTimeout(() => this.addAlbum.current.focus(), 15); });
             } else {
               this.setState({
-                warnings: { artist: 'Artist not found', album: '' },
+                newAlbum: chosenAlbum.name,
+                warnings: { artist: '', album: 'Album already selected' },
               });
             }
-          });
-      } else {
-        axios.get('https://ws.audioscrobbler.com/2.0/',
-          {
-            params: {
-              method: 'album.search',
-              api_key: config.KEY,
-              album: newAlbum,
-              format: 'json',
-            },
-          })
-          .then((res) => {
-            // Limit to albums with artist fields that match the user-entered artist
-            const albumsFound = res.data.results.albummatches.album
-              .filter((album) => album.artist === newArtist);
-            // Check that an album was returned and has an image
-            if (albumsFound.length && albumsFound[0].image[0]['#text']) {
-              // Check that the album entered has not already been selected
-              const repeat = selections
-                .filter((selection) => selection.artist === newArtist
-                                     && selection.album === albumsFound[0].name)
-                .length;
-              if (!repeat) {
-                this.setState({
-                  newAlbum: albumsFound[0].name,
-                  addVis: 'visible',
-                  img: {
-                    thumbnail: albumsFound[0].image.filter((entry) => entry.size === 'small')[0]['#text'],
-                    cover: albumsFound[0].image.filter((entry) => entry.size === 'large')[0]['#text'],
-                  },
-                }, () => { setTimeout(() => this.addAlbum.current.focus(), 15); });
-              } else {
-                this.setState({
-                  newAlbum: albumsFound[0].name,
-                  warnings: { artist: '', album: 'Album already selected' },
-                });
-              }
-            } else {
-              this.setState({
-                warnings: { artist: '', album: 'Album not found' },
-              });
-            }
-          });
-      }
+          } else {
+            this.setState({
+              warnings: { artist: '', album: 'Album not found' },
+            });
+          }
+        });
     }
   }
 
@@ -177,22 +182,23 @@ class AlbumSelect extends Component {
     const maxAlbums = selections.length === albumRange.max;
     // Disable album search if menu panel is not in focus
     const disableSearch = selections.length === albumRange.max || !focused;
+    
     return (
       <div className="album-options">
         <h2>Albums:</h2>
-        <form id="artist-form" onSubmit={this.handleSearch.bind(this, true)}>
+        <form id="artist-form" onSubmit={this.handleSearchArtist}>
           <div className="artist-search-box" onClick={maxAlbums ? this.handleClick : undefined} onKeyPress={maxAlbums ? this.handleClick : undefined} role={maxAlbums ? 'button' : undefined} tabIndex={maxAlbums ? 0 : undefined}>
             <label htmlFor="artist-search">
               <span>Artist</span>
-              <input id="artist-search" type="search" spellCheck="false" style={inputStyle('artist')} placeholder="Enter artist name..." autoComplete="off" disabled={disableSearch ? 'disabled' : ''} ref={this.artistInput} value={newArtist} onChange={this.handleChange.bind(this, true)} />
+              <input id="artist-search" type="search" spellCheck="false" style={inputStyle('artist')} placeholder="Enter artist name..." autoComplete="off" disabled={disableSearch} ref={this.artistInput} value={newArtist} onChange={this.handleChange.bind(this, true)} />
             </label>
-            <button id="artist-submit" className="search-submit" type="submit" aria-label="Artist Search" style={warningBorder('artist')} disabled={disableSearch ? 'disabled' : ''}>
+            <button id="artist-submit" className="search-submit" type="submit" aria-label="Artist Search" style={warningBorder('artist')} disabled={disableSearch}>
               <i className="fas fa-search" />
             </button>
           </div>
           <p id="artist-warning" className="warning">{warnings.artist}</p>
         </form>
-        <form id="album-form" onSubmit={this.handleSearch.bind(this, false)} style={{ visibility: searchVis }}>
+        <form id="album-form" onSubmit={this.handleSearchAlbum} style={{ visibility: searchVis }}>
           <div>
             <label htmlFor="album-search">
               <span>Album</span>

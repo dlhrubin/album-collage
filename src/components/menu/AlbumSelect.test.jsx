@@ -45,7 +45,7 @@ describe('AlbumSelect', () => {
     wrapper.setState({ selections: allThirty });
     it('is disabled when maximum number of albums have been selected', () => {
       ['search', 'submit'].forEach((element) => {
-        expect(wrapper.find(`#artist-${element}`).props().disabled).toEqual('disabled');
+        expect(wrapper.find(`#artist-${element}`).props().disabled).toBeTruthy();
       });
     });
     it('displays warning when maximum number of albums have been selected', () => {

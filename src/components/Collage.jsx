@@ -257,9 +257,11 @@ class Collage extends Component {
     };
     // On small screens, hide collage if collage is being created or edited in the selection menu
     const collageDisplay = (panelToDisplay === 'menu') ? 'none' : '';
+    // Position collage based on visibility of menu panel
+    const collageTransform = (!submitted || editing) || panelToDisplay ? '' : `translate(-${menuOffset / 2}px)`;
 
     return (
-      <section id="collage-panel" className="collage" ref={this.collagePanel} style={{ display: collageDisplay, transform: (!submitted || editing) || panelToDisplay ? '' : `translate(-${menuOffset / 2}px)` }}>
+      <section id="collage-panel" className="collage" ref={this.collagePanel} style={{ display: collageDisplay, transform: collageTransform}}>
         <div id="edit-dock" className="edit-dock" ref={this.editDock}>
           <button id="edit-collage" className="search-submit" ref={this.editButton} type="button" aria-label="Edit Collage" onClick={editCollage} style={editFocus} disabled={!shape}>
             <i className="fas fa-edit" />
@@ -281,7 +283,6 @@ class Collage extends Component {
     );
   }
 }
-
 
 Collage.defaultProps = {
   selections: [],
