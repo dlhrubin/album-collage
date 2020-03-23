@@ -5,9 +5,9 @@ import styles from '../css/base/_global.scss';
 
 // Populate collage initially with a single copy of each album cover
 const populate = (selections) => (
-  selections.map((album) => (
-    <div key={album.album} className="album-tile">
-      <img src={album.cover} alt={`${album.album}, ${album.artist}`} />
+  selections.map((selection) => (
+    <div key={selection.id} className="album-tile">
+      <img src={selection.cover} alt={`${selection.album}, ${selection.artist}`} />
     </div>
   ))
 );
@@ -24,15 +24,15 @@ const addDups = (selections, collage, indices) => {
   const newArr = [...collage];
   indices.forEach((tuple) => {
     newArr.splice(tuple[1], 0,
-      <div key={`${selections[tuple[0]].album}-${tuple[1]}`} className="album-tile">
+      <div key={`${selections[tuple[0]].id}-${tuple[1]}`} className="album-tile">
         <img src={selections[tuple[0]].cover} alt={`${selections[tuple[0]].album}, ${selections[tuple[0]].artist}`} />
       </div>);
   });
   return newArr;
 };
 
-// Filter indices to make cross
-const populateCross = (gridSize, n) => (
+// Get indices to insert blanks to shape cross
+const getCrossBlanks = (gridSize, n) => (
   [...Array(gridSize ** 2).keys()]
     .filter((i) => (i - n) % gridSize
       && (i < gridSize * n || i >= gridSize * n + gridSize))
@@ -41,14 +41,14 @@ const populateCross = (gridSize, n) => (
 // Dynamically generate single cross shape
 const shapeSingleCross = (collage, n) => {
   const gridSize = 2 * n + 1;
-  return addBlanks(collage, populateCross(gridSize, n));
+  return addBlanks(collage, getCrossBlanks(gridSize, n));
 };
 
 // Dynamically generate double cross shape
 const shapeDoubleCross = (collage, n) => {
   const gridSize = 2 * n + 2;
-  const cross1 = populateCross(gridSize, n);
-  const cross2 = populateCross(gridSize, n + 1);
+  const cross1 = getCrossBlanks(gridSize, n);
+  const cross2 = getCrossBlanks(gridSize, n + 1);
   return addBlanks(collage, cross1.filter((i) => cross2.includes(i)));
 };
 
@@ -73,9 +73,10 @@ class Collage extends Component {
     });
   }
 
-  // Update width and height of collage grid when shape or number of albums changes
+  // Update width and height of collage grid when panel display or shape/number of albums changes
   componentDidUpdate(prevProps) {
-    const { selections, shape } = this.props;
+    const { selections, shape, panelToDisplay } = this.props;
+    const { width, height } = this.state;
     if ((shape !== prevProps.shape) || (selections.length !== prevProps.selections.length)) {
       const newWidth = shape ? collageDimensions[`${shape}-${selections.length}`][0] * 174 : 0;
       const newHeight = shape ? collageDimensions[`${shape}-${selections.length}`][1] * 174 : 0;
@@ -84,6 +85,8 @@ class Collage extends Component {
         height: newHeight,
       });
       this.handleResize(newWidth, newHeight);
+    } else if (prevProps.panelToDisplay !== panelToDisplay) {
+      this.handleResize(width, height);
     }
   }
 

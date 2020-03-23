@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import AlbumSelect from './Menu/AlbumSelect';
 import SelectionBox from './Menu/SelectionBox';
 import ShapeSelect from './Menu/ShapeSelect';
-import { possibleNums } from '../data';
+import { shapeMin, shapeMax, possibleNums } from '../data';
 
 class Menu extends Component {
   constructor(props) {
@@ -12,7 +12,7 @@ class Menu extends Component {
       selections: [],
       shape: '',
       errors: { selection: '', shape: '' },
-      albumRange: { min: 2, max: 30 },
+      albumRange: { min: shapeMin, max: shapeMax },
     };
     this.albumSelectComponent = React.createRef();
   }

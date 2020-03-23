@@ -57,7 +57,7 @@ describe('AlbumSelect', () => {
   describe('Album search', () => {
     const wrapper = mount(<Menu />);
 
-    it('makes call to artist API when user searches for artist', async () => {
+    it('makes call to album API when user searches for album', async () => {
       await addFirstAlbum(wrapper);
       expect(wrapper.find(AlbumSelect).state().newAlbum)
         .toEqual(album1.data.results.albummatches.album[0].name);
@@ -78,7 +78,7 @@ describe('AlbumSelect', () => {
       wrapper.update();
       expect(wrapper.find('#album-warning').text()).toEqual('Album not found');
       expect(wrapper.find('#form-submit').props().style.visibility).toEqual('hidden');
-      // Selection box stay empty
+      // Selection box should stay empty
       expect(wrapper.find('#selections').find('.selection').length).toEqual(0);
     });
     it('displays warning when album has already been selected', async () => {

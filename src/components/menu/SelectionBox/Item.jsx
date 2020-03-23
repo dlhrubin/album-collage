@@ -24,7 +24,7 @@ const Item = ({ selection, deleteAlbum, drop }) => {
         <div className="selection" style={{ opacity }}>
           <img src={selection.thumbnail} alt={`${selection.album}, ${selection.artist}`} draggable="false" />
           <div className="title-container">
-            <span>{`${selection.album} (${selection.artist})`}</span>
+            <span>{selection.id}</span>
           </div>
           <button type="button" aria-label="Delete Selection" onClick={() => deleteAlbum(selection.artist, selection.album)}>
             <i className="fas fa-times" />
@@ -32,7 +32,6 @@ const Item = ({ selection, deleteAlbum, drop }) => {
         </div>,
       ),
     )
-
   );
 };
 
