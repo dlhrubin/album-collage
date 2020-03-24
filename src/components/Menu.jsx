@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import AlbumSelect from './Menu/AlbumSelect';
 import SelectionBox from './Menu/SelectionBox';
 import ShapeSelect from './Menu/ShapeSelect';
-import { possibleNums } from '../data';
+import { shapeMin, shapeMax, possibleNums } from '../data';
 
 class Menu extends Component {
   constructor(props) {
@@ -12,7 +12,7 @@ class Menu extends Component {
       selections: [],
       shape: '',
       errors: { selection: '', shape: '' },
-      albumRange: { min: 2, max: 30 },
+      albumRange: { min: shapeMin, max: shapeMax },
     };
     this.albumSelectComponent = React.createRef();
   }
@@ -127,18 +127,21 @@ class Menu extends Component {
       const {
         selections, shape, errors, albumRange,
       } = this.state;
+      // Enable menu if in editing mode
+      const focused = !submitted || editing;
       // On small screens, hide selection menu if collage is not being created or edited
       const menuDisplay = (panelToDisplay === 'collage') ? 'none' : '';
       const menuWidth = (panelToDisplay === 'menu') ? '100%' : '';
-      // Enable menu if in editing mode
-      const focused = !submitted || editing;
+      // Slide menu offscreen if collage is in focus
+      const menuTransform = focused || panelToDisplay ? '' : `translate(-${menuOffset}px)`;
+
       return (
         <section
           id="menu-panel"
           className="menu"
           aria-hidden={focused || panelToDisplay ? 'false' : 'true'}
           style={{
-            display: menuDisplay, width: menuWidth, transform: focused || panelToDisplay ? '' : `translate(-${menuOffset}px)`, boxShadow: focused ? '' : 'none',
+            display: menuDisplay, width: menuWidth, transform: menuTransform, boxShadow: focused ? '' : 'none',
           }}
         >
           <div className="menu-content">

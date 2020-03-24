@@ -21,10 +21,9 @@ const ShapeSelect = ({
       // Make shapes red on "no shape selected" submission error
       if (error) {
         color = 'red';
-        // Highlight shape if shape has been selected and submit button hasn't been pressed
+        // Highlight and fill shape if shape has been selected and submit button hasn't been pressed
       } else if (selected === shape.name) {
         color = styles.highlight;
-        // Fill shape if shape has been selected and submit button hasn't been pressed
       } else {
         color = '';
       }

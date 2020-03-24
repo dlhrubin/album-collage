@@ -1,3 +1,6 @@
+export const shapeMin = 2;
+export const shapeMax = 30;
+
 export const shapes = [
   {
     name: 'cross',

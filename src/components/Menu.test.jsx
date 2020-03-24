@@ -63,8 +63,8 @@ describe('Menu', () => {
   });
   it('resets menu and disables search when collage is submitted', async () => {
     expect(wrapper.find('#artist-search').props().value).toEqual('');
-    expect(wrapper.find('#artist-search').props().disabled).toEqual('disabled');
-    expect(wrapper.find('#artist-submit').props().disabled).toEqual('disabled');
+    expect(wrapper.find('#artist-search').props().disabled).toBeTruthy();
+    expect(wrapper.find('#artist-submit').props().disabled).toBeTruthy();
     expect(wrapper.find('#selections').find('.selection').length).toEqual(0);
     expect(wrapper.find('#shapes').find('.shape-btn').length).toEqual(0);
   });

@@ -82,10 +82,10 @@ class App extends Component {
     while (sameAsBefore) {
       unshuffled = [...selections];
       shuffled = [];
-      for (let i = 0; i < selections.length; i += 1) {
+      for (let i = 0; i < selections.length; i++) {
         shuffled = [...shuffled,
           unshuffled.splice(Math.floor(Math.random() * unshuffled.length), 1)[0]];
-        sameAsBefore = (sameAsBefore === false) ? false : (shuffled[i] === selections[i]);
+        sameAsBefore = !sameAsBefore ? false : (shuffled[i] === selections[i]);
       }
     }
     this.setState({

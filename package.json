@@ -25,7 +25,7 @@
     "deploy": "aws s3 sync build/ s3://albumcollage",
     "lint": "eslint --fix --ext .js --ext .jsx .",
     "css-lint": "node_modules/.bin/stylelint --fix '**/*.scss' --config ./.stylelintrc.js",
-    "test": "react-scripts test --verbose",
+    "test": "react-scripts test --verbose --silent --transformIgnorePatterns \"node_modules/react-dnd-multi-backend/dist/esm/HTML5toTouch/\"",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
