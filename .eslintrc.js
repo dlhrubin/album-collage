@@ -23,5 +23,6 @@ module.exports = {
     'react',
   ],
   rules: {
+    'no-plusplus': ['error', {'allowForLoopAfterthoughts': true}],
   },
 };

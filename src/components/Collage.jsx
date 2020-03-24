@@ -261,7 +261,7 @@ class Collage extends Component {
     const collageTransform = (!submitted || editing) || panelToDisplay ? '' : `translate(-${menuOffset / 2}px)`;
 
     return (
-      <section id="collage-panel" className="collage" ref={this.collagePanel} style={{ display: collageDisplay, transform: collageTransform}}>
+      <section id="collage-panel" className="collage" ref={this.collagePanel} style={{ display: collageDisplay, transform: collageTransform }}>
         <div id="edit-dock" className="edit-dock" ref={this.editDock}>
           <button id="edit-collage" className="search-submit" ref={this.editButton} type="button" aria-label="Edit Collage" onClick={editCollage} style={editFocus} disabled={!shape}>
             <i className="fas fa-edit" />

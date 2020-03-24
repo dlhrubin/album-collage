@@ -182,7 +182,7 @@ class AlbumSelect extends Component {
     const maxAlbums = selections.length === albumRange.max;
     // Disable album search if menu panel is not in focus
     const disableSearch = selections.length === albumRange.max || !focused;
-    
+
     return (
       <div className="album-options">
         <h2>Albums:</h2>

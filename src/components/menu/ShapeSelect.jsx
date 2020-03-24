@@ -6,7 +6,6 @@ import styles from '../../css/base/_global.scss';
 const ShapeSelect = ({
   selected, numAlbums, error, selectShape, clearError,
 }) => {
-
   const handleClick = (e) => {
     const clicked = (e.target.name === selected) ? '' : e.target.name;
     // Submit selected shape to the Menu component
