@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import html2canvas from 'html2canvas';
 import { collageDimensions } from '../data';
 import styles from '../css/base/_global.scss';
 
@@ -7,7 +8,7 @@ import styles from '../css/base/_global.scss';
 const populate = (selections) => (
   selections.map((selection) => (
     <div key={selection.id} className="album-tile">
-      <img src={selection.cover} alt={`${selection.album}, ${selection.artist}`} />
+      <img src={selection.cover} alt={`${selection.album}, ${selection.artist}`} origin="Anonymous" />
     </div>
   ))
 );
@@ -25,7 +26,7 @@ const addDups = (selections, collage, indices) => {
   indices.forEach((tuple) => {
     newArr.splice(tuple[1], 0,
       <div key={`${selections[tuple[0]].id}-${tuple[1]}`} className="album-tile">
-        <img src={selections[tuple[0]].cover} alt={`${selections[tuple[0]].album}, ${selections[tuple[0]].artist}`} />
+        <img src={selections[tuple[0]].cover} alt={`${selections[tuple[0]].album}, ${selections[tuple[0]].artist}`} origin="Anonymous" />
       </div>);
   });
   return newArr;
@@ -60,6 +61,7 @@ class Collage extends Component {
       height: 0,
       scaleFactor: 1,
       collageOffset: 0,
+      downloadLink: '',
     };
     this.editButton = React.createRef();
     this.editDock = React.createRef();
@@ -130,12 +132,21 @@ class Collage extends Component {
     this.editButton.current.focus();
   }
 
+  // Download collage locally
+  handleDownload = () => {
+    html2canvas(document.getElementById('collage-grid'), { useCORS: true }).then((canvas) => {
+      this.setState({
+        downloadLink: canvas.toDataURL('image/png'),
+      });
+    });
+  }
+
   render() {
     const {
       selections, shape, editing, submitted, menuOffset, panelToDisplay, shuffleCollage,
       editCollage, resetCollage, deleteCollage,
     } = this.props;
-    const { scaleFactor, collageOffset } = this.state;
+    const { scaleFactor, collageOffset, downloadLink } = this.state;
     // Map covers to their positions
     let collage = populate(selections);
     // Implement cross shape
@@ -263,18 +274,23 @@ class Collage extends Component {
     return (
       <section id="collage-panel" className="collage" ref={this.collagePanel} style={{ display: collageDisplay, transform: collageTransform }}>
         <div id="edit-dock" className="edit-dock" ref={this.editDock}>
-          <button id="edit-collage" className="search-submit" ref={this.editButton} type="button" aria-label="Edit Collage" onClick={editCollage} style={editFocus} disabled={!shape}>
+          <button id="edit-collage" className="collage-btn" ref={this.editButton} type="button" aria-label="Edit Collage" onClick={editCollage} style={editFocus} disabled={!shape}>
             <i className="fas fa-edit" />
           </button>
-          <button id="shuffle-collage" className="search-submit" type="button" aria-label="Shuffle Collage" onClick={shuffleCollage} style={buttonStyle} disabled={buttonDisabled}>
+          <button id="shuffle-collage" className="collage-btn" type="button" aria-label="Shuffle Collage" onClick={shuffleCollage} style={buttonStyle} disabled={buttonDisabled}>
             <i className="fas fa-random" />
           </button>
-          <button id="reset-collage" className="search-submit" type="button" aria-label="Reset Collage" onClick={resetCollage} style={buttonStyle} disabled={buttonDisabled}>
+          <button id="reset-collage" className="collage-btn" type="button" aria-label="Reset Collage" onClick={resetCollage} style={buttonStyle} disabled={buttonDisabled}>
             <i className="fas fa-undo" />
           </button>
-          <button id="delete-collage" className="search-submit" type="button" aria-label="Delete Collage" onClick={deleteCollage} style={buttonStyle} disabled={buttonDisabled}>
+          <button id="delete-collage" className="collage-btn" type="button" aria-label="Delete Collage" onClick={deleteCollage} style={buttonStyle} disabled={buttonDisabled}>
             <i className="fas fa-times" />
           </button>
+          <a href={downloadLink} download>
+            <button id="download-collage" className="collage-btn" type="button" aria-label="Download Collage" onClick={this.handleDownload} style={buttonStyle} disabled={buttonDisabled}>
+              <i className="fas fa-download" />
+            </button>
+          </a>
         </div>
         <div id="collage-grid" className={`collage-grid ${shape}-${selections.length}`} style={{ marginTop: `${collageOffset}px`, transform: `scale(${scaleFactor})`, opacity: editing ? '0.3' : '' }}>
           {collage}
