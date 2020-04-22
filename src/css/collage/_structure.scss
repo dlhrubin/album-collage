@@ -17,22 +17,36 @@
   top: 0;
   z-index: 1;
 
-  button {
-    box-shadow: 1px 1px 5px $neutral;
-    margin: 0 3px;
-    margin-bottom: 20px;
-    width: 42px;
-    height: 38px;
-    background: $emphasis;
-    border-radius: 10px;
-    font-size: 1.3em;
-    transition: opacity 1s;
+  a {
+    display: none;
   }
+}
 
-  button:disabled:hover {
-    background: $emphasis;
-    border-color: $emphasis;
-  }
+.collage-btn {
+  box-shadow: 1px 1px 5px $neutral;
+  margin: 0 3px;
+  margin-bottom: 20px;
+  width: 42px;
+  height: 38px;
+  background: $emphasis;
+  color: $light-accent;
+  border-radius: 10px;
+  font-size: 1.3em;
+  transition: opacity 1s;
+}
+
+.collage-btn:hover,
+.collage-btn:focus {
+  background: $tertiary;
+}
+
+.collage-btn:focus {
+  box-shadow: 0 0 7px $highlight;
+}
+
+.collage-btn:disabled:hover {
+  background: $emphasis;
+  border-color: $emphasis;
 }
 
 @mixin halfTriangle($vertical, $horizontal, $triangle-size) {
