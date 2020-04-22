@@ -8,7 +8,7 @@ import styles from '../css/base/_global.scss';
 const populate = (selections) => (
   selections.map((selection) => (
     <div key={selection.id} className="album-tile">
-      <img src={selection.cover} alt={`${selection.album}, ${selection.artist}`} origin="Anonymous" />
+      <img src={selection.cover} alt={`${selection.album}, ${selection.artist}`} />
     </div>
   ))
 );
@@ -26,7 +26,7 @@ const addDups = (selections, collage, indices) => {
   indices.forEach((tuple) => {
     newArr.splice(tuple[1], 0,
       <div key={`${selections[tuple[0]].id}-${tuple[1]}`} className="album-tile">
-        <img src={selections[tuple[0]].cover} alt={`${selections[tuple[0]].album}, ${selections[tuple[0]].artist}`} origin="Anonymous" />
+        <img src={selections[tuple[0]].cover} alt={`${selections[tuple[0]].album}, ${selections[tuple[0]].artist}`} />
       </div>);
   });
   return newArr;
@@ -64,6 +64,7 @@ class Collage extends Component {
       downloadLink: '',
     };
     this.editButton = React.createRef();
+    this.downloadButton = React.createRef();
     this.editDock = React.createRef();
     this.collagePanel = React.createRef();
   }
@@ -137,7 +138,7 @@ class Collage extends Component {
     html2canvas(document.getElementById('collage-grid'), { useCORS: true }).then((canvas) => {
       this.setState({
         downloadLink: canvas.toDataURL('image/png'),
-      });
+      }, () => this.downloadButton.current.click());
     });
   }
 
@@ -283,14 +284,13 @@ class Collage extends Component {
           <button id="reset-collage" className="collage-btn" type="button" aria-label="Reset Collage" onClick={resetCollage} style={buttonStyle} disabled={buttonDisabled}>
             <i className="fas fa-undo" />
           </button>
+          <button id="download-collage" className="collage-btn" type="button" aria-label="Download Collage" onClick={this.handleDownload} style={buttonStyle} disabled={buttonDisabled}>
+              <i className="fas fa-download" />
+          </button>
+          <a href={downloadLink} download ref={this.downloadButton}>Hidden download link</a>
           <button id="delete-collage" className="collage-btn" type="button" aria-label="Delete Collage" onClick={deleteCollage} style={buttonStyle} disabled={buttonDisabled}>
             <i className="fas fa-times" />
           </button>
-          <a href={downloadLink} download>
-            <button id="download-collage" className="collage-btn" type="button" aria-label="Download Collage" onClick={this.handleDownload} style={buttonStyle} disabled={buttonDisabled}>
-              <i className="fas fa-download" />
-            </button>
-          </a>
         </div>
         <div id="collage-grid" className={`collage-grid ${shape}-${selections.length}`} style={{ marginTop: `${collageOffset}px`, transform: `scale(${scaleFactor})`, opacity: editing ? '0.3' : '' }}>
           {collage}
