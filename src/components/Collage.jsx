@@ -33,10 +33,15 @@ const addDups = (selections, collage, indices) => {
 };
 
 // Add triangle overlays to form final collage shape
-const addOverlays = (collage, overlays) => {
+const addOverlays = (collage, backgroundColor, overlays) => {
   const finalCollage = [...collage];
   overlays.forEach((triangle) => {
-    finalCollage.push(<div className={`overlay ${triangle}`} key={`${triangle}`} />);
+    // Set overlay color
+    let side = triangle.match(/^\w*/)[0];
+    side = side.charAt(0).toUpperCase() + side.slice(1);
+    const overlayColor = {};
+    overlayColor[`border${side}Color`] = backgroundColor;
+    finalCollage.push(<div className={`overlay ${triangle}`} key={`${triangle}`} style={overlayColor} />);
   });
   return finalCollage;
 };
@@ -63,7 +68,7 @@ const shapeDoubleCross = (collage, n) => {
 };
 
 // Build collage shapes
-const buildCollage = (selections, shape) => {
+const buildCollage = (selections, shape, backgroundColor) => {
   let collage = populate(selections);
   switch (shape) {
     case 'cross':
@@ -120,7 +125,7 @@ const buildCollage = (selections, shape) => {
         default:
           // No selections, so do nothing
       }
-      collage = addOverlays(collage, ['top', 'right', 'bottom', 'left', 'top-left', 'top-right', 'bottom-left', 'bottom-right']);
+      collage = addOverlays(collage, backgroundColor, ['top', 'right', 'bottom', 'left', 'top-left', 'top-right', 'bottom-left', 'bottom-right']);
       break;
     case 'square':
       // Square shapes require no overlays or added blanks
@@ -142,7 +147,7 @@ const buildCollage = (selections, shape) => {
         default:
           // No selections, so do nothing
       }
-      collage = addOverlays(collage, ['top-left', 'top-right', 'bottom-left', 'bottom-right']);
+      collage = addOverlays(collage, backgroundColor, ['top-left', 'top-right', 'bottom-left', 'bottom-right']);
       break;
     case 'heart':
       switch (selections.length) {
@@ -169,7 +174,7 @@ const buildCollage = (selections, shape) => {
         default:
           // No selections, so do nothing
       }
-      collage = addOverlays(collage, ['top', 'top-left', 'top-right', 'bottom-left', 'bottom-right']);
+      collage = addOverlays(collage, backgroundColor, ['top', 'top-left', 'top-right', 'bottom-left', 'bottom-right']);
       break;
     case 'octagon':
       switch (selections.length) {
@@ -183,7 +188,7 @@ const buildCollage = (selections, shape) => {
         default:
           // No selections, so do nothing
       }
-      collage = addOverlays(collage, ['top-left', 'top-right', 'bottom-left', 'bottom-right']);
+      collage = addOverlays(collage, backgroundColor, ['top-left', 'top-right', 'bottom-left', 'bottom-right']);
       break;
     default:
       collage = <div />;
@@ -273,7 +278,8 @@ class Collage extends Component {
 
   // Download collage locally
   handleDownload = () => {
-    html2canvas(document.getElementById('collage-grid'), { useCORS: true }).then((canvas) => {
+    const { backgroundColor } = this.props;
+    html2canvas(document.getElementById('collage-grid'), { useCORS: true, backgroundColor }).then((canvas) => {
       this.setState({
         downloadLink: canvas.toDataURL('image/png'),
       }, () => this.downloadButton.current.click());
@@ -282,12 +288,12 @@ class Collage extends Component {
 
   render() {
     const {
-      selections, shape, editing, submitted, menuOffset, panelToDisplay, shuffleCollage,
-      editCollage, resetCollage, deleteCollage,
+      selections, shape, editing, backgroundColor, submitted, menuOffset, panelToDisplay,
+      shuffleCollage, editCollage, changeBackground, resetCollage, deleteCollage,
     } = this.props;
     const { scaleFactor, collageOffset, downloadLink } = this.state;
     // Build collage
-    const collage = buildCollage(selections, shape);
+    const collage = buildCollage(selections, shape, backgroundColor);
     const buttonStyle = { opacity: (editing || !shape) ? '0.3' : '' };
     const buttonDisabled = !!((editing || !shape));
     const editFocus = {
@@ -306,6 +312,10 @@ class Collage extends Component {
         <div id="edit-dock" className="edit-dock" ref={this.editDock}>
           <button id="edit-collage" className="collage-btn" ref={this.editButton} type="button" aria-label="Edit Collage" onClick={editCollage} style={editFocus} disabled={!shape}>
             <i className="fas fa-edit" />
+          </button>
+          <button id="change-background" className="collage-btn" type="button" aria-label="Change Background Color" style={buttonStyle} disabled={buttonDisabled}>
+            <i className="fas fa-fill-drip" />
+            <input type="color" onChange={changeBackground} />
           </button>
           <button id="shuffle-collage" className="collage-btn" type="button" aria-label="Shuffle Collage" onClick={shuffleCollage} style={buttonStyle} disabled={buttonDisabled}>
             <i className="fas fa-random" />
@@ -332,12 +342,14 @@ class Collage extends Component {
 Collage.defaultProps = {
   selections: [],
   shape: '',
+  backgroundColor: '#ffffff',
   editing: false,
   submitted: false,
   menuOffset: 0,
   panelToDisplay: '',
-  shuffleCollage: () => {},
   editCollage: () => {},
+  changeBackground: () => {},
+  shuffleCollage: () => {},
   resetCollage: () => {},
   deleteCollage: () => {},
 };
@@ -345,12 +357,14 @@ Collage.defaultProps = {
 Collage.propTypes = {
   selections: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.string)),
   shape: PropTypes.string,
+  backgroundColor: PropTypes.string,
   editing: PropTypes.bool,
   submitted: PropTypes.bool,
   menuOffset: PropTypes.number,
   panelToDisplay: PropTypes.string,
-  shuffleCollage: PropTypes.func,
   editCollage: PropTypes.func,
+  changeBackground: PropTypes.func,
+  shuffleCollage: PropTypes.func,
   resetCollage: PropTypes.func,
   deleteCollage: PropTypes.func,
 };

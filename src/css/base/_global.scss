@@ -10,6 +10,7 @@ $hover-color: $tertiary;
 $neutral: #757575;
 $highlight: $tertiary;
 $size: 174px;
+$transition-rate: 1s;
 
 :export {
   highlight: $highlight;
@@ -56,4 +57,5 @@ button:disabled {
   display: flex;
   overflow-y: auto;
   height: 100vh;
+  transition: background-color $transition-rate;
 }

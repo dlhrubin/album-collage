@@ -5,7 +5,7 @@
   display: flex;
   box-shadow: 1px 0 5px $neutral;
   min-height: 550px;
-  transition: transform 1s;
+  transition: transform $transition-rate;
 }
 
 .menu-content {

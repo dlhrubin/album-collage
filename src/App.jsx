@@ -10,6 +10,7 @@ class App extends Component {
       userInput: [],
       selections: [],
       shape: '',
+      backgroundColor: '#ffffff',
       editing: false,
       submitted: false,
       menuOffset: 0,
@@ -72,6 +73,13 @@ class App extends Component {
     });
   }
 
+  // Change collage background color
+  handleChangeBackground = (e) => {
+    this.setState({
+      backgroundColor: e.target.value,
+    });
+  }
+
   // Shuffle album order
   handleShuffle = () => {
     const { selections } = this.state;
@@ -106,6 +114,7 @@ class App extends Component {
     this.setState({
       selections: [],
       shape: '',
+      backgroundColor: '#ffffff',
       submitted: false,
       editing: false,
     });
@@ -113,7 +122,7 @@ class App extends Component {
 
   render() {
     const {
-      selections, shape, editing, submitted, menuOffset, hidePanel,
+      selections, shape, backgroundColor, editing, submitted, menuOffset, hidePanel,
     } = this.state;
     // On small screens, hide either selection menu or collage depending on user interaction
     let panelToDisplay;
@@ -126,7 +135,7 @@ class App extends Component {
     }
 
     return (
-      <div className="app">
+      <div className="app" style={{ background: backgroundColor }}>
         <Menu
           selections={selections}
           shape={shape}
@@ -140,12 +149,14 @@ class App extends Component {
           ref={this.collageComponent}
           selections={selections}
           shape={shape}
+          backgroundColor={backgroundColor}
           editing={editing}
           submitted={submitted}
           menuOffset={menuOffset}
           panelToDisplay={panelToDisplay}
-          shuffleCollage={this.handleShuffle}
           editCollage={this.handleEdit}
+          changeBackground={this.handleChangeBackground}
+          shuffleCollage={this.handleShuffle}
           resetCollage={this.handleReset}
           deleteCollage={this.handleDelete}
         />
