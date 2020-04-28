@@ -207,6 +207,7 @@ class Collage extends Component {
       downloadLink: '',
     };
     this.editButton = React.createRef();
+    this.colorInput = React.createRef();
     this.downloadButton = React.createRef();
     this.editDock = React.createRef();
     this.collagePanel = React.createRef();
@@ -294,8 +295,14 @@ class Collage extends Component {
     const { scaleFactor, collageOffset, downloadLink } = this.state;
     // Build collage
     const collage = buildCollage(selections, shape, backgroundColor);
-    const buttonStyle = { opacity: (editing || !shape) ? '0.3' : '' };
-    const buttonDisabled = !!((editing || !shape));
+    const editingScreen = (editing || !shape);
+    const editDockStyle = {
+      background: editingScreen ? 'rgba(243, 244, 245, 0.8)' : '',
+      borderColor: editingScreen ? 'rgba(44, 210, 238, 0.3)' : '',
+      boxShadow: editingScreen ? '1px 1px 5px rgba(117, 117, 117, 0.3)' : '',
+    };
+    const buttonStyle = { opacity: editingScreen ? '0.3' : '' };
+    const buttonDisabled = !!(editingScreen);
     const editFocus = {
       backgroundColor: editing ? styles.highlight : '',
       borderColor: editing ? styles.highlight : '',
@@ -309,13 +316,13 @@ class Collage extends Component {
 
     return (
       <section id="collage-panel" className="collage" ref={this.collagePanel} style={{ display: collageDisplay, transform: collageTransform }}>
-        <div id="edit-dock" className="edit-dock" ref={this.editDock}>
+        <div id="edit-dock" className="edit-dock" ref={this.editDock} style={editDockStyle}>
           <button id="edit-collage" className="collage-btn" ref={this.editButton} type="button" aria-label="Edit Collage" onClick={editCollage} style={editFocus} disabled={!shape}>
             <i className="fas fa-edit" />
           </button>
-          <button id="change-background" className="collage-btn" type="button" aria-label="Change Background Color" style={buttonStyle} disabled={buttonDisabled}>
+          <button id="change-background" className="collage-btn" type="button" aria-label="Change Background Color" onClick={() => this.colorInput.current.click()} style={buttonStyle} disabled={buttonDisabled}>
             <i className="fas fa-fill-drip" />
-            <input type="color" onChange={changeBackground} />
+            <input type="color" ref={this.colorInput} onChange={changeBackground} disabled={buttonDisabled} />
           </button>
           <button id="shuffle-collage" className="collage-btn" type="button" aria-label="Shuffle Collage" onClick={shuffleCollage} style={buttonStyle} disabled={buttonDisabled}>
             <i className="fas fa-random" />
