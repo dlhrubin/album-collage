@@ -16,7 +16,6 @@ class App extends Component {
       menuOffset: 0,
       hidePanel: false,
     };
-    this.collageComponent = React.createRef();
   }
 
   componentDidMount() {
@@ -62,7 +61,7 @@ class App extends Component {
       shape,
       editing: false,
       submitted: true,
-    }, () => { this.collageComponent.current.handleChangeFocus(); });
+    });
   }
 
   // Edit collage
@@ -146,7 +145,6 @@ class App extends Component {
           submitCollage={this.handleSubmit}
         />
         <Collage
-          ref={this.collageComponent}
           selections={selections}
           shape={shape}
           backgroundColor={backgroundColor}
