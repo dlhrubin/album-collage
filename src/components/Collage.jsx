@@ -50,7 +50,7 @@ class Collage extends Component {
 
   // Resize collage grid responsively according to browser size
   handleResize = (gridWidth, gridHeight) => {
-    const dockHeight = this.editDock.current.offsetHeight;
+    const dockHeight = this.editDock.current.dockToMeasure.current.offsetHeight;
     const collageWidth = this.collagePanel.current.offsetWidth;
     // Subtract margin and height of editing buttons dock to avoid overlap/spillover
     const collageHeight = this.collagePanel.current.offsetHeight - dockHeight - 30;

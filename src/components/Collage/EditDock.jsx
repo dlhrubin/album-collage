@@ -9,6 +9,7 @@ class EditDock extends Component {
     this.state = {
       downloadLink: '',
     };
+    this.dockToMeasure = React.createRef();
     this.colorInput = React.createRef();
     this.downloadButton = React.createRef();
   }
@@ -44,7 +45,7 @@ class EditDock extends Component {
       opacity: !shape ? '0.3' : '',
     };
     return (
-      <div id="edit-dock" className="edit-dock" style={editDockStyle}>
+      <div id="edit-dock" ref={this.dockToMeasure} className="edit-dock" style={editDockStyle}>
         <button id="edit-collage" className="collage-btn" type="button" aria-label="Edit Collage" onClick={editCollage} style={editFocus} disabled={!shape}>
           <i className="fas fa-edit" />
         </button>
