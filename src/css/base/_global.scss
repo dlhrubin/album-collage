@@ -10,6 +10,7 @@ $hover-color: $tertiary;
 $neutral: #757575;
 $highlight: $tertiary;
 $size: 174px;
+$transition-rate: 1s;
 
 :export {
   highlight: $highlight;
@@ -48,12 +49,15 @@ svg {
   transition: 0.1s;
 }
 
-button:disabled {
+button:disabled,
+input[type=color]:disabled {
   cursor: auto;
 }
 
 .app {
   display: flex;
   overflow-y: auto;
+  overflow-x: hidden;
   height: 100vh;
+  transition: background-color $transition-rate;
 }

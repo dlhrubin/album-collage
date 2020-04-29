@@ -4,9 +4,15 @@
       min-width: 58px;
     }
   }
+}
 
+@media only screen and (min-width: 440px) {
   .collage-btn {
-    margin: 0 15px;
+    margin: 0 13px;
+  }
+
+  .edit-dock {
+    width: auto;
   }
 }
 
