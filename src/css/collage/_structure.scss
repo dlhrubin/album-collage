@@ -59,7 +59,14 @@
 }
 
 .collage-btn input[type=color] {
-  display: none;
+  visibility: hidden;
+  width: 0;
+  height: 0;
+  position: absolute;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  margin: auto;
 }
 
 @mixin halfTriangle($vertical, $horizontal, $triangle-size) {
