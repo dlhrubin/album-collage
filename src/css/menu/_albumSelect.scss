@@ -36,6 +36,10 @@
     font-family: inherit;
     font-size: 1em;
   }
+  
+  input, input::-webkit-search-decoration {
+    -webkit-appearance: none;
+  }
 
   > button {
     align-self: flex-end;
