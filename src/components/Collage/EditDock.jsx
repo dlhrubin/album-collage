@@ -49,9 +49,9 @@ class EditDock extends Component {
         <button id="edit-collage" className="collage-btn" type="button" aria-label="Edit Collage" onClick={editCollage} style={editFocus} disabled={!shape}>
           <i className="fas fa-edit" />
         </button>
-        <button id="change-background" className="collage-btn" type="button" aria-label="Change Background Color" onClick={() => this.colorInput.current.click()} style={buttonStyle} disabled={buttonDisabled}>
+        <button id="change-background" className="collage-btn" type="button" aria-label="Change Background Color" onKeyPress={() => this.colorInput.current.click()} style={buttonStyle} disabled={buttonDisabled}>
           <i className="fas fa-fill-drip" />
-          <input type="color" ref={this.colorInput} onChange={changeBackground} disabled={buttonDisabled} />
+          <input type="color" ref={this.colorInput} onChange={changeBackground} disabled={buttonDisabled} tabIndex="-1" aria-hidden="true" />
         </button>
         <button id="shuffle-collage" className="collage-btn" type="button" aria-label="Shuffle Collage" onClick={shuffleCollage} style={buttonStyle} disabled={buttonDisabled}>
           <i className="fas fa-random" />

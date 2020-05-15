@@ -42,6 +42,9 @@
   border-radius: 10px;
   font-size: 1.3em;
   transition: opacity $transition-rate;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .collage-btn:hover,
@@ -59,14 +62,17 @@
 }
 
 .collage-btn input[type=color] {
-  visibility: hidden;
-  width: 0;
-  height: 0;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  opacity: 0;
   position: absolute;
   right: 0;
   left: 0;
   bottom: 0;
   margin: auto;
+  border-radius: inherit;
+  cursor: pointer;
 }
 
 @mixin halfTriangle($vertical, $horizontal, $triangle-size) {
